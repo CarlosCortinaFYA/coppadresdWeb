@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import { usePreferences } from "../i18n/usePreferences";
 import { areas } from "../i18n/areas";
-import { DnaMark, Icon } from "./Icon";
+import { Icon } from "./Icon";
+import { BrandMark } from "./BrandMark";
 
 export const sectionIds = ["ecosystem", "model", "technology", "community"];
 export const accentStyle = (color: string): CSSProperties =>
@@ -17,16 +18,23 @@ export function Brand({ footer = false }: { footer?: boolean }) {
       aria-label={`COPP–ADRESD · ${t.home}`}
     >
       <span className="brand-symbol">
-        <DnaMark />
+        <BrandMark />
       </span>
       <span>
-        COPP–ADRESD<span className="brand-tm">™</span>
-        <small>{t.hero.orbitLabel}</small>
+        COPP-ADRESD<span className="brand-tm">®</span>
+        <small>COMPREHENSIVE OBESITY PREVENTION PROGRAM</small>
       </span>
     </a>
   );
 }
-export function Header({ onContact }: { onContact: () => void }) {
+type NavLink = { id: string; label: string };
+export function Header({
+  onContact,
+  links,
+}: {
+  onContact: () => void;
+  links: NavLink[];
+}) {
   const { t, language, theme, toggleLanguage, toggleTheme } = usePreferences();
   const [open, setOpen] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
@@ -57,12 +65,8 @@ export function Header({ onContact }: { onContact: () => void }) {
           aria-label={t.footer.explore}
           className={open ? "navigation is-open" : "navigation"}
         >
-          {t.nav.map((label, i) => (
-            <a
-              href={`#${sectionIds[i]}`}
-              key={label}
-              onClick={() => setOpen(false)}
-            >
+          {links.map(({ label, id }) => (
+            <a href={`#${id}`} key={label} onClick={() => setOpen(false)}>
               {label}
             </a>
           ))}
@@ -205,17 +209,21 @@ export function Inquiry({
   onClose,
   initialArea,
   initialAudience,
+  programName,
+  institutional,
 }: {
   open: boolean;
   onClose: () => void;
   initialArea: number | null;
   initialAudience: number;
+  programName: string;
+  institutional: boolean;
 }) {
   const { t, language } = usePreferences();
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const message = `${t.inquiry.documentTitle}\n\n${t.inquiry.organization}: ${data.get("organization") || "—"}\n${t.inquiry.audience}: ${data.get("audience")}\n${t.inquiry.interest}: ${data.get("interest")}\n\n${data.get("message") || ""}\n`;
+    const message = `${t.inquiry.documentTitle}\n${programName}\n\n${t.inquiry.organization}: ${data.get("organization") || "—"}\n${t.inquiry.audience}: ${data.get("audience")}\n${t.inquiry.interest}: ${data.get("interest")}\n\n${data.get("message") || ""}\n`;
     window.open(whatsappUrl(message), "_blank", "noopener,noreferrer");
   }
 
@@ -223,7 +231,13 @@ export function Inquiry({
     <Modal open={open} onClose={onClose} titleId="inquiry-title">
       <p className="eyebrow">COPP–ADRESD</p>
       <h2 id="inquiry-title">{t.inquiry.title}</h2>
-      <p>{t.inquiry.intro}</p>
+      <p>
+        {institutional
+          ? t.inquiry.intro
+          : language === "es"
+            ? `Prepara tu consulta sobre ${programName}. Podrás revisar el mensaje en WhatsApp antes de enviarlo.`
+            : `Prepare your inquiry about ${programName}. You can review the message in WhatsApp before sending it.`}
+      </p>
       {open && (
         <form onSubmit={handleSubmit}>
           <label>
@@ -252,15 +266,18 @@ export function Inquiry({
               <select
                 name="interest"
                 defaultValue={
-                  initialArea === null
-                    ? t.inquiry.all
-                    : areas[initialArea][language].name
+                  !institutional
+                    ? programName
+                    : initialArea === null
+                      ? t.inquiry.all
+                      : areas[initialArea][language].name
                 }
               >
-                <option>{t.inquiry.all}</option>
-                {areas.map((a) => (
-                  <option key={a.brand}>{a[language].name}</option>
-                ))}
+                <option>{institutional ? t.inquiry.all : programName}</option>
+                {institutional &&
+                  areas.map((a) => (
+                    <option key={a.brand}>{a[language].name}</option>
+                  ))}
               </select>
             </label>
           </div>
@@ -287,7 +304,7 @@ export function Inquiry({
     </Modal>
   );
 }
-export function Footer() {
+export function Footer({ links }: { links: NavLink[] }) {
   const { t } = usePreferences();
   return (
     <footer className="footer">
@@ -307,8 +324,8 @@ export function Footer() {
           </div>
           <div>
             <p className="footer-label">{t.footer.explore}</p>
-            {t.nav.map((label, i) => (
-              <a key={label} href={`#${sectionIds[i]}`}>
+            {links.map(({ label, id }) => (
+              <a key={label} href={`#${id}`}>
                 {label}
               </a>
             ))}

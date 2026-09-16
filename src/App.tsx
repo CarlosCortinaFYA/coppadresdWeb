@@ -5,14 +5,18 @@ import {
   Model,
   Technology,
   Community,
-  Science,
   FAQ,
   CallToAction,
 } from "./sections/Program";
 import { usePreferences } from "./i18n/usePreferences";
+import { ProgramNavigation, ProgramPage } from "./programs/ProgramPage";
+import { programs, programList } from "./programs/data";
+import type { ProgramId } from "./programs/data";
 
 export function App() {
-  const { t } = usePreferences();
+  const { t, language } = usePreferences();
+  const [activeProgram, setActiveProgram] =
+    useState<ProgramId>("weightSupportPlus");
   const [activeArea, setActiveArea] = useState(0);
   const [inquiry, setInquiry] = useState<{
     open: boolean;
@@ -21,32 +25,64 @@ export function App() {
   }>({ open: false, area: null, audience: 0 });
   const contact = (area: number | null = null, audience = 0) =>
     setInquiry({ open: true, area, audience });
+  const program = programs[activeProgram];
+  const links = program.institutional
+    ? t.nav.map((label, i) => ({
+        label,
+        id: ["ecosystem", "model", "technology", "community"][i],
+      }))
+    : program.sections
+        .filter((s) => s.navLabel)
+        .map((s) => ({ id: s.id, label: s.navLabel![language] }));
   return (
     <div id="top">
       <a className="skip-link" href="#main">
         {t.skip}
       </a>
-      <Header onContact={() => contact()} />
+      <Header onContact={() => contact()} links={links} />
       <main id="main">
-        <Hero active={activeArea} onSelect={setActiveArea} />
-        <Purpose />
-        <Ecosystem
-          active={activeArea}
-          onSelect={setActiveArea}
-          onContact={contact}
-        />
-        <Model />
-        <Technology />
-        <Community />
-        <Science />
-        <FAQ />
-        <CallToAction onContact={() => contact()} />
+        <ProgramNavigation active={activeProgram} onChange={setActiveProgram} />
+        {programList
+          .filter((p) => p.id !== activeProgram)
+          .map((p) => (
+            <div
+              key={p.id}
+              hidden
+              role="tabpanel"
+              id={`panel-${p.id}`}
+              aria-labelledby={`tab-${p.id}`}
+            />
+          ))}
+        <ProgramPage
+          key={activeProgram}
+          program={program}
+          onContact={() => contact()}
+        >
+          {program.institutional && (
+            <>
+              <Hero active={activeArea} onSelect={setActiveArea} />
+              <Purpose />
+              <Ecosystem
+                active={activeArea}
+                onSelect={setActiveArea}
+                onContact={contact}
+              />
+              <Model />
+              <Technology />
+              <Community />
+              <FAQ />
+              <CallToAction onContact={() => contact()} />
+            </>
+          )}
+        </ProgramPage>
       </main>
-      <Footer />
+      <Footer links={links} />
       <Inquiry
         open={inquiry.open}
         initialArea={inquiry.area}
         initialAudience={inquiry.audience}
+        programName={program.name}
+        institutional={!!program.institutional}
         onClose={() => setInquiry({ ...inquiry, open: false })}
       />
     </div>

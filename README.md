@@ -1,54 +1,59 @@
-# COPP–ADRESD · Landing institucional
+# Landing COPP–ADRESD por programas
 
-Aplicación independiente en React + TypeScript + Vite. El contenido parte de los archivos de `docs/`; los originales se conservan intactos. No depende de los demás proyectos del monorepo.
+React + TypeScript + Vite. Proyecto independiente; documentación original intacta en `docs/`. No requiere API ni servicios del monorepo.
 
-## Ejecutar
-
-Requiere Node.js 22.12+ o una versión compatible con Vite 8.
+## Ejecución
 
 ```sh
 npm ci
-npm run dev
+npm run dev       # http://127.0.0.1:5174
+npm run build     # TypeScript + producción en dist/
+npm run preview   # http://127.0.0.1:4174
 ```
 
-Vista local: http://127.0.0.1:5174
+Se mantienen la configuración y el lockfile de Yarn existentes. No se añadieron dependencias para esta actualización. Vite conserva los allowedHosts configurados y las restricciones de acceso a los documentos internos.
 
-```sh
-npm run check    # TypeScript estricto
-npm run build    # Genera únicamente los archivos públicos en dist/
-npm run preview  # Comprueba dist/ en http://127.0.0.1:4174
-```
+## Arquitectura
 
-## Organización
+- `src/programs/data.ts`: registro tipado de los cuatro programas; el contenido ES/EN se organiza en módulos por programa. Weight Support Plus es la selección inicial.
+- `src/programs/ProgramPage.tsx`: pestañas accesibles, hero, bloques de contenido, tarjetas, ingredientes, preguntas y CTA compartidos.
+- `src/sections/`: contenido institucional anterior, conservado exclusivamente en Copp Adresd.
+- `src/i18n/`: traducciones institucionales, áreas y preferencias persistentes.
+- `src/components/BrandMark.tsx`: reconstrucción SVG del símbolo de las referencias. Fondo transparente e identificador de degradado único por instancia.
+- `public/logo-symbol.svg`: símbolo SVG reutilizable; `public/favicon.svg`: misma geometría para favicon.
+- `src/styles/index.css`: componentes institucionales existentes.
+- `src/styles/programs.css`: identidad oficial, temas, programas y adaptaciones responsive; se importa después de la base.
+- `src/config/contact.ts`: WhatsApp confirmado, +1 (954) 682-2141.
 
-- `src/sections/`: bloques del ecosistema y del programa.
-- `src/components/`: iconos, navegación, pie, encabezados y diálogos reutilizables.
-- `src/i18n/translations.ts`: textos y metadatos completos en español e inglés.
-- `src/i18n/areas.ts`: las 12 áreas, marcas, iconos y descripciones.
-- `src/i18n/Preferences.tsx`: preferencias de idioma y tema; `usePreferences.ts` mantiene separado el contexto para Fast Refresh.
-- `src/styles/index.css`: tokens de ambos temas, componentes, breakpoints y movimiento reducido.
-- `src/assets/`: tipografía Manrope local e infografía optimizada a WebP.
-- `CONTENT.md`: trazabilidad editorial y decisiones sobre los documentos fuente.
+## Incorporar contenido futuro
 
-Idioma y tema iniciales: español y claro. Las preferencias se guardan en localStorage; si el navegador no permite almacenamiento, el cambio sigue funcionando en memoria. Las anclas conservan el idioma sin recargar.
+En `programs`, elegir el programa, pasar `status` a `available` y añadir `hero`, `sections` y `cta` con textos `l(es, en)`. `hero` permite imagen con texto alternativo traducido, gráfico configurable y datos destacados opcionales. Las tarjetas también aceptan imágenes.
 
-## Canal de contacto
+Los bloques disponibles son `overview`, `features`, `benefits`, `content`, `ingredients` y `faq`. Cada bloque define su título, descripción e items; los de ingredientes pueden definir `initialSelected` y `note`. La navegación superior se genera a partir de los bloques que incluyan `navLabel: l(es, en)`. No requiere modificar los componentes al añadir secciones.
 
-WhatsApp confirmado por el propietario: **+1 (954) 682-2141**. Está centralizado en `src/config/contact.ts`.
+Copp Adresd conserva el contenido institucional documentado mediante el adaptador `institutional`. Puede ampliarse con las mismas secciones o migrarse gradualmente. Longevity Program y Pep Mimetic mantienen límites explícitos sobre el alcance y la evidencia de su material de referencia.
 
-El diálogo prepara un mensaje con la organización, el enfoque, el área y el objetivo. Al continuar, abre `https://wa.me/19546822141` en una pestaña nueva con el texto codificado. El visitante revisa el mensaje en WhatsApp antes de enviarlo. También hay un enlace directo en el pie de página.
+No trasladar fórmulas, evidencia ni resultados entre programas. Ver `CONTENT.md` para la trazabilidad y `VERIFICATION.md` para las comprobaciones.
 
-No se almacena información en el sitio ni se implementa un backend de leads. La prueba del enlace valida el destino y la codificación, sin enviar mensajes reales.
+## Comportamiento
 
-## Assets y publicación
+- Tabs: flechas izquierda/derecha, Home/End, foco móvil y scroll horizontal contenido.
+- Idioma completo ES/EN y tema claro/oscuro persistentes; movimiento reducido respetado.
+- Composición interactiva y tabla desplegable, preguntas expandibles y mapa institucional conservado.
+- Formulario abre un borrador en WhatsApp con el programa seleccionado. El usuario revisa y envía allí; la web no almacena sus datos.
+- Tipografía Manrope local; sin dependencias de fuentes remotas ni imágenes de terceros.
 
-- La fuente se sirve localmente, sin solicitudes a Google Fonts. Su licencia SIL OFL se distribuye en `public/licenses/Manrope.txt`.
-- `ecosystem.webp` deriva de `word/media/image2.png` del DOCX: 1525 × 1004, sin recorte ni marcos. La imagen original está en español; se ofrece como referencia ampliable en ese idioma. La representación React de las 12 áreas funciona en ambos idiomas.
-- El isotipo vectorial es una interpretación gráfica del motivo ADN de la referencia; no se afirma que sea un archivo oficial de marca.
-- Los PDFs, el DOCX y `.analysis/` no se copian a `dist/`. Vite bloquea su lectura directa durante desarrollo.
-- Publicar únicamente `dist/`. No se ha realizado despliegue externo.
-- No se inventó dominio canónico, agenda, redes sociales ni URLs de tiendas. Canonical, sitemap y rutas indexables por idioma requieren definir el dominio y la estrategia de publicación.
+## Actualización con los tres nuevos recursos
 
-## Verificación
+Todos los programas tienen ahora contenido disponible. Los módulos están separados:
 
-Build y tipado estricto, revisión visual en navegador, navegación por teclado, mapa, enfoque B2B/B2C, preguntas desplegables, preparación de WhatsApp, diálogos, carga de imagen, cambio de idioma/tema y persistencia. Detalle de tamaños y resultados en `VERIFICATION.md`.
+- `src/programs/types.ts`: contratos de datos y traducciones.
+- `src/programs/data.ts`: registro público de programas, conservando los imports existentes.
+- `src/programs/weight-support-plus.ts` y `weight-details.ts`: fórmula y lectura ampliada de Plus.
+- `src/programs/pep-mimetic.ts`: concepto PCP4, seis módulos, composición propuesta, desarrollo y límites de evidencia.
+- `src/programs/longevity-program.ts`: contenido de la infografía y referencia original ampliable.
+- `src/programs/ui.ts` y `content.ts`: textos de interfaz y helper de contenido bilingüe.
+
+El renderizador incorpora bloques `steps` (etapas/metodología) y `metrics` (indicadores/periodicidades). Los gráficos de hero permiten un símbolo central y etiqueta configurables; Longevity los usa para una composición web propia basada en sus pilares, sin incrustar la infografía fuente.
+
+Longevity mantiene explícitamente pendientes los protocolos completos, operación y disponibilidad que la imagen no especifica. Pep Mimetic describe una propuesta de investigación, sin presentarla como una combinación clínicamente validada.

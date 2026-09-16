@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { areas, localizedArea } from "../i18n/areas";
 import { usePreferences } from "../i18n/usePreferences";
-import { DnaMark, Icon } from "../components/Icon";
+import { Icon } from "../components/Icon";
 import { accentStyle, Modal, SectionHeading } from "../components/Layout";
+import { BrandMark } from "../components/BrandMark";
 import ecosystemMap from "../assets/ecosystem.webp";
 
 export function Hero({
@@ -78,7 +79,7 @@ export function Hero({
               })}
             </svg>
             <div className="orbit-core">
-              <DnaMark />
+              <BrandMark />
               <span>{t.hero.orbitCenter}</span>
               <small>{t.hero.orbitSub}</small>
               <div className="core-dots">● ● ●</div>
