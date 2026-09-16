@@ -1,0 +1,474 @@
+import { l } from "./types";
+import type { ProgramDefinition } from "./types";
+import { item } from "./content";
+import longevityImage from "../assets/longevidad.jpeg";
+export const longevityProgram: ProgramDefinition = {
+  id: "longevityProgram",
+  name: "Longevity Program",
+  status: "available",
+  hero: {
+    eyebrow: l(
+      "LONGEVITY BIO™ · ANTARES BIOHACKING",
+      "LONGEVITY BIO™ · ANTARES BIOHACKING",
+    ),
+    title: l(
+      "Vivir con vitalidad.\nVivir con propósito.",
+      "Live with vitality.\nLive with purpose.",
+    ),
+    description: l(
+      "Programa integral de longevidad, vitalidad y envejecimiento saludable. Prevención, evaluación integral y acompañamiento personalizado para promover años de vida saludable.",
+      "A comprehensive longevity, vitality and healthy aging program. Prevention, comprehensive assessment and personalized support to promote healthy years of life.",
+    ),
+    note: l(
+      "El programa no promete inmortalidad ni un rejuvenecimiento garantizado.",
+      "The program does not promise immortality or guaranteed rejuvenation.",
+    ),
+    image: {
+      src: longevityImage,
+      alt: l(
+        "Infografía original LONGEVITY BIO: identidad, dimensiones bio-psico-sociales, siete pilares, evaluación y metodología de doce meses.",
+        "Original LONGEVITY BIO infographic in Spanish: identity, bio-psycho-social dimensions, seven pillars, assessment and twelve-month methodology.",
+      ),
+      caption: l(
+        "Infografía original · Información desarrollada a continuación.",
+        "Original infographic in Spanish · English content follows below.",
+      ),
+      expandable: true,
+      width: 1024,
+      height: 1536,
+    },
+    facts: [
+      {
+        value: "03",
+        label: l("dimensiones conectadas", "connected dimensions"),
+      },
+      { value: "07", label: l("pilares del programa", "program pillars") },
+      {
+        value: "12",
+        label: l("meses · cuatro ciclos", "months · four cycles"),
+      },
+    ],
+  },
+  sections: [
+    {
+      id: "longevity-overview",
+      kind: "overview",
+      navLabel: l("El programa", "The program"),
+      eyebrow: l("01 / VISIÓN INTEGRAL", "01 / COMPREHENSIVE VISION"),
+      title: l(
+        "Salud, autonomía\ny bienestar a lo largo de la vida.",
+        "Health, independence\nand lifelong wellbeing.",
+      ),
+      description: l(
+        "LONGEVITY BIO integra evaluación de factores de riesgo, promoción de hábitos saludables, seguimiento de indicadores y acompañamiento en un sistema coordinado. Forma parte del ecosistema ANTARES BIOHACKING.",
+        "LONGEVITY BIO integrates risk-factor assessment, healthy habits, indicator monitoring and personal support in a coordinated system. It is part of the ANTARES BIOHACKING ecosystem.",
+      ),
+      items: [
+        item(
+          "Propósito",
+          "Purpose",
+          "Promover años de vida saludable mediante prevención, evaluación integral y acompañamiento personalizado.",
+          "Promote healthy years of life through prevention, comprehensive assessment and personalized support.",
+          undefined,
+          "heart",
+        ),
+        item(
+          "Visión",
+          "Vision",
+          "Contribuir a una sociedad donde las personas puedan preservar su capacidad funcional, autonomía y bienestar durante el curso de vida.",
+          "Contribute to a society where people can preserve functional capacity, independence and wellbeing throughout life.",
+          undefined,
+          "person",
+        ),
+        item(
+          "Misión",
+          "Mission",
+          "Integrar ciencia preventiva, hábitos saludables, tecnología y acompañamiento humano en planes adaptados a cada persona.",
+          "Integrate preventive science, healthy habits, technology and human support in plans tailored to each person.",
+          undefined,
+          "users",
+        ),
+      ],
+    },
+    {
+      id: "longevity-dimensions",
+      kind: "overview",
+      eyebrow: l("02 / BIO · PSICO · SOCIAL", "02 / BIO · PSYCHO · SOCIAL"),
+      title: l(
+        "Tres componentes.\nUn mismo propósito.",
+        "Three components.\nOne shared purpose.",
+      ),
+      items: [
+        item(
+          "Longevity Bio",
+          "Longevity Bio",
+          "Evaluación clínica y de factores de riesgo; nutrición y salud metabólica; fuerza, movilidad y equilibrio; sueño y recuperación; prevención y seguimiento médico; uso responsable de biomarcadores y tecnología.",
+          "Clinical and risk-factor assessment; nutrition and metabolic health; strength, mobility and balance; sleep and recovery; prevention and medical follow-up; responsible use of biomarkers and technology.",
+          "BIO",
+          "pulse",
+        ),
+        item(
+          "Longevity Psico",
+          "Longevity Psycho",
+          "Bienestar emocional, autonomía personal y sostenibilidad de los hábitos: manejo del estrés, propósito, motivación, educación y apoyo profesional cuando corresponda.",
+          "Emotional wellbeing, personal autonomy and sustainable habits: stress management, purpose, motivation, education and professional support where appropriate.",
+          "PSICO",
+          "brain",
+        ),
+        item(
+          "Longevity Social",
+          "Longevity Social",
+          "Comunidades de acompañamiento, participación social, apoyo familiar, educación grupal y seguimiento de adherencia. El entorno forma parte del cuidado.",
+          "Support communities, social participation, family support, group education and adherence monitoring. A person’s environment is part of their care.",
+          "SOCIAL",
+          "users",
+        ),
+      ],
+    },
+    {
+      id: "longevity-pillars",
+      kind: "content",
+      navLabel: l("Siete pilares", "Seven pillars"),
+      eyebrow: l("03 / LOS SIETE PILARES", "03 / THE SEVEN PILLARS"),
+      title: l(
+        "Un cuidado que abarca\ntu vida cotidiana.",
+        "Care that encompasses\nyour everyday life.",
+      ),
+      items: [
+        item(
+          "Nutrición y metabolismo",
+          "Nutrition and metabolism",
+          "Alimentación, composición corporal, salud metabólica y educación nutricional.",
+          "Food, body composition, metabolic health and nutritional education.",
+          "01",
+          "bowl",
+        ),
+        item(
+          "Movimiento y capacidad funcional",
+          "Movement and functional capacity",
+          "Fuerza, movilidad, equilibrio, resistencia y autonomía.",
+          "Strength, mobility, balance, endurance and independence.",
+          "02",
+          "pulse",
+        ),
+        item(
+          "Sueño y recuperación",
+          "Sleep and recovery",
+          "Calidad del sueño, ritmos de descanso y recuperación.",
+          "Sleep quality, rest rhythms and recovery.",
+          "03",
+          "moon",
+        ),
+        item(
+          "Prevención y salud clínica",
+          "Prevention and clinical health",
+          "Factores de riesgo, controles preventivos, vacunas y seguimiento médico.",
+          "Risk factors, preventive checkups, vaccines and medical follow-up.",
+          "04",
+          "shield",
+        ),
+        item(
+          "Mente y bienestar emocional",
+          "Mind and emotional wellbeing",
+          "Gestión del estrés, vínculos, propósito y apoyo psicológico.",
+          "Stress management, relationships, purpose and psychological support.",
+          "05",
+          "brain",
+        ),
+        item(
+          "Comunidad y relaciones",
+          "Community and relationships",
+          "Pertenencia, acompañamiento, participación y apoyo social.",
+          "Belonging, companionship, participation and social support.",
+          "06",
+          "users",
+        ),
+        item(
+          "Propósito y consciencia",
+          "Purpose and awareness",
+          "Desarrollo personal, sentido de vida, aprendizaje y hábitos sostenibles.",
+          "Personal development, meaning in life, learning and sustainable habits.",
+          "07",
+          "sunrise",
+        ),
+      ],
+    },
+    {
+      id: "longevity-assessment",
+      kind: "steps",
+      eyebrow: l("04 / EVALUACIÓN INTEGRAL", "04 / COMPREHENSIVE ASSESSMENT"),
+      title: l(
+        "Conoce tu punto de partida.\nDefine tu plan.",
+        "Know your starting point.\nDefine your plan.",
+      ),
+      description: l(
+        "La referencia se inspira en capacidad intrínseca e ICOPE de la OMS: evaluación, plan personalizado, implementación y seguimiento. LONGEVITY BIO plantea integrar ese enfoque con protocolos, validación y criterios de resultados propios.",
+        "The reference draws on WHO intrinsic capacity and ICOPE: assessment, a personalized plan, implementation and follow-up. LONGEVITY BIO proposes integrating this approach with its own protocols, validation and outcome criteria.",
+      ),
+      items: [
+        item(
+          "Historia clínica y antecedentes",
+          "Medical history and background",
+          "Edad, antecedentes, medicamentos, hábitos y factores de riesgo.",
+          "Age, medical history, medicines, habits and risk factors.",
+          "01",
+        ),
+        item(
+          "Evaluación funcional",
+          "Functional assessment",
+          "Movilidad, fuerza, equilibrio, actividad física y autonomía.",
+          "Mobility, strength, balance, physical activity and independence.",
+          "02",
+        ),
+        item(
+          "Evaluación nutricional y metabólica",
+          "Nutritional and metabolic assessment",
+          "Hábitos alimentarios, composición corporal y parámetros clínicos seleccionados.",
+          "Eating habits, body composition and selected clinical parameters.",
+          "03",
+        ),
+        item(
+          "Sueño y bienestar psicosocial",
+          "Sleep and psychosocial wellbeing",
+          "Calidad del sueño, estrés, bienestar emocional, relaciones y objetivos.",
+          "Sleep quality, stress, emotional wellbeing, relationships and goals.",
+          "04",
+        ),
+        item(
+          "Plan individual",
+          "Individual plan",
+          "Objetivos, intervenciones, frecuencia de seguimiento y criterios de remisión.",
+          "Goals, interventions, follow-up frequency and referral criteria.",
+          "05",
+        ),
+      ],
+    },
+    {
+      id: "longevity-method",
+      kind: "steps",
+      navLabel: l("Metodología", "Methodology"),
+      eyebrow: l(
+        "05 / METODOLOGÍA DE DOCE MESES",
+        "05 / TWELVE-MONTH METHODOLOGY",
+      ),
+      title: l(
+        "Cuatro ciclos.\nUn proceso continuo.",
+        "Four cycles.\nOne continuous process.",
+      ),
+      description: l(
+        "La metodología descrita organiza el acompañamiento en cuatro ciclos trimestrales.",
+        "The described methodology organizes support into four quarterly cycles.",
+      ),
+      items: [
+        item(
+          "Activación y línea base",
+          "Activation and baseline",
+          "Evaluación inicial, educación, establecimiento de hábitos y objetivos individualizados.",
+          "Initial assessment, education, habit formation and individualized goals.",
+          "Q1",
+        ),
+        item(
+          "Desarrollo de capacidades",
+          "Developing capabilities",
+          "Progresión de actividad física, nutrición, sueño y seguimiento de adherencia.",
+          "Progression in physical activity, nutrition, sleep and adherence monitoring.",
+          "Q2",
+        ),
+        item(
+          "Consolidación y personalización",
+          "Consolidation and personalization",
+          "Revisión de resultados, ajuste de objetivos y fortalecimiento de la comunidad.",
+          "Review of results, adjustment of goals and strengthening of community.",
+          "Q3",
+        ),
+        item(
+          "Evaluación y continuidad",
+          "Evaluation and continuity",
+          "Comparación con la línea base, informe anual y planificación del siguiente ciclo.",
+          "Comparison with the baseline, an annual report and planning for the next cycle.",
+          "Q4",
+        ),
+      ],
+    },
+    {
+      id: "longevity-team",
+      kind: "content",
+      eyebrow: l(
+        "06 / EQUIPO MULTIDISCIPLINARIO",
+        "06 / MULTIDISCIPLINARY TEAM",
+      ),
+      title: l("Acompañamiento\nen cada etapa.", "Support\nat every stage."),
+      description: l(
+        "Los roles y funciones se ajustan a la normativa y las credenciales de cada profesional.",
+        "Roles and responsibilities follow applicable requirements and each professional’s credentials.",
+      ),
+      items: [
+        item(
+          "Dirección médica",
+          "Medical direction",
+          "Supervisión clínica, protocolos, remisión y seguridad.",
+          "Clinical supervision, protocols, referral and safety.",
+          undefined,
+          "shield",
+        ),
+        item(
+          "Equipo Psico",
+          "Psychological team",
+          "Psicología y profesionales para el bienestar emocional.",
+          "Psychology and professionals supporting emotional wellbeing.",
+          undefined,
+          "brain",
+        ),
+        item(
+          "Nutrición y actividad física",
+          "Nutrition and physical activity",
+          "Planes adaptados a las condiciones de cada persona.",
+          "Plans adapted to each person’s circumstances.",
+          undefined,
+          "bowl",
+        ),
+        item(
+          "Health Coaches",
+          "Health Coaches",
+          "Educación, seguimiento de hábitos y adherencia.",
+          "Education, habit follow-up and adherence.",
+          undefined,
+          "users",
+        ),
+        item(
+          "Coordinación tecnológica y operativa",
+          "Technology and operational coordination",
+          "Plataforma, telemedicina, datos y atención al usuario.",
+          "Platform, telemedicine, data and user support.",
+          undefined,
+          "chip",
+        ),
+      ],
+    },
+    {
+      id: "longevity-services",
+      kind: "features",
+      eyebrow: l("07 / MODELO DE SERVICIOS", "07 / SERVICE MODEL"),
+      title: l(
+        "Para organizaciones.\nPara personas.",
+        "For organizations.\nFor people.",
+      ),
+      description: l(
+        "La atención clínica individual se diferencia de los servicios educativos y de coaching.",
+        "Individual clinical care is distinct from educational and coaching services.",
+      ),
+      items: [
+        item(
+          "Longevity Bio Institucional",
+          "Longevity Bio Institutional",
+          "Modelo B2B para aseguradoras y organizaciones de salud, empresas y programas de bienestar, comunidades y entidades institucionales. Incluye evaluación, coordinación, seguimiento, educación y reportes de resultados.",
+          "A B2B model for insurers and health organizations, companies and wellness programs, communities and institutions. It includes assessment, coordination, follow-up, education and outcome reports.",
+          "B2B",
+        ),
+        item(
+          "Longevity Bio Personal",
+          "Longevity Bio Personal",
+          "Modelo B2C con membresías de bienestar, evaluaciones y planes personalizados, acompañamiento, educación, comunidades y experiencias de vitalidad.",
+          "A B2C model with wellness memberships, assessments and personalized plans, support, education, communities and vitality experiences.",
+          "B2C",
+        ),
+      ],
+    },
+    {
+      id: "longevity-measurement",
+      kind: "metrics",
+      eyebrow: l(
+        "08 / SEGUIMIENTO Y MEDICIÓN",
+        "08 / MONITORING AND MEASUREMENT",
+      ),
+      title: l("Medir para\nacompañar mejor.", "Measure to\nsupport better."),
+      description: l(
+        "Indicadores y periodicidades definidos en la referencia del programa. Son actividades de seguimiento, no resultados clínicos alcanzados.",
+        "Indicators and frequencies defined in the program reference. These are monitoring activities, not achieved clinical outcomes.",
+      ),
+      items: [
+        item(
+          "Evaluación funcional",
+          "Functional assessment",
+          "Inicial y trimestral",
+          "At baseline and quarterly",
+        ),
+        item(
+          "Seguimiento de hábitos",
+          "Habit monitoring",
+          "Mensual",
+          "Monthly",
+        ),
+        item(
+          "Adherencia al programa",
+          "Program adherence",
+          "Mensual",
+          "Monthly",
+        ),
+        item(
+          "Indicadores clínicos",
+          "Clinical indicators",
+          "Según criterio médico",
+          "As determined by the clinician",
+        ),
+        item(
+          "Satisfacción del usuario",
+          "User satisfaction",
+          "Trimestral",
+          "Quarterly",
+        ),
+        item(
+          "Evaluación integral",
+          "Comprehensive assessment",
+          "Anual",
+          "Annually",
+        ),
+        item(
+          "Seguridad y remisiones",
+          "Safety and referrals",
+          "Continua",
+          "Ongoing",
+        ),
+      ],
+    },
+    {
+      id: "longevity-next",
+      kind: "faq",
+      eyebrow: l("09 / DESARROLLO DEL PROGRAMA", "09 / PROGRAM DEVELOPMENT"),
+      title: l(
+        "Una visión definida.\nUna implementación por etapas.",
+        "A defined vision.\nA staged implementation.",
+      ),
+      items: [
+        item(
+          "¿Cuál es la ruta de implementación?",
+          "What is the implementation roadmap?",
+          "La referencia plantea cinco etapas: diseño científico y estratégico; validación clínica; diseño operativo y tecnológico; programa piloto con población delimitada, consentimiento informado y evaluación; y evaluación y escalamiento.",
+          "The reference proposes five stages: scientific and strategic design; clinical validation; operational and technology design; a pilot with a defined population, informed consent and assessment; and evaluation and scaling.",
+        ),
+        item(
+          "¿Qué información queda por incorporar?",
+          "What information is still to be added?",
+          "La infografía define el marco del programa y propone un índice de manual maestro. Los protocolos completos, el detalle operativo y la disponibilidad se incorporarán cuando exista documentación adicional.",
+          "The infographic defines the program framework and proposes a master-manual outline. Full protocols, operational details and availability will be added when further documentation is provided.",
+        ),
+        item(
+          "¿Qué alcance tiene la propuesta?",
+          "What is the scope of the proposal?",
+          "El enfoque es favorecer salud y calidad de vida mediante prevención y acompañamiento. La referencia no promete inmortalidad ni rejuvenecimiento garantizado y no aporta estadísticas de resultados del programa.",
+          "The focus is on supporting health and quality of life through prevention and guidance. The reference does not promise immortality or guaranteed rejuvenation and does not provide program outcome statistics.",
+        ),
+      ],
+    },
+  ],
+  cta: {
+    title: l(
+      "Tu mejor versión,\npor más tiempo.",
+      "Your best self,\nfor longer.",
+    ),
+    text: l(
+      "Conversa con el equipo sobre el enfoque LONGEVITY BIO y su modelo de acompañamiento.",
+      "Talk with the team about the LONGEVITY BIO approach and its support model.",
+    ),
+  },
+};

@@ -47,7 +47,7 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     document.documentElement.dataset.theme = theme;
     document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", theme === "dark" ? "#0c1625" : "#f7f9fc");
+      ?.setAttribute("content", theme === "dark" ? "#101f3c" : "#f5f8f8");
     try {
       localStorage.setItem("copp-theme", theme);
     } catch {

@@ -1,0 +1,1528 @@
+/* Official brand palette from docs/new. Theme neutrals are derived tints/shades. */
+:root {
+  --brand-navy: #142855;
+  --brand-green: #035d4d;
+  --gradient-blue: #023467;
+  --gradient-mid: #0c4c6b;
+  --gradient-green: #3d7b72;
+  --light-blue: #87aeca;
+  --mid-blue: #5581a2;
+  --slate-blue: #4b7086;
+  --page: #f5f8f8;
+  --surface: #fff;
+  --surface-soft: #eaf1f2;
+  --ink: #142855;
+  --muted: #4b6475;
+  --subtle: #4b7086;
+  --line: #dbe6e8;
+  --nav-bg: #f5f8f8f5;
+  --primary: #023467;
+  --primary-hover: #0c4c6b;
+  --blue-soft: #e5eef3;
+  --green-soft: #e6efeb;
+  --purple-soft: #e5eef3;
+  --focus: #035d4d;
+  --card-shadow: 0 18px 48px #14285509;
+  --brand-gradient: linear-gradient(115deg, #023467, #0c4c6b 48%, #3d7b72);
+  --accent-text: #035d4d;
+}
+:root[data-theme="dark"] {
+  --page: #101f3c;
+  --surface: #182e4b;
+  --surface-soft: #1b354e;
+  --ink: #f0f5f7;
+  --muted: #bacfdb;
+  --subtle: #acc9db;
+  --line: #355368;
+  --nav-bg: #101f3cf5;
+  --primary: #a8cbde;
+  --primary-hover: #d2e5ee;
+  --on-primary: #142855;
+  --blue-soft: #203d58;
+  --green-soft: #164d4a;
+  --purple-soft: #203d58;
+  --focus: #87aeca;
+  --accent-text: #9ed2c5;
+}
+::selection {
+  background: #87aeca;
+  color: #142855;
+}
+.brand-symbol {
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  width: 53px;
+  height: 53px;
+  padding: 0;
+  border-radius: 0;
+}
+.brand-symbol svg {
+  width: 100%;
+  height: 100%;
+}
+.brand {
+  gap: 9px;
+}
+.brand > span:last-child {
+  font-weight: 800;
+  letter-spacing: -0.6px;
+  font-size: 21px;
+}
+.brand small {
+  font-size: 6.8px;
+  letter-spacing: 0.35px;
+  font-weight: 700;
+  color: var(--accent-text);
+  margin-top: 5px;
+}
+.brand-tm {
+  font-size: 10px;
+  vertical-align: super;
+}
+.brand-footer .brand-symbol {
+  background: none !important;
+}
+.button {
+  border-radius: 999px;
+  background: var(--brand-gradient);
+  color: #fff;
+  box-shadow: none;
+}
+.button:hover {
+  background: linear-gradient(115deg, #0c4c6b, #035d4d);
+  color: #fff;
+}
+.header .navigation {
+  gap: 25px;
+}
+.header-inner {
+  min-height: 94px;
+}
+.header {
+  border-bottom: 1px solid var(--line);
+}
+.footer {
+  background: var(--surface-soft);
+}
+.program-bar {
+  padding: 28px 0 0;
+}
+.program-bar > .container {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+.program-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.program-tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  width: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: var(--light-blue) transparent;
+}
+.program-tabs button {
+  flex: 1 0 auto;
+  min-height: 49px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  white-space: nowrap;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.program-tabs button:hover {
+  background: var(--surface-soft);
+}
+.program-tabs button[aria-selected="true"] {
+  background: var(--brand-gradient);
+  color: white;
+}
+.tab-index {
+  opacity: 0.65;
+  font-size: 10px;
+  font-weight: 500;
+}
+.tab-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0;
+  margin-left: auto;
+}
+.program-tabs [aria-selected="true"] .tab-dot {
+  opacity: 1;
+}
+.program-panel {
+  animation: program-enter 0.35s ease-out;
+}
+.program-panel:focus {
+  outline: none;
+}
+.program-panel:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: -4px;
+}
+@keyframes program-enter {
+  from {
+    opacity: 0;
+    transform: translateY(9px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.program-hero {
+  display: grid;
+  grid-template-columns: 1.12fr 1fr;
+  gap: 58px 62px;
+  padding-top: 76px;
+  padding-bottom: 40px;
+  align-items: center;
+}
+.program-hero-copy {
+  padding: 10px 0;
+}
+.program-hero .eyebrow {
+  font-size: 10px;
+  letter-spacing: 1.8px;
+  margin-bottom: 25px;
+  color: var(--accent-text);
+}
+.program-hero h1,
+.pending-program h1 {
+  font-size: clamp(44px, 4.5vw, 67px);
+  letter-spacing: -3.5px;
+  line-height: 1.09;
+  font-weight: 550;
+  white-space: pre-line;
+  max-width: 650px;
+}
+.program-lead {
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--muted);
+  max-width: 510px;
+  margin-top: 27px;
+}
+.program-hero .hero-actions {
+  gap: 23px;
+  margin-top: 31px;
+  flex-wrap: wrap;
+}
+.program-hero .button {
+  font-size: 12px;
+  padding: 16px 23px;
+}
+.program-text-link {
+  font-size: 12px;
+  font-weight: 750;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+.program-hero-note {
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--muted);
+  display: flex;
+  gap: 9px;
+  max-width: 440px;
+  margin-top: 28px;
+  align-items: flex-start;
+}
+.program-hero-note svg {
+  color: var(--accent-text);
+  margin-top: 1px;
+}
+.formula-art {
+  position: relative;
+  isolation: isolate;
+  min-height: 460px;
+  border-radius: 160px 32px 32px 32px;
+  background: radial-gradient(
+    ellipse at 40% 28%,
+    #f4f9f7 0,
+    #d9e9e7 37%,
+    #87aeca 100%
+  );
+  overflow: hidden;
+  color: #142855;
+  box-shadow: inset 0 0 0 1px #fff9;
+}
+.art-topline {
+  position: absolute;
+  left: 44px;
+  right: 28px;
+  top: 32px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  z-index: 3;
+}
+.art-topline span:first-child {
+  margin-left: 55px;
+}
+.art-symbol {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  left: 50%;
+  top: 53px;
+  transform: translateX(-50%);
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(0 15px 20px #035d4d15);
+}
+.art-symbol svg {
+  width: 100%;
+  height: 100%;
+}
+.art-orbit {
+  position: absolute;
+  border: 1px solid #4b708632;
+  width: 360px;
+  height: 190px;
+  top: 70px;
+  left: 50%;
+  border-radius: 50%;
+  transform: translateX(-50%) rotate(-30deg);
+  z-index: -1;
+}
+.orbit-two {
+  transform: translateX(-50%) rotate(50deg);
+  width: 330px;
+  height: 220px;
+  top: 67px;
+}
+.art-tag {
+  position: absolute;
+  background: #ffffffcf;
+  backdrop-filter: blur(12px);
+  border: 1px solid #fff8;
+  border-radius: 18px;
+  padding: 14px 19px;
+  box-shadow: 0 12px 30px #0234670c;
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.art-tag span {
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 1.6px;
+  color: #4b7086;
+}
+.tag-berberine {
+  top: 190px;
+  left: 27px;
+}
+.tag-resveratrol {
+  top: 102px;
+  right: 18px;
+}
+.art-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--brand-gradient);
+  color: white;
+  padding: 31px 34px 23px;
+  border-radius: 34px 34px 0 0;
+}
+.art-kicker {
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  font-size: 8px;
+  color: #c1dedf;
+}
+.art-caption p {
+  font-size: 25px;
+  letter-spacing: -0.9px;
+  line-height: 1.3;
+  max-width: 300px;
+  margin: 12px 0 19px;
+  font-weight: 500;
+}
+.art-research {
+  border-top: 1px solid #ffffff30;
+  padding-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: #d3e7e7;
+}
+.program-facts {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 22px 0;
+  gap: 20px;
+}
+.program-facts > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 17px;
+  border-right: 1px solid var(--line);
+}
+.program-facts > div:last-child {
+  border: 0;
+}
+.program-facts strong {
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: -1px;
+}
+.program-facts span {
+  font-size: 11px;
+  color: var(--muted);
+}
+.program-facts svg {
+  width: 34px;
+  height: 34px;
+  color: var(--accent-text);
+}
+.program-section {
+  padding: 77px 0;
+  scroll-margin-top: 30px;
+}
+.program-section .section-heading {
+  max-width: 750px;
+  margin-bottom: 37px;
+}
+.program-section .section-description {
+  max-width: 720px;
+  font-size: 14px;
+}
+.program-section h2,
+.program-cta h2 {
+  font-size: clamp(32px, 3.3vw, 47px);
+  letter-spacing: -1.8px;
+  line-height: 1.17;
+}
+.program-section .eyebrow {
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  color: var(--accent-text);
+}
+.program-cards {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.program-card {
+  border-radius: 25px;
+  padding: 31px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.program-card h3 {
+  font-size: 19px;
+  letter-spacing: -0.6px;
+  margin: 20px 0 12px;
+}
+.program-card p {
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--muted);
+}
+.program-card-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 53px;
+  height: 53px;
+  background: var(--surface-soft);
+  border-radius: 50%;
+  color: var(--accent-text);
+}
+.program-section-features {
+  background: var(--surface-soft);
+}
+.cards-features {
+  grid-template-columns: 1fr 1fr;
+}
+.cards-features .program-card {
+  padding: 32px 39px 36px;
+  position: relative;
+  overflow: hidden;
+  border: none;
+}
+.cards-features .program-card:nth-child(2) {
+  background: var(--brand-gradient);
+  color: #fff;
+}
+.cards-features .program-card:nth-child(2) p {
+  color: #d9e9ed;
+}
+.cards-features .program-card h3 {
+  font-size: 32px;
+  margin-top: 0;
+}
+.card-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--accent-text);
+}
+.cards-features .program-card:nth-child(2) .card-label {
+  color: #beded5;
+}
+.component-art {
+  height: 150px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  margin: 10px 0 10px;
+}
+.component-art div {
+  position: absolute;
+  width: 130px;
+  height: 72px;
+  border: 1px solid #5581a25c;
+  border-radius: 50%;
+  transform: rotate(-35deg);
+}
+.component-art div:nth-child(2) {
+  transform: rotate(35deg);
+}
+.component-art div:nth-child(3) {
+  transform: rotate(90deg);
+}
+.component-art span {
+  border-radius: 50%;
+  background: var(--surface-soft);
+  width: 62px;
+  height: 62px;
+  display: grid;
+  place-items: center;
+  font-size: 30px;
+  font-weight: 500;
+  box-shadow: 0 8px 22px #02346712;
+}
+.component-art-1 span {
+  background: #ffffff16;
+  color: #fff;
+}
+.component-art-1 div {
+  border-color: #87aeca78;
+}
+.ingredient-explorer {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  background: var(--surface);
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.ingredient-list {
+  padding: 15px;
+}
+.ingredient-list button {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  text-align: left;
+  width: 100%;
+  padding: 15px 18px;
+  border-radius: 13px;
+  font-size: 12px;
+  font-weight: 600;
+  min-height: 49px;
+}
+.ingredient-list button > span {
+  font-size: 10px;
+  color: var(--subtle);
+  font-weight: 500;
+}
+.ingredient-list button > svg {
+  margin-left: auto;
+}
+.ingredient-list button:hover {
+  background: var(--surface-soft);
+}
+.ingredient-list button[aria-pressed="true"] {
+  background: var(--brand-gradient);
+  color: #fff;
+}
+.ingredient-list button[aria-pressed="true"] > span {
+  color: #c2dedf;
+}
+.ingredient-detail {
+  background: var(--surface-soft);
+  padding: 45px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  justify-content: center;
+}
+.ingredient-detail > svg {
+  color: var(--accent-text);
+  margin-bottom: 36px;
+}
+.ingredient-count {
+  position: absolute;
+  right: 30px;
+  top: 30px;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 2px;
+}
+.ingredient-detail h3 {
+  font-size: 30px;
+  line-height: 1.2;
+  max-width: 330px;
+  margin-bottom: 19px;
+}
+.ingredient-detail p {
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--muted);
+}
+.ingredient-amount {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+  border-top: 1px solid var(--line);
+  padding-top: 23px;
+  width: 100%;
+}
+.ingredient-amount strong {
+  font-size: 28px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.ingredient-amount span {
+  font-size: 10px;
+  color: var(--muted);
+}
+.formula-table {
+  margin-top: 20px;
+  border-bottom: 1px solid var(--line);
+}
+.formula-table summary,
+.program-faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  cursor: pointer;
+  list-style: none;
+  padding: 23px 0;
+  font-size: 14px;
+  font-weight: 650;
+}
+.formula-table summary::-webkit-details-marker,
+.program-faq summary::-webkit-details-marker {
+  display: none;
+}
+details[open] > summary > svg {
+  transform: rotate(180deg);
+}
+.formula-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 13px;
+  text-align: left;
+}
+.formula-table th,
+.formula-table td {
+  padding: 13px;
+  border-bottom: 1px solid var(--line);
+}
+.formula-table th {
+  color: var(--muted);
+  font-size: 11px;
+}
+.formula-table th:last-child,
+.formula-table td:last-child {
+  text-align: right;
+}
+.source-note {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 16px;
+  max-width: 870px;
+}
+.program-section-benefits {
+  background: var(--brand-gradient);
+  color: #fff;
+}
+.program-section-benefits .eyebrow {
+  color: #bfddd6;
+}
+.program-section-benefits .section-description {
+  color: #d4e5e9;
+}
+.cards-benefits {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+}
+.cards-benefits .program-card {
+  background: none;
+  border: none;
+  border-left: 1px solid #ffffff30;
+  border-radius: 0;
+  padding: 10px 24px;
+}
+.cards-benefits .program-card:first-child {
+  padding-left: 0;
+  border: 0;
+}
+.cards-benefits .card-label {
+  color: #c0ddd9;
+  letter-spacing: 0.5px;
+}
+.cards-benefits p {
+  color: #d4e5e9;
+  font-size: 12px;
+}
+.cards-benefits h3 {
+  font-size: 19px;
+  min-height: 52px;
+}
+.cards-content {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 17px;
+}
+.cards-content .program-card {
+  padding: 25px;
+}
+.program-section-faq {
+  padding-top: 20px;
+}
+.program-faq {
+  border-top: 1px solid var(--line);
+}
+.program-faq details {
+  border-bottom: 1px solid var(--line);
+}
+.program-faq details > p {
+  font-size: 14px;
+  color: var(--muted);
+  padding: 0 40px 26px 0;
+  max-width: 920px;
+  line-height: 1.9;
+}
+.program-cta {
+  background: var(--surface-soft);
+  border-radius: 32px;
+  padding: 52px 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 75px;
+  gap: 40px;
+}
+.program-cta > div {
+  max-width: 750px;
+}
+.program-cta > .brand-mark,
+.program-cta > svg {
+  width: 180px;
+  height: 180px;
+  flex-shrink: 0;
+}
+.program-cta .eyebrow {
+  color: var(--accent-text);
+  margin-bottom: 18px;
+}
+.program-cta p:not(.eyebrow) {
+  max-width: 530px;
+  color: var(--muted);
+  font-size: 14px;
+  margin: 20px 0 25px;
+}
+.pending-program {
+  text-align: center;
+  min-height: 590px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 60px;
+  padding-bottom: 80px;
+}
+.pending-program > svg {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 28px;
+}
+.pending-program h1 {
+  font-size: 52px;
+  margin: 20px 0;
+}
+.pending-program > p:not(.eyebrow) {
+  color: var(--muted);
+  max-width: 530px;
+  margin-bottom: 28px;
+}
+.pending-program .eyebrow {
+  color: var(--accent-text);
+  font-size: 10px;
+}
+/* Existing institutional sections retain their content and use the shared palette. */
+.hero-orbit:before {
+  background: radial-gradient(ellipse, #87aeca20, transparent 70%);
+}
+.technology-panel,
+.cta-panel {
+  background: var(--brand-gradient);
+}
+.purpose-card:nth-child(2),
+.purpose-card:nth-child(3) {
+  background: var(--surface-soft);
+}
+@media (min-width: 1440px) {
+  .program-hero {
+    gap: 65px 90px;
+    padding-top: 85px;
+  }
+  .formula-art {
+    min-height: 480px;
+  }
+  .art-caption p {
+    font-size: 28px;
+  }
+}
+@media (max-width: 1100px) {
+  .program-bar > .container {
+    gap: 18px;
+  }
+  .program-label {
+    display: none;
+  }
+  .program-tabs button {
+    padding-inline: 18px;
+  }
+  .program-hero {
+    gap: 40px 30px;
+    padding-top: 55px;
+  }
+  .program-hero h1 {
+    font-size: 50px;
+  }
+  .formula-art {
+    min-height: 450px;
+  }
+  .tag-berberine {
+    left: 12px;
+  }
+  .tag-resveratrol {
+    right: 12px;
+  }
+  .cards-content {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cards-benefits {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+  }
+  .cards-benefits .program-card:nth-child(3) {
+    padding-left: 0;
+    border: 0;
+  }
+  .ingredient-detail {
+    padding: 32px;
+  }
+  .program-cta > svg {
+    width: 125px;
+    height: 125px;
+  }
+}
+@media (max-width: 760px) {
+  .header-inner {
+    min-height: 78px;
+  }
+  .brand > span:last-child {
+    font-size: 18px;
+  }
+  .brand small {
+    font-size: 5.5px;
+  }
+  .brand-symbol {
+    width: 44px;
+    height: 44px;
+  }
+  .program-bar {
+    padding-top: 18px;
+  }
+  .program-tabs {
+    border-radius: 20px;
+    gap: 5px;
+    scroll-snap-type: x proximity;
+  }
+  .program-tabs button {
+    min-height: 45px;
+    padding: 10px 17px;
+    font-size: 11px;
+    scroll-snap-align: center;
+  }
+  .tab-index {
+    display: none;
+  }
+  .program-hero {
+    grid-template-columns: 1fr;
+    padding-top: 43px;
+    gap: 35px;
+    padding-bottom: 20px;
+  }
+  .program-hero-copy {
+    padding: 0;
+  }
+  .program-hero h1 {
+    font-size: clamp(40px, 8.2vw, 60px);
+    letter-spacing: -2.3px;
+  }
+  .program-hero .eyebrow {
+    margin-bottom: 19px;
+  }
+  .program-lead {
+    font-size: 14px;
+    margin-top: 21px;
+    max-width: 570px;
+  }
+  .program-hero .hero-actions {
+    margin-top: 23px;
+    gap: 20px;
+  }
+  .program-hero-note {
+    margin-top: 22px;
+    font-size: 10px;
+  }
+  .formula-art {
+    min-height: 430px;
+    max-width: 540px;
+    width: 100%;
+    justify-self: center;
+    border-top-left-radius: 110px;
+  }
+  .art-symbol {
+    width: 205px;
+    height: 205px;
+    top: 43px;
+  }
+  .art-tag {
+    padding: 12px 16px;
+  }
+  .art-caption {
+    padding: 25px 27px 19px;
+  }
+  .art-caption p {
+    font-size: 26px;
+    margin: 10px 0 15px;
+  }
+  .tag-berberine {
+    top: 172px;
+    left: 22px;
+  }
+  .tag-resveratrol {
+    right: 22px;
+  }
+  .art-topline {
+    left: 27px;
+    top: 26px;
+  }
+  .program-facts {
+    gap: 12px;
+    padding: 20px 0;
+  }
+  .program-facts > div {
+    flex-direction: column;
+    gap: 7px;
+    text-align: center;
+    padding-right: 10px;
+  }
+  .program-facts strong {
+    font-size: 25px;
+    height: 30px;
+  }
+  .program-facts svg {
+    width: 30px;
+    height: 30px;
+  }
+  .program-facts span {
+    font-size: 9px;
+    line-height: 1.6;
+    max-width: 110px;
+  }
+  .program-section {
+    padding: 52px 0;
+  }
+  .program-section h2,
+  .program-cta h2 {
+    font-size: 34px;
+    letter-spacing: -1.3px;
+  }
+  .program-section .section-description {
+    font-size: 13px;
+  }
+  .program-section .section-heading {
+    margin-bottom: 27px;
+  }
+  .program-cards {
+    grid-template-columns: 1fr;
+  }
+  .program-card {
+    padding: 26px;
+  }
+  .program-card h3 {
+    font-size: 20px;
+  }
+  .cards-features .program-card {
+    padding: 28px;
+  }
+  .cards-features .program-card h3 {
+    font-size: 30px;
+  }
+  .component-art {
+    height: 125px;
+  }
+  .ingredient-explorer {
+    grid-template-columns: 1fr;
+  }
+  .ingredient-list {
+    padding: 10px;
+  }
+  .ingredient-list button {
+    font-size: 12px;
+    padding: 13px;
+  }
+  .ingredient-detail {
+    padding: 29px;
+    min-height: 300px;
+  }
+  .ingredient-detail > svg {
+    margin-bottom: 20px;
+  }
+  .ingredient-detail h3 {
+    font-size: 27px;
+  }
+  .ingredient-detail p {
+    font-size: 13px;
+  }
+  .ingredient-amount {
+    margin-top: 22px;
+    padding-top: 17px;
+  }
+  .cards-benefits {
+    grid-template-columns: 1fr 1fr;
+    gap: 25px 0;
+  }
+  .cards-benefits .program-card {
+    padding: 0 17px;
+  }
+  .cards-benefits h3 {
+    font-size: 17px;
+    min-height: 45px;
+    letter-spacing: -0.4px;
+  }
+  .cards-benefits .card-label {
+    font-size: 8px;
+  }
+  .cards-benefits p {
+    font-size: 11px;
+  }
+  .cards-content {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .cards-content .program-card {
+    padding: 20px;
+  }
+  .cards-content h3 {
+    font-size: 17px;
+  }
+  .cards-content p {
+    font-size: 12px;
+  }
+  .program-faq summary {
+    font-size: 13px;
+    padding: 21px 0;
+  }
+  .program-faq details > p {
+    font-size: 13px;
+    padding-right: 10px;
+  }
+  .program-cta {
+    padding: 32px 27px;
+    gap: 0;
+    margin-bottom: 48px;
+    border-radius: 25px;
+  }
+  .program-cta > svg {
+    display: none;
+  }
+  .program-cta .button {
+    font-size: 12px;
+  }
+  .program-cta .eyebrow {
+    font-size: 10px;
+  }
+  .pending-program h1 {
+    font-size: 40px;
+    letter-spacing: -2px;
+  }
+  .pending-program {
+    min-height: 540px;
+  }
+  .formula-table th,
+  .formula-table td {
+    padding: 12px 7px;
+    font-size: 11px;
+  }
+}
+@media (max-width: 380px) {
+  .brand > span:last-child {
+    font-size: 15px;
+  }
+  .brand-symbol {
+    width: 35px;
+    height: 35px;
+  }
+  .brand small {
+    font-size: 4.6px;
+  }
+  .brand {
+    gap: 5px;
+  }
+  .program-hero h1 {
+    font-size: 37px;
+  }
+  .program-hero .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .program-hero .button {
+    font-size: 11px;
+    padding-inline: 18px;
+  }
+  .cards-content {
+    grid-template-columns: 1fr;
+  }
+  .program-section h2,
+  .program-cta h2 {
+    font-size: 29px;
+  }
+  .art-tag {
+    font-size: 11px;
+  }
+  .tag-resveratrol {
+    right: 12px;
+  }
+  .art-caption p {
+    font-size: 24px;
+  }
+  .program-cta {
+    padding: 28px 21px;
+  }
+  .program-cta .button {
+    font-size: 11px;
+    padding: 15px;
+  }
+  .ingredient-list button {
+    gap: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .program-panel {
+    animation: none;
+  }
+  .program-tabs button {
+    transition: none;
+  }
+}
+:root[data-theme="dark"] .brand-symbol,
+:root[data-theme="dark"] .program-facts,
+:root[data-theme="dark"] .program-cta,
+:root[data-theme="dark"] .pending-program,
+:root[data-theme="dark"] .orbit-core {
+  --logo-start: #87aeca;
+  --logo-middle: #87aeca;
+  --logo-end: #5581a2;
+}
+.program-hero-text {
+  grid-template-columns: 1fr;
+}
+.program-hero-image {
+  width: 100%;
+  border-radius: 32px;
+  object-fit: cover;
+}
+.program-content-image {
+  width: 100%;
+  border-radius: 18px;
+  margin: 20px 0;
+  object-fit: cover;
+}
+.technology-section,
+[data-theme="dark"] .technology-section,
+.cta {
+  background: var(--brand-gradient);
+}
+.purpose-card:nth-child(2) .purpose-icon,
+.purpose-card:nth-child(3) .purpose-icon {
+  color: var(--accent-text);
+}
+.status-dot {
+  background: var(--gradient-green);
+}
+/* Program-specific editorial layouts share the official palette and components. */
+.program-media {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+}
+.program-media .program-hero-image {
+  width: auto;
+  height: auto;
+  max-height: 530px;
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+}
+.program-media figcaption {
+  font-size: 10px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.6;
+  max-width: 380px;
+}
+.program-media-open {
+  display: inline-flex;
+  gap: 9px;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary);
+  padding: 10px 0;
+}
+.program-media-open:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.program-media-original {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 0;
+  margin-top: 24px;
+}
+.program-media .modal h2 {
+  font-size: 30px;
+  letter-spacing: -1px;
+  margin-bottom: 12px;
+}
+.program-media .modal p {
+  font-size: 13px;
+  color: var(--muted);
+}
+.program-media .modal {
+  max-width: 1080px;
+}
+.program-longevityProgram .program-hero {
+  grid-template-columns: 1.2fr 1fr;
+  align-items: center;
+}
+.program-longevityProgram .program-hero h1 {
+  font-size: clamp(40px, 4vw, 61px);
+}
+.program-longevityProgram .program-facts strong {
+  color: var(--accent-text);
+}
+.program-longevityProgram .program-section:nth-of-type(even) {
+  background: var(--surface-soft);
+}
+.program-longevityProgram .program-section-features .program-card:first-child {
+  background: var(--surface);
+}
+.program-longevityProgram .component-art {
+  display: none;
+}
+.program-longevityProgram .cards-features h3 {
+  margin-top: 28px;
+  font-size: 29px;
+}
+.program-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 45px;
+}
+.program-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 23px;
+  border-top: 1px solid var(--line);
+  padding: 28px 0;
+}
+.step-marker {
+  display: grid;
+  place-items: center;
+  width: 51px;
+  height: 51px;
+  flex-shrink: 0;
+  background: var(--brand-gradient);
+  color: white;
+  border-radius: 50%;
+  font-size: 15px;
+  font-weight: 650;
+}
+.program-steps h3 {
+  font-size: 19px;
+  margin-bottom: 11px;
+}
+.program-steps p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+  max-width: 480px;
+}
+.program-metrics {
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+.program-metrics > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 21px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: center;
+}
+.program-metrics dt {
+  font-size: 14px;
+  font-weight: 650;
+}
+.program-metrics dd {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.program-pepMimetic .cards-benefits {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 35px 0;
+}
+.program-pepMimetic .cards-benefits .program-card:nth-child(4) {
+  padding-left: 0;
+  border: 0;
+}
+.program-pepMimetic .formula-art {
+  background: radial-gradient(
+    ellipse at 45% 27%,
+    #eef5f7,
+    #b8d1dc 60%,
+    #5581a2
+  );
+}
+.program-pepMimetic .art-orbit {
+  border-color: #02346740;
+}
+.art-symbol-network {
+  width: 167px;
+  height: 167px;
+  top: 70px;
+  background: var(--brand-gradient);
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow:
+    0 0 0 16px #ffffff28,
+    0 0 0 33px #ffffff18;
+}
+.art-symbol-network > span {
+  font-size: 55px;
+  line-height: 1;
+  letter-spacing: -2px;
+  font-weight: 500;
+}
+.art-symbol-network > small {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #d4e6e8;
+}
+.program-pepMimetic .program-facts strong {
+  font-size: 27px;
+}
+.program-pepMimetic .program-hero h1 {
+  font-size: clamp(40px, 4vw, 60px);
+}
+.program-pepMimetic .tag-berberine {
+  top: 190px;
+}
+.program-pepMimetic .tag-resveratrol {
+  top: 75px;
+}
+.program-pepMimetic .art-caption p {
+  white-space: pre-line;
+}
+.program-pepMimetic .art-research {
+  font-size: 9px;
+  gap: 14px;
+}
+@media (min-width: 1101px) {
+  #longevity-pillars .program-cards {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+  #longevity-pillars .program-card {
+    grid-column: span 3;
+  }
+  #longevity-pillars .program-card:nth-child(n + 5) {
+    grid-column: span 4;
+  }
+  #longevity-team .program-cards {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  #longevity-team .program-card {
+    grid-column: span 2;
+  }
+  #longevity-team .program-card:nth-child(n + 4) {
+    grid-column: span 3;
+  }
+}
+@media (max-width: 1100px) {
+  .program-pepMimetic .cards-benefits {
+    grid-template-columns: 1fr 1fr;
+  }
+  .program-pepMimetic .cards-benefits .program-card:nth-child(4) {
+    border-left: 1px solid #ffffff30;
+    padding-left: 24px;
+  }
+  .program-pepMimetic .cards-benefits .program-card:nth-child(odd) {
+    border: 0;
+    padding-left: 0;
+  }
+  .program-pepMimetic .program-hero h1 {
+    font-size: 46px;
+  }
+}
+@media (max-width: 760px) {
+  .program-longevityProgram .program-hero {
+    grid-template-columns: 1fr;
+  }
+  .program-media .program-hero-image {
+    max-height: 490px;
+  }
+  .program-media {
+    padding: 4px 0 10px;
+  }
+  .program-steps {
+    grid-template-columns: 1fr;
+  }
+  .program-steps li {
+    gap: 19px;
+    padding: 24px 0;
+  }
+  .program-steps h3 {
+    font-size: 18px;
+  }
+  .program-steps p {
+    font-size: 13px;
+  }
+  .step-marker {
+    width: 43px;
+    height: 43px;
+    font-size: 13px;
+  }
+  .program-metrics > div {
+    grid-template-columns: 1.1fr 1fr;
+    gap: 18px;
+    padding: 18px 0;
+  }
+  .program-metrics dt,
+  .program-metrics dd {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .program-longevityProgram .cards-features h3 {
+    font-size: 26px;
+  }
+  .program-pepMimetic .program-hero h1 {
+    font-size: clamp(36px, 8.2vw, 57px);
+  }
+  .program-pepMimetic .program-facts strong {
+    font-size: 22px;
+  }
+  .program-pepMimetic .cards-benefits {
+    grid-template-columns: 1fr;
+  }
+  .program-pepMimetic .cards-benefits .program-card,
+  .program-pepMimetic .cards-benefits .program-card:nth-child(4) {
+    padding: 0;
+    border: 0;
+    border-bottom: 1px solid #ffffff30;
+    padding-bottom: 23px;
+  }
+  .program-pepMimetic .cards-benefits h3 {
+    min-height: 0;
+    font-size: 21px;
+    margin-top: 13px;
+  }
+  .program-pepMimetic .cards-benefits p {
+    font-size: 13px;
+  }
+  .program-pepMimetic .cards-benefits .card-label {
+    font-size: 10px;
+  }
+  .program-media .modal h2 {
+    font-size: 24px;
+  }
+  .art-symbol-network {
+    width: 150px;
+    height: 150px;
+    top: 55px;
+  }
+  .program-pepMimetic .tag-resveratrol {
+    top: 75px;
+    right: 12px;
+  }
+  .program-pepMimetic .tag-berberine {
+    top: 185px;
+    left: 12px;
+  }
+}
+.program-pepMimetic .formula-art {
+  min-height: 500px;
+}
+.program-pepMimetic .art-caption p {
+  max-width: none;
+  font-size: 26px;
+}

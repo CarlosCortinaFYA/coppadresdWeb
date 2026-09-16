@@ -11,3 +11,4 @@ createRoot(document.getElementById("root")!).render(
     </PreferencesProvider>
   </StrictMode>,
 );
+import "./styles/programs.css";

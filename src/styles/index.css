@@ -354,10 +354,10 @@ h1 {
 h1 em {
   font-weight: inherit;
   font-style: normal;
-  color: #487dad;
+  color: #5581a2;
 }
 [data-theme="dark"] h1 em {
-  color: #9ac0e0;
+  color: #87aeca;
 }
 .hero-description {
   max-width: 420px;
@@ -542,7 +542,7 @@ h1 em {
   right: 26%;
   width: 4px;
   height: 4px;
-  background: #8daf81;
+  background: #3d7b72;
 }
 .orbit-selection {
   width: 218px;
@@ -742,19 +742,19 @@ h1 em {
   background: var(--purple-soft);
 }
 .pillar-1 .pillar-illustration {
-  color: #9784ac;
+  color: #5581a2;
 }
 .pillar-1 .illustration-dot {
-  background: #b8a2cc;
+  background: #87aeca;
 }
 .pillar-2 .illustration-circle {
   background: var(--green-soft);
 }
 .pillar-2 .pillar-illustration {
-  color: #588f7b;
+  color: #3d7b72;
 }
 .pillar-2 .illustration-dot {
-  background: #9abcb0;
+  background: #87aeca;
 }
 .ecosystem-section {
   background: var(--surface-soft);
@@ -1242,7 +1242,7 @@ h1 em {
   background: #9bbeaa;
 }
 .metric-dot-2 {
-  background: #b4a4d6;
+  background: #87aeca;
 }
 .tech-card-foot {
   display: flex;
@@ -1364,7 +1364,7 @@ h1 em {
   background: #b1bcd0;
 }
 .community-mini > span:nth-child(3) {
-  background: #d2b9a6;
+  background: #87aeca;
 }
 .community-mini > span:last-child {
   background: #829fac;

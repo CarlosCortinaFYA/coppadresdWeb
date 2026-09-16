@@ -1,5 +1,6 @@
+import { BrandMark } from "../components/BrandMark";
 import { usePreferences } from "../i18n/usePreferences";
-import { DnaMark, Icon } from "../components/Icon";
+import { Icon } from "../components/Icon";
 import { SectionHeading } from "../components/Layout";
 
 export function Model() {
@@ -78,7 +79,7 @@ export function Technology() {
               <circle cx="220" cy="190" r="91" />
             </svg>
             <div className="connection-core">
-              <DnaMark />
+              <BrandMark />
               <small>{t.technology.platform}</small>
               <strong>{t.technology.center}</strong>
             </div>
@@ -227,7 +228,7 @@ export function CallToAction({ onContact }: { onContact: () => void }) {
           <div />
           <div />
           <div />
-          <DnaMark />
+          <BrandMark />
         </div>
         <div className="cta-copy">
           <p className="eyebrow">

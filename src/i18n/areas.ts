@@ -11,7 +11,7 @@ export const areas: Area[] = [
   {
     brand: "HEALTH GATE",
     icon: "heart",
-    color: "#2675c7",
+    color: "#023467",
     es: {
       name: "Salud",
       text: "Productos, soluciones y servicios de salud que conectan prevención y cuidado integral.",
@@ -24,7 +24,7 @@ export const areas: Area[] = [
   {
     brand: "FOOD LIFE",
     icon: "bowl",
-    color: "#258e79",
+    color: "#035d4d",
     es: {
       name: "Alimentación",
       text: "Comercialización de alimentos y soluciones de alimentación para instituciones y personas.",
@@ -37,7 +37,7 @@ export const areas: Area[] = [
   {
     brand: "BIOGATE",
     icon: "leaf",
-    color: "#43844f",
+    color: "#0c4c6b",
     es: {
       name: "Aseo y cuidado",
       text: "Productos y soluciones de aseo para el cuidado de los entornos cotidianos.",
@@ -50,7 +50,7 @@ export const areas: Area[] = [
   {
     brand: "ABH",
     icon: "shirt",
-    color: "#71902c",
+    color: "#3d7b72",
     es: {
       name: "Vestuario",
       text: "Productos y soluciones de vestuario para el mercado institucional y las personas.",
@@ -63,7 +63,7 @@ export const areas: Area[] = [
   {
     brand: "NATURA",
     icon: "sprout",
-    color: "#b79432",
+    color: "#5581a2",
     es: {
       name: "Producción de alimentos",
       text: "Soluciones de producción alimentaria que forman parte de una visión integral del bienestar.",
@@ -76,7 +76,7 @@ export const areas: Area[] = [
   {
     brand: "CROWN",
     icon: "sparkles",
-    color: "#c07b3c",
+    color: "#4b7086",
     es: {
       name: "Cosmética",
       text: "Productos cosméticos y soluciones de cuidado personal para distintos contextos y necesidades.",
@@ -89,7 +89,7 @@ export const areas: Area[] = [
   {
     brand: "ESENCIA",
     icon: "play",
-    color: "#bc575a",
+    color: "#023467",
     es: {
       name: "Digital y audiovisual",
       text: "Marketing digital, contenidos y producción audiovisual para comunicar y conectar.",
@@ -102,7 +102,7 @@ export const areas: Area[] = [
   {
     brand: "NUGATE",
     icon: "capsule",
-    color: "#b94c87",
+    color: "#035d4d",
     es: {
       name: "Nutracéuticos",
       text: "Desarrollo y producción de nutracéuticos especiales, pulverizados y gelificados.",
@@ -115,7 +115,7 @@ export const areas: Area[] = [
   {
     brand: "FROZEN FOOD",
     icon: "snow",
-    color: "#945ca4",
+    color: "#0c4c6b",
     es: {
       name: "Alimentos congelados",
       text: "Producción de alimentos congelados y empacados al vacío para personas y organizaciones.",
@@ -128,7 +128,7 @@ export const areas: Area[] = [
   {
     brand: "SBC COPP ADRESD",
     icon: "star",
-    color: "#765db6",
+    color: "#3d7b72",
     es: {
       name: "Eventos y experiencias",
       text: "Summits, boot camps, conciertos y eventos que reúnen conocimiento, comunidad y experiencias.",
@@ -141,7 +141,7 @@ export const areas: Area[] = [
   {
     brand: "CA WELLNESS",
     icon: "sunrise",
-    color: "#5969ad",
+    color: "#5581a2",
     es: {
       name: "Bienestar",
       text: "Programas, experiencias y servicios integrativos orientados al bienestar y al desarrollo personal.",
@@ -154,7 +154,7 @@ export const areas: Area[] = [
   {
     brand: "COPP–ADRESD ACADEMY",
     icon: "academy",
-    color: "#3577a7",
+    color: "#4b7086",
     es: {
       name: "Academia",
       text: "Educación, formación y capacitación para acompañar el aprendizaje y el desarrollo humano.",
