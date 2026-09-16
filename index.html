@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f9fc" />
+    <meta
+      name="description"
+      content="COPP–ADRESD: ciencia, tecnología y comunidades conectadas en un ecosistema de prevención y bienestar para personas y organizaciones."
+    />
+    <meta
+      property="og:title"
+      content="COPP–ADRESD | Donde la ciencia genera bienestar"
+    />
+    <meta
+      property="og:description"
+      content="Un ecosistema que conecta ciencia, tecnología y comunidad para transformar el bienestar."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>COPP–ADRESD | Donde la ciencia genera bienestar</title>
+    <script>
+      try {
+        const theme = localStorage.getItem("copp-theme");
+        if (theme === "dark") document.documentElement.dataset.theme = theme;
+        const language = localStorage.getItem("copp-language");
+        if (language === "en") document.documentElement.lang = language;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
