@@ -1,0 +1,211 @@
+.account-page {
+  min-height: 100vh;
+  background: var(--page);
+  color: var(--ink);
+}
+.account-header {
+  border-bottom: 1px solid var(--line);
+  background: var(--nav-bg);
+}
+.account-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 72px;
+}
+.account-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  color: var(--ink);
+  text-decoration: none;
+}
+.account-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.account-main {
+  max-width: 640px;
+  padding-top: 48px;
+  padding-bottom: 72px;
+}
+.account-main h1 {
+  margin: 8px 0 24px;
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  word-spacing: 0.08em;
+}
+.account-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
+  padding: 28px;
+}
+.account-card h2 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+  letter-spacing: -0.005em;
+  word-spacing: 0.08em;
+}
+.account-card p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+.account-effects {
+  margin: 16px 0 24px;
+  padding-left: 20px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.account-card label {
+  display: grid;
+  gap: 6px;
+  margin: 14px 0;
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+.account-card input:not([type="radio"]) {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-soft);
+  color: var(--ink);
+}
+.account-card input:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.account-contacts {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.account-card .account-radio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+.account-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+.account-link {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--primary);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.account-danger {
+  background: #b42318;
+  border-color: #b42318;
+  color: #fff;
+}
+.account-danger:disabled,
+.account-card .button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.account-card .account-error {
+  margin: 16px 0 0;
+  color: #b42318;
+  font-weight: 600;
+}
+:root[data-theme="dark"] .account-card .account-error {
+  color: #ffb4a9;
+}
+.account-hint {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.account-password {
+  position: relative;
+  display: block;
+}
+.account-card .account-password input {
+  padding-right: 48px;
+}
+.account-eye {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 12px;
+}
+.account-eye:hover {
+  color: var(--ink);
+}
+.account-eye:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+
+.account-card h3 {
+  margin: 18px 0 6px;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+.account-user {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface-soft);
+}
+.account-user > div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.account-user small {
+  color: var(--subtle);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.account-user strong {
+  font-size: 1.05rem;
+  overflow-wrap: anywhere;
+}
+.account-user span {
+  color: var(--muted);
+  font-size: 0.88rem;
+  overflow-wrap: anywhere;
+}
+.account-card .account-user span:not(.account-avatar) {
+  display: block;
+}
+.account-avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--blue-soft);
+  color: var(--primary);
+  font-weight: 800;
+}

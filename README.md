@@ -1,6 +1,6 @@
 # Landing COPP–ADRESD por programas
 
-React + TypeScript + Vite. Proyecto independiente; documentación original intacta en `docs/`. No requiere API ni servicios del monorepo.
+React + TypeScript + Vite. Proyecto independiente; documentación original intacta en `docs/`. La landing no requiere API; la página `/eliminar-cuenta` usa el Auth Service del monorepo vía gateway (ver `.env.example`).
 
 ## Ejecución
 
