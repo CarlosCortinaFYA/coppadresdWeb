@@ -79,6 +79,8 @@ export function DeleteAccountPage() {
   const [busy, setBusy] = useState(false);
   // Se guarda la CLAVE del error (no el texto) para que siga el idioma activo.
   const [errorKey, setErrorKey] = useState<ErrorKey | "">("");
+  // Status HTTP del último fallo: se muestra como detalle (ayuda al soporte).
+  const [errStatus, setErrStatus] = useState<number | null>(null);
   const started = useRef(false);
 
   useEffect(() => {
@@ -97,8 +99,11 @@ export function DeleteAccountPage() {
 
   const describe = (e: unknown, fallback: ErrorKey): ErrorKey => {
     if (e instanceof ApiError) {
+      setErrStatus(e.status || null);
       if (e.status === 0) return "network";
       if (e.status === 429) return "tooMany";
+    } else {
+      setErrStatus(null);
     }
     return fallback;
   };
@@ -106,6 +111,7 @@ export function DeleteAccountPage() {
   const run = async (action: () => Promise<void>, fallback: ErrorKey) => {
     setBusy(true);
     setErrorKey("");
+    setErrStatus(null);
     try {
       await action();
     } catch (e) {
@@ -118,6 +124,7 @@ export function DeleteAccountPage() {
   const enterReview = (summary: SessionSummary) => {
     setUser(summary);
     setErrorKey("");
+    setErrStatus(null);
     setStep("review");
   };
 
@@ -126,6 +133,7 @@ export function DeleteAccountPage() {
     setUser(null);
     setTyped("");
     setErrorKey(key);
+    setErrStatus(null);
     setStep("password");
   };
 
@@ -192,6 +200,7 @@ export function DeleteAccountPage() {
     e.preventDefault();
     if (!confirmed) {
       setErrorKey("confirm");
+      setErrStatus(null);
       return;
     }
     setBusy(true);
@@ -222,6 +231,7 @@ export function DeleteAccountPage() {
 
   const goto = (next: Step) => {
     setErrorKey("");
+    setErrStatus(null);
     setStep(next);
   };
 
@@ -463,7 +473,11 @@ export function DeleteAccountPage() {
                 >
                   {c.review}
                 </button>
-                <button className="account-link" type="button" onClick={doCancel}>
+                <button
+                  className="account-link"
+                  type="button"
+                  onClick={doCancel}
+                >
                   {c.cancel}
                 </button>
               </div>
@@ -492,7 +506,11 @@ export function DeleteAccountPage() {
                 >
                   {busy ? c.working : c.delete}
                 </button>
-                <button className="account-link" type="button" onClick={doCancel}>
+                <button
+                  className="account-link"
+                  type="button"
+                  onClick={doCancel}
+                >
                   {c.cancel}
                 </button>
               </div>
@@ -514,6 +532,12 @@ export function DeleteAccountPage() {
           {errorKey && (
             <p className="account-error" role="alert">
               {c.errors[errorKey]}
+              {errStatus !== null && errStatus > 0 && (
+                <span className="account-error-code">
+                  {" "}
+                  (código {errStatus})
+                </span>
+              )}
             </p>
           )}
         </section>
