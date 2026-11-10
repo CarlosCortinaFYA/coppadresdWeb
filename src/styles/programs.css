@@ -93,6 +93,22 @@
   background: linear-gradient(115deg, #0c4c6b, #035d4d);
   color: #fff;
 }
+/* Botón de membresía en el encabezado: quieto frente al CTA de contacto,
+   con acento verde de marca y relleno suave al pasar el puntero. */
+.membership-button,
+.membership-button:hover {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  gap: 9px;
+}
+.membership-button svg {
+  color: var(--accent-text);
+}
+.membership-button:hover {
+  background: var(--surface-soft);
+  border-color: color-mix(in srgb, var(--brand-green) 55%, var(--line));
+}
 .header .navigation {
   gap: 25px;
 }
@@ -1270,7 +1286,9 @@ details[open] > summary > svg {
   border: 1px solid #0c4c6b35;
   border-radius: 50%;
   background: #ffffffa8;
-  box-shadow: 0 0 0 22px #ffffff2b, 0 18px 38px #035d4d1c;
+  box-shadow:
+    0 0 0 22px #ffffff2b,
+    0 18px 38px #035d4d1c;
   color: #035d4d;
   text-align: center;
 }

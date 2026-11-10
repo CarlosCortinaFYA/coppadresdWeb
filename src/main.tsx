@@ -14,6 +14,12 @@ const DeleteAccountPage = lazy(() =>
     default: m.DeleteAccountPage,
   })),
 );
+// La membresía es un micro-frontend igual: chunk y CSS independientes.
+const MembershipPage = lazy(() =>
+  import("./membership/MembershipPage").then((m) => ({
+    default: m.MembershipPage,
+  })),
+);
 
 function Router() {
   const pathname = usePathname();
@@ -21,6 +27,13 @@ function Router() {
     return (
       <Suspense fallback={null}>
         <DeleteAccountPage />
+      </Suspense>
+    );
+  }
+  if (pathname === ROUTES.membership) {
+    return (
+      <Suspense fallback={null}>
+        <MembershipPage />
       </Suspense>
     );
   }

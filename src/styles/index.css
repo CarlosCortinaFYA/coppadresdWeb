@@ -325,7 +325,8 @@ p {
   margin-left: 9px;
 }
 .menu-button,
-.mobile-contact {
+.mobile-contact,
+.mobile-membership {
   display: none;
 }
 /* Hero: a living interpretation of the supplied circular ecosystem map. */
@@ -1859,6 +1860,19 @@ h1 em {
     font-weight: 650;
     font-size: 14px;
   }
+  .mobile-membership {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 16px;
+    margin-top: 8px;
+    border-radius: 12px;
+    background: var(--brand-gradient);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+  }
   .menu-button {
     display: flex;
   }
@@ -2076,6 +2090,9 @@ h1 em {
     height: 28px;
   }
   .header-contact {
+    display: none;
+  }
+  .membership-button {
     display: none;
   }
   .header-controls {

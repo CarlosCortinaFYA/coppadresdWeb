@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import { usePreferences } from "../i18n/usePreferences";
 import { areas } from "../i18n/areas";
+import { ROUTES, navigate } from "../router";
 import { Icon } from "./Icon";
 import { BrandMark } from "./BrandMark";
 
@@ -80,6 +81,16 @@ export function Header({
             {t.contact}
             <Icon name="diagonal" size={17} />
           </button>
+          <button
+            className="mobile-membership"
+            onClick={() => {
+              setOpen(false);
+              navigate(ROUTES.membership);
+            }}
+          >
+            {t.membership}
+            <Icon name="sparkles" size={17} />
+          </button>
         </nav>
         <div className="header-controls">
           <button
@@ -97,6 +108,16 @@ export function Header({
             aria-label={theme === "light" ? t.dark : t.light}
           >
             <Icon name={theme === "light" ? "moon" : "sun"} size={19} />
+          </button>
+          <button
+            className="button button-small membership-button"
+            onClick={() => {
+              setOpen(false);
+              navigate(ROUTES.membership);
+            }}
+          >
+            <Icon name="sparkles" size={16} />
+            {t.membership}
           </button>
           <button
             className="button button-small header-contact"

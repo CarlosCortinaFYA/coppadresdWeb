@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 export const ROUTES = {
   home: "/",
   deleteAccount: "/eliminar-cuenta",
+  membership: "/membresia",
 } as const;
 
 function normalize(pathname: string): string {

@@ -43,6 +43,12 @@ const paths: Record<string, string> = {
   pulse: "M2 12h5l3-8 4 16 3-8h5",
   link: "m10 13 4-4M8 16l-2 2a4 4 0 0 1-6-6l5-5a4 4 0 0 1 6 0m2 1 2-2a4 4 0 0 1 6 6l-5 5a4 4 0 0 1-6 0",
   download: "M12 3v12m-5-5 5 5 5-5M4 15v6h16v-6",
+  lock: "M8 11V7a4 4 0 0 1 8 0v4M5 11h14v10H5Zm4.5 4.5h3",
+  info: "M12 21a9 9 0 1 1 9-9 9 9 0 0 1-9 9Zm0-15.5h.01M12 10.5v5",
+  card: "M2 6h20v12H2Zm0 4.5h20M6 15h4",
+  watch:
+    "M9 3h6M9 21h6m-7-18 1 3h4l1-3m-6 18 1-3h4l1 3M7 8a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2Z",
+  ring: "M12 21a6 6 0 1 1 0-12 6 6 0 0 1 0 12Zm-2.4-12 2.4-3.4L14.4 9",
 };
 export function Icon({
   name,
