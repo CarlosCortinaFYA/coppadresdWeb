@@ -1,0 +1,92 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Membresía COPP-ADRESD</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#142855;--blue:#023467;--bg:#f7f9fc;--teal:#1d7a63;--line:#d9e2ee;--ink:#1b2a41;--mut:#5b6b80}
+*{box-sizing:border-box}.grid>*{min-width:0}body{margin:0;font-family:Manrope,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+.wrap{max-width:1120px;margin:0 auto;padding-block:32px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1{color:var(--navy);font-size:clamp(26px,4vw,38px);margin:0 0 6px}h2{color:var(--navy);font-size:20px;margin:0 0 10px}
+.sub{color:var(--mut);margin:0 0 24px;max-width:760px}
+.tog{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px;margin-bottom:22px}
+.tog button{border:0;background:none;padding:10px 20px;border-radius:999px;font:600 14px Manrope;cursor:pointer;color:var(--mut)}
+.tog button.on{background:linear-gradient(135deg,var(--blue),var(--teal));color:#fff}
+.badge{background:#e3f5ec;color:var(--teal);font-size:12px;font-weight:800;padding:2px 8px;border-radius:99px;margin-left:6px}
+.pk{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:30px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
+.pk .card{display:flex;flex-direction:column;gap:6px}.pk .card.hot{border:2px solid var(--teal)}
+.pk h3{margin:0;font-size:15px;color:var(--navy)}.pk .p{font-size:28px;font-weight:800;color:var(--navy)}.pk small{color:var(--mut)}
+.pk ul{padding-left:16px;margin:4px 0;font-size:13px;color:var(--ink)}
+.btn{border:0;border-radius:10px;padding:11px 14px;font:700 14px Manrope;cursor:pointer;background:var(--navy);color:#fff}
+.btn.alt{background:#fff;color:var(--navy);border:1px solid var(--navy)}.btn.go{background:linear-gradient(135deg,var(--blue),var(--teal));width:100%;font-size:16px;padding:14px}
+.grid{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start}
+@media(max-width:860px){.grid{grid-template-columns:1fr}.sum{position:static!important}}
+.step{margin-bottom:16px}.step .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;font-size:13px;font-weight:800;margin-right:8px}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:12px;margin-top:8px;cursor:pointer;background:#fff}
+.opt.on{border-color:var(--teal);background:#f0faf6}.opt input{margin-top:3px;accent-color:var(--teal)}
+.opt b{display:block;font-size:14px}.opt span{font-size:12.5px;color:var(--mut)}.opt .pr{margin-left:auto;text-align:right;font-weight:800;white-space:nowrap;font-size:14px}
+.opt.lock{opacity:.95}
+.sum{position:sticky;top:12px}.sum .row{display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px dashed var(--line)}
+.sum .tot{font-size:26px;font-weight:800;color:var(--navy);border:0}.sv{color:var(--teal);font-weight:800}
+table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border-radius:12px;overflow:hidden}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}th{background:var(--navy);color:#fff}
+.tw{overflow-x:auto;margin-top:12px}.note{font-size:12px;color:var(--mut);line-height:1.5;margin-top:18px}
+input[type=number]{width:70px;padding:6px;border:1px solid var(--line);border-radius:8px;font:inherit}
+</style><div class="wrap">
+<h1>Programa COPP-ADRESD</h1>
+<p class="sub">Un solo plan con plataforma de acompañamiento con IA 24/7, nutrición supervisada y nutracéutico incluido. Elige pago anual (USD 300) o mensual (USD 400 al año). Solo puedes quitar SOS y Comunidad. Precios en USD.</p>
+<div class="tog" id="tog"><button data-b="annual" class="on">Anual <span class="badge" id="badge"></span></button><button data-b="monthly">Mensual</button></div>
+
+<div class="grid"><div>
+<div class="step"><h2><span class="n">1</span>Incluido en el programa</h2><div id="s1"></div></div>
+<div class="step"><h2><span class="n">2</span>Módulos que puedes quitar</h2><div id="s2"></div></div>
+
+<div class="step"><h2><span class="n">3</span>Dispositivo (opcional, pago único)</h2><div id="s4"></div></div>
+</div>
+<aside class="card sum"><h2>Tu resumen</h2><div id="sum"></div>
+<button class="btn go" id="pay">Continuar al pago seguro</button>
+<p class="note" style="margin-top:10px">El pago se procesa en una página externa segura. Esta página no recopila datos de tarjeta.</p></aside></div>
+
+<p class="note">COPP-ADRESD es un programa de bienestar y acompañamiento; no diagnostica, trata ni previene enfermedades ni reemplaza la atención médica. El nutracéutico es un suplemento dietario: no está destinado a diagnosticar, tratar, curar ni prevenir ninguna enfermedad y los resultados individuales varían. Los impuestos de venta se calculan al pagar según tu estado. Los servicios de emergencia (SOS) dependen de cobertura y de acuerdos con terceros y no sustituyen el 911. Dispositivos: un solo dispositivo por cuenta.</p>
+</div>
+<script>
+const CONFIG={checkoutUrl:"",whatsapp:"https://wa.me/19546822141",taxRate:0};
+const MODS=[{id:'A',n:'Agente inteligente 24/7',d:'Acompañamiento de IA permanente.',req:1},
+{id:'B',n:'Monitoreo inteligente',d:'Seguimiento de hábitos, sueño y señales de bienestar.',req:1},
+{id:'D',n:'Nutrición inteligente con IA',d:'Planes de 30 días revisados por nutricionista: bajar y sostener peso.',req:1},
+{id:'F',n:'Nutracéutico Weight Support Plus·BR',d:'Suplemento dietario (berberina + resveratrol), entrega incluida.',req:1},
+{id:'G',n:'Gamificación',d:'Metas, retos personales, puntos y logros para mantener la constancia.',req:1},
+{id:'C',n:'SOS y protección familiar',d:'Botón de ayuda y avisos a contactos de confianza.',ya:60,ym:80},
+{id:'E',n:'Comunidad',d:'Clubes por interés, interacción entre miembros y publicaciones para compartir avances y apoyo.',ya:15,ym:20}];
+const FULL={annual:300,monthlyYear:400};
+const DEV={0:{n:'Sin dispositivo',p:0,d:'Usa solo la app.'},1:{n:'Manilla inteligente',p:39,d:'Pago único, aparte del plan.'},2:{n:'Anillo inteligente',p:44,d:'Pago único, aparte del plan.'}};
+const st={b:'annual',off:new Set(),dev:0};
+const $=s=>document.querySelector(s),f=x=>'$'+x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+function totals(){let a=FULL.annual,my=FULL.monthlyYear;st.off.forEach(i=>{const m=MODS.find(x=>x.id==i);a-=m.ya;my-=m.ym});
+ const sub=st.b=='annual'?a:my/12,dev=DEV[st.dev].p,first=st.b=='annual'?a:my/12;
+ return{a,my,sub,dev,first,total:first+dev+(first+dev)*CONFIG.taxRate,save:my-a}}
+function render(){
+ document.querySelectorAll('#tog button').forEach(b=>b.classList.toggle('on',b.dataset.b==st.b));
+ $('#badge').textContent='ahorra 25%';
+ const row=m=>{const on=!st.off.has(m.id),lock=!!m.req;const pr=lock?'Incluido':(st.b=='annual'?'−'+f(m.ya)+'/año':'−'+f(m.ym/12)+'/mes');
+ return `<label class="opt ${on?'on':''}"><input type="checkbox" ${on?'checked':''} ${lock?'disabled':''} onchange="tg('${m.id}')"><div><b>${m.n}${lock?' <span class="badge">Obligatorio</span>':''}</b><span>${m.d}</span></div><div class="pr">${on?(lock?'Incluido':'Incluido'):'Quitado'}<br><span>${lock?'':(on?'Quitar: '+pr:'Ahorras '+pr.slice(1))}</span></div></label>`};
+ $('#s1').innerHTML=MODS.filter(m=>m.req).map(row).join('');
+ $('#s2').innerHTML=MODS.filter(m=>!m.req).map(row).join('');
+ $('#s4').innerHTML=Object.entries(DEV).map(([k,v])=>`<label class="opt ${st.dev==k?'on':''}"><input type="radio" name="dv" ${st.dev==k?'checked':''} onchange="st.dev=${k};render()"><div><b>${v.n}</b><span>${v.d}</span></div><div class="pr">${v.p?f(v.p):'—'}</div></label>`).join('');
+ const t=totals();
+ $('#sum').innerHTML=`<div class="row"><span>Plan ${st.b=='annual'?'anual':'mensual'}</span><b>${st.b=='annual'?f(t.a)+'/año':f(t.my/12)+'/mes'}</b></div>`+
+ [...st.off].map(i=>`<div class="row"><span>Sin ${MODS.find(x=>x.id==i).n}</span><span>quitado</span></div>`).join('')+
+ (t.dev?`<div class="row"><span>${DEV[st.dev].n} (pago único)</span><span>${f(t.dev)}</span></div>`:'')+
+ `<div class="row"><span>Impuestos</span><span>${CONFIG.taxRate?f((t.first+t.dev)*CONFIG.taxRate):'se calculan al pagar'}</span></div>`+
+ (st.b=='annual'?`<div class="row"><span>Equivalente mensual</span><span>${f(t.a/12)}</span></div><div class="row"><span>Ahorro vs. plan mensual (${f(t.my)}/año)</span><span class="sv">${f(t.save)}</span></div>`:`<div class="row"><span>Total al año pagando mensual</span><span>${f(t.my)}</span></div><div class="row"><span>Pagando anual serían</span><span>${f(t.a)}</span></div>`)+
+ `<div class="row tot"><span>Hoy pagas</span><span>${f(t.total)}</span></div>`;
+}
+function tg(i){st.off.has(i)?st.off.delete(i):st.off.add(i);render()}
+document.querySelectorAll('#tog button').forEach(b=>b.onclick=()=>{st.b=b.dataset.b;render()});
+$('#pay').onclick=()=>{const t=totals();const desc=`Plan ${st.b=='annual'?'anual':'mensual'}; sin: ${[...st.off].join(',')||'ninguno'}; dispositivo: ${DEV[st.dev].n}; hoy ${f(t.total)}`;
+ const u=CONFIG.checkoutUrl?CONFIG.checkoutUrl+(CONFIG.checkoutUrl.includes('?')?'&':'?')+'client_reference_id='+encodeURIComponent(st.b+'-off'+[...st.off].join('')+'-d'+st.dev):CONFIG.whatsapp+'?text='+encodeURIComponent('Hola, quiero contratar: '+desc);
+ window.open(u,'_blank','noopener')};
+render();
+</script>
+
+</body></html>
