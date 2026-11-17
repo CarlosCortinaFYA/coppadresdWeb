@@ -5,16 +5,8 @@ import { ROUTES, navigate } from "../router";
 import { whatsappUrl } from "../config/contact";
 import { Icon } from "../components/Icon";
 import { BrandMark } from "../components/BrandMark";
-import {
-  CHECKOUT_URL,
-  DEVICES,
-  MODULES,
-  PLANS,
-  selectionReference,
-  totalsOf,
-  usd,
-} from "./data";
-import type { DeviceId, ModuleId, PlanId } from "./data";
+import { CHECKOUT_URL, PLANS, selectionReference, totalsOf, usd } from "./data";
+import type { PlanId } from "./data";
 import { membershipContent } from "./content";
 import "../styles/membership.css";
 
@@ -144,8 +136,6 @@ export function MembershipPage() {
   const c = membershipContent[language];
 
   const [plan, setPlan] = useState<PlanId>("annual");
-  const [removed, setRemoved] = useState<ReadonlySet<ModuleId>>(new Set());
-  const [device, setDevice] = useState<DeviceId>("none");
   const [step, setStep] = useState<Step>("plan");
   const [stage, setStage] = useState(0);
   const [orderRef, setOrderRef] = useState("");
@@ -155,7 +145,7 @@ export function MembershipPage() {
   const timers = useRef<number[]>([]);
   const firstRun = useRef(true);
 
-  const totals = totalsOf({ plan, removed, device });
+  const totals = totalsOf({ plan });
   const dueToday = useCountUp(totals.dueToday);
 
   useEffect(() => {
@@ -184,38 +174,50 @@ export function MembershipPage() {
     [],
   );
 
-  const toggleModule = (id: ModuleId) => {
-    setRemoved((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  };
-
-  const summaryRows = [
-    {
-      label: plan === "annual" ? c.summary.planAnnual : c.summary.planMonthly,
-      value:
-        plan === "annual"
-          ? `${usd(totals.planYear)} ${c.sections.recurring}`
-          : `${usd(totals.monthly)} ${c.sections.recurringMonth}`,
-    },
-    ...MODULES.filter((m) => removed.has(m.id)).map((m) => ({
-      label: `${c.summary.offRow} ${c.modules[m.id].name}`,
-      value: c.sections.offTag,
-      faint: true,
-    })),
-    {
-      label: c.summary.deviceRow,
-      value:
-        device === "none"
-          ? c.summary.deviceNone
-          : `${usd(totals.device)} · ${c.sections.oneTime}`,
-      faint: device === "none",
-    },
-    { label: c.summary.taxesRow, value: c.summary.taxesHint, faint: true },
-  ];
+  const summaryRows =
+    plan === "annual"
+      ? [
+          {
+            label: c.summary.planAnnual,
+            value: `${usd(totals.planYear)} ${c.sections.recurring}`,
+          },
+          {
+            label: c.summary.equivalentRow,
+            value: `${usd(totals.monthly)} ${c.sections.recurringMonth}`,
+            faint: true,
+          },
+          {
+            label: c.summary.monthlyYearRow,
+            value: `${usd(totals.monthlyTotal)} ${c.sections.recurring}`,
+            faint: true,
+          },
+          {
+            label: c.summary.taxesRow,
+            value: c.summary.taxesHint,
+            faint: true,
+          },
+        ]
+      : [
+          {
+            label: c.summary.planMonthly,
+            value: `${usd(totals.monthly)} ${c.sections.recurringMonth}`,
+          },
+          {
+            label: c.summary.monthlyYearRow,
+            value: `${usd(totals.monthlyTotal)} ${c.sections.recurring}`,
+            faint: true,
+          },
+          {
+            label: c.summary.annualRow,
+            value: `${usd(totals.annualTotal)} (${usd(totals.annualTotal / 12)} ${c.sections.recurringMonth})`,
+            faint: true,
+          },
+          {
+            label: c.summary.taxesRow,
+            value: c.summary.taxesHint,
+            faint: true,
+          },
+        ];
 
   const goCheckout = () => setStep("checkout");
   const goBack = () => {
@@ -224,19 +226,10 @@ export function MembershipPage() {
     setStep("plan");
   };
 
-  const selectionText = [
+  const selectionText =
     plan === "annual"
-      ? `${c.summary.planAnnual} (${usd(totals.planYear)}/${c.sections.recurring})`
-      : `${c.summary.planMonthly} (${usd(totals.monthly)}/${c.sections.recurringMonth})`,
-    ...MODULES.filter((m) => removed.has(m.id)).map(
-      (m) => `${language === "en" ? "without" : "sin"} ${c.modules[m.id].name}`,
-    ),
-    device === "none"
-      ? null
-      : `${c.summary.deviceRow}: ${c.devices[device].name} (${usd(totals.device)})`,
-  ]
-    .filter(Boolean)
-    .join(" · ");
+      ? `${c.summary.planAnnual} (${usd(totals.planYear)} ${c.sections.recurring})`
+      : `${c.summary.planMonthly} (${usd(totals.monthly)} ${c.sections.recurringMonth})`;
 
   const startProcessing = () => {
     timers.current.forEach(clearTimeout);
@@ -267,7 +260,7 @@ export function MembershipPage() {
     event.preventDefault();
     if (CHECKOUT_URL) {
       // Pasarela real: mismo contrato client_reference_id que el mock original.
-      const url = `${CHECKOUT_URL}${CHECKOUT_URL.includes("?") ? "&" : "?"}client_reference_id=${encodeURIComponent(selectionReference({ plan, removed, device }))}`;
+      const url = `${CHECKOUT_URL}${CHECKOUT_URL.includes("?") ? "&" : "?"}client_reference_id=${encodeURIComponent(selectionReference({ plan }))}`;
       window.location.assign(url);
       return;
     }
@@ -335,11 +328,7 @@ export function MembershipPage() {
       <p className="m-total" aria-live="polite">
         <strong>{usd(dueToday)}</strong>
         <small>
-          {totals.dueLabelKey === "annual"
-            ? c.summary.dueAnnual
-            : totals.dueLabelKey === "monthly"
-              ? c.summary.dueMonthly
-              : c.summary.dueWithDevice}
+          {plan === "annual" ? c.summary.dueAnnual : c.summary.dueMonthly}
         </small>
       </p>
       {plan === "annual" ? (
@@ -423,7 +412,11 @@ export function MembershipPage() {
       </section>
 
       <section className="m-card">
-        <SectionHead index="2" title={c.sections.included} />
+        <SectionHead
+          index="2"
+          title={c.sections.included}
+          hint={c.sections.includedHint}
+        />
         <div className="m-core-grid">
           {c.core.map((m) => (
             <article className="m-core-item" key={m.id}>
@@ -436,98 +429,6 @@ export function MembershipPage() {
             </article>
           ))}
         </div>
-      </section>
-
-      <section className="m-card">
-        <SectionHead
-          index="3"
-          title={c.sections.modules}
-          hint={c.sections.modulesHint}
-        />
-        {MODULES.map((m) => {
-          const isOff = removed.has(m.id);
-          const price = plan === "annual" ? m.offYear : m.offMonthlyYear / 12;
-          const unit =
-            plan === "annual"
-              ? c.sections.recurring
-              : c.sections.recurringMonth;
-          return (
-            <div className={`m-module${isOff ? " is-off" : ""}`} key={m.id}>
-              <span className="m-icon-tile slim">
-                <Icon name={m.icon} size={19} />
-              </span>
-              <div className="m-module-copy">
-                <strong>{c.modules[m.id].name}</strong>
-                <p>{c.modules[m.id].description}</p>
-              </div>
-              <div className="m-module-aside">
-                <span className="m-module-price">
-                  {isOff ? c.sections.offTag : `−${usd(price)} ${unit}`}
-                </span>
-                <label className="m-switch">
-                  <input
-                    type="checkbox"
-                    className="m-sr"
-                    checked={!isOff}
-                    onChange={() => toggleModule(m.id)}
-                    aria-label={c.aria.moduleSwitch(
-                      c.modules[m.id].name,
-                      isOff,
-                    )}
-                  />
-                  <span className="m-switch-track" aria-hidden="true" />
-                </label>
-              </div>
-            </div>
-          );
-        })}
-      </section>
-
-      <section className="m-card">
-        <SectionHead
-          index="4"
-          title={c.sections.device}
-          hint={c.sections.deviceHint}
-        />
-        <fieldset
-          className="m-device-set"
-          role="radiogroup"
-          aria-label={c.sections.device}
-        >
-          {DEVICES.map((d) => {
-            const selected = device === d.id;
-            return (
-              <label
-                key={d.id}
-                className={`m-device${selected ? " is-on" : ""}`}
-              >
-                <input
-                  type="radio"
-                  name="m-device"
-                  value={d.id}
-                  className="m-sr"
-                  checked={selected}
-                  onChange={() => setDevice(d.id)}
-                />
-                <span className="m-icon-tile">
-                  <Icon name={d.icon} size={22} />
-                </span>
-                <span className="m-device-copy">
-                  <strong>{c.devices[d.id].name}</strong>
-                  <small>{c.devices[d.id].description}</small>
-                </span>
-                <span className="m-device-price">
-                  {d.price > 0
-                    ? `${usd(d.price)} ${c.sections.oneTime}`
-                    : c.sections.deviceIncluded}
-                </span>
-                <span className="m-check-mark" aria-hidden="true">
-                  <Icon name="check" size={12} />
-                </span>
-              </label>
-            );
-          })}
-        </fieldset>
       </section>
     </div>
   );

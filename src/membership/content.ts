@@ -21,11 +21,11 @@ export const membershipContent = {
     hero: {
       title: ["Una membresía.", "Todo el acompañamiento."],
       description:
-        "Plataforma con agente de IA 24/7, nutrición supervisada y tu nutracéutico incluido. Un solo plan: elige cómo pagarlo y ajusta los módulos opcionales.",
+        "Un solo plan con todo incluido: acompañamiento con IA 24/7, control de medicamentos, nutrición inteligente, gamificación, SOS y comunidad. Paga mes a mes o ahorra pagando el año completo. Precios en USD.",
       facts: [
         "Acompañamiento con IA 24/7",
-        "Nutrición revisada por especialistas",
-        "Nutracéutico con entrega incluida",
+        "Un solo plan con todo incluido",
+        "Ahorra 50 % pagando el año",
       ],
       scrollHint: "Configura tu plan",
     },
@@ -34,115 +34,87 @@ export const membershipContent = {
       "Precios en dólares (USD). Cancela cuando quieras; los servicios incluidos son de un solo miembro.",
     sections: {
       plan: "Cómo quieres pagar",
-      included: "Incluido en el programa",
-      modules: "Módulos opcionales",
-      modulesHint:
-        "Solo estos dos módulos puedes quitar de tu plan; el resto del programa es indivisible por diseño.",
-      device: "Dispositivo",
-      deviceHint:
-        "Opcional y de pago único, aparte del plan. Solo un dispositivo por cuenta.",
-      removeOn: "Quitar de mi plan",
-      removeOff: "Volver a incluir",
+      included: "Todo esto está incluido",
+      includedHint:
+        "El monitoreo inteligente depende de los dispositivos médicos o de bienestar compatibles de cada persona. COPP-ADRESD solo extrae y organiza esos datos; no mide por sí misma.",
       includedTag: "Incluido",
-      offTag: "Quitado",
-      offYearTag: "quitar",
-      saveTag: "Ahorra con anual",
-      deviceIncluded: "—",
       recurring: "al año",
       recurringMonth: "por mes",
-      oneTime: "pago único",
     },
     plans: {
       annual: {
         name: "Anual",
-        note: "Todo el año por un solo pago",
-        badge: "Ahorra 25 %",
+        note: "El año completo por un solo pago",
+        badge: "Ahorra 50 %",
       },
       monthly: {
         name: "Mensual",
-        note: "Mismo programa, pago a pago",
-        badge: "$400.00 al año",
+        note: "Mismo programa, pago mes a mes",
+        badge: "$239.52 al año",
       },
       perMonth: "/mes",
-    },
-    modules: {
-      sos: {
-        name: "SOS y protección familiar",
-        description:
-          "Botón de ayuda y avisos a tus contactos de confianza ante emergencias.",
-      },
-      community: {
-        name: "Comunidad",
-        description:
-          "Clubes por interés, retos entre miembros y publicaciones para compartir avances.",
-      },
     },
     core: [
       {
         id: "agent",
         icon: "sparkles",
         name: "Agente inteligente 24/7",
-        description: "Acompañamiento de IA permanente en tu ritmo y horario.",
+        description: "Acompañamiento de IA permanente.",
       },
       {
         id: "monitoring",
         icon: "pulse",
         name: "Monitoreo inteligente",
-        description: "Seguimiento de hábitos, sueño y señales de bienestar.",
+        description:
+          "Reúne en la app los datos de tus dispositivos médicos o de bienestar compatibles. COPP-ADRESD solo extrae la información.",
+      },
+      {
+        id: "medication",
+        icon: "capsule",
+        name: "Control de medicamentos",
+        description:
+          "Escanea o busca tu medicina, programa horarios, recibe recordatorios, controla tu inventario y registra efectos secundarios.",
       },
       {
         id: "nutrition",
         icon: "bowl",
-        name: "Nutrición con IA",
+        name: "Nutrición inteligente con IA",
         description:
-          "Planes de 30 días revisados por nutricionista: bajar y sostener el peso.",
-      },
-      {
-        id: "nutraceutical",
-        icon: "capsule",
-        name: "Weight Support Plus·BR",
-        description:
-          "Tu nutracéutico (berberina + resveratrol) con entrega incluida.",
+          "Planes de 30 días como sugerencia del programa, que debes validar con un profesional de la salud avalado.",
       },
       {
         id: "gamification",
         icon: "star",
         name: "Gamificación",
         description:
-          "Metas, retos personales y logros para mantener la constancia.",
+          "Metas, retos personales, puntos y logros para mantener la constancia.",
+      },
+      {
+        id: "sos",
+        icon: "shield",
+        name: "SOS y protección familiar",
+        description: "Botón de ayuda y avisos a contactos de confianza.",
+      },
+      {
+        id: "community",
+        icon: "users",
+        name: "Comunidad",
+        description:
+          "Clubes por interés, interacción entre miembros y publicaciones para compartir avances y apoyo.",
       },
     ],
-    devices: {
-      none: {
-        name: "Solo la app",
-        description: "Usa el programa completo desde tu teléfono.",
-      },
-      band: {
-        name: "Manilla inteligente",
-        description: "Seguimiento continuo, pago único aparte del plan.",
-      },
-      ring: {
-        name: "Anillo inteligente",
-        description:
-          "Señales de sueño y recuperación, pago único aparte del plan.",
-      },
-    },
     summary: {
       title: "Tu resumen",
       planAnnual: "Plan anual",
       planMonthly: "Plan mensual",
-      offRow: "Sin",
-      includedRow: "Incluye",
-      deviceRow: "Dispositivo",
-      deviceNone: "Ninguno",
+      equivalentRow: "Equivalente mensual",
+      monthlyYearRow: "Total al año pagando mensual",
+      annualRow: "Pagando anual serían",
       taxesRow: "Impuestos",
       taxesHint: "se calculan al pagar",
-      dueRow: "Hoy pagas",
       dueAnnual: "el plan por un año",
       dueMonthly: "el mes en curso",
-      dueWithDevice: "el plan por un año + dispositivo",
-      savingsRow: "Ahorras con anual",
-      edit: "Editar",
+      savingsRow: "Tu ahorro",
       continue: "Continuar al pago seguro",
       secure: "Conexión segura. Este paso nunca pide datos de tarjeta.",
       demo: "Modo demostración: integramos la pasarela de pago próximamente; hoy no se procesan cargos reales.",
@@ -192,7 +164,7 @@ export const membershipContent = {
       next: [
         "Recibes el comprobante con el detalle de tu suscripción.",
         "El equipo de bienestar te prepara el onboarding en la app.",
-        "Tus módulos quedan activos desde la primera semana.",
+        "Tu programa queda activo desde la primera semana.",
       ],
       again: "Configurar otra vez",
       home: "Volver al inicio",
@@ -202,13 +174,11 @@ export const membershipContent = {
     },
     legalTitle: "Sobre este programa",
     legal:
-      "COPP-ADRESD es un programa de bienestar y acompañamiento; no diagnostica, trata ni previene enfermedades ni reemplaza la atención médica. El nutracéutico es un suplemento dietario: no está destinado a diagnosticar, tratar, curar ni prevenir ninguna enfermedad y los resultados individuales varían. Los impuestos de venta se calculan al pagar según tu estado. Los servicios de emergencia (SOS) dependen de cobertura y de acuerdos con terceros y no sustituyen al 911. Dispositivos: un solo dispositivo por cuenta. Precios en dólares (USD).",
+      "COPP-ADRESD es un programa de bienestar y acompañamiento; no diagnostica, trata ni previene enfermedades ni reemplaza la atención médica. Por ahora la plataforma no cuenta con profesionales de la salud atendiendo: los planes nutricionales son sugerencias o recomendaciones del programa y deben ser validados por un profesional de la salud avalado y de tu elección antes de seguirlos. El control de medicamentos es un registro informativo; no prescribe ni modifica tratamientos y sus alertas no sustituyen el criterio de tu médico o farmacéutico. Los impuestos de venta se calculan al pagar según tu estado. Los servicios de emergencia (SOS) dependen de cobertura y de acuerdos con terceros y no sustituyen el 911. Precios en dólares (USD).",
     whatsappMessage(selection: string, amount: string): string {
       return `Hola, quiero contratar la membresía COPP-ADRESD: ${selection}. Cargo estimado hoy: ${amount}.`;
     },
     aria: {
-      moduleSwitch: (name: string, off: boolean) =>
-        off ? `Incluir ${name}` : `Quitar ${name}`,
       dueToday: "Cargo de hoy",
     },
     currency: "USD",
@@ -225,11 +195,11 @@ export const membershipContent = {
     hero: {
       title: ["One membership.", "Complete guidance."],
       description:
-        "A platform with a 24/7 AI agent, supervised nutrition and your nutraceutical included. A single plan: choose how to pay and adjust the optional modules.",
+        "A single plan with everything included: 24/7 AI guidance, medication tracking, smart nutrition, gamification, SOS and community. Pay month to month or save by paying for the full year. Prices in USD.",
       facts: [
         "24/7 AI companion",
-        "Nutrition reviewed by specialists",
-        "Nutraceutical with delivery included",
+        "A single plan with everything included",
+        "Save 50 % with the annual plan",
       ],
       scrollHint: "Configure your plan",
     },
@@ -238,116 +208,87 @@ export const membershipContent = {
       "Prices in US dollars (USD). Cancel anytime; each membership covers one member.",
     sections: {
       plan: "How would you like to pay",
-      included: "Included in the program",
-      modules: "Optional modules",
-      modulesHint:
-        "Only these two modules can be removed; the rest of the program is indivisible by design.",
-      device: "Device",
-      deviceHint:
-        "Optional one-time payment, on top of the plan. One device per account.",
-      removeOn: "Remove from my plan",
-      removeOff: "Add it back",
+      included: "Everything included",
+      includedHint:
+        "Smart monitoring depends on each person's compatible medical or wellness devices. COPP-ADRESD only extracts and organizes that data; it does not measure on its own.",
       includedTag: "Included",
-      offTag: "Removed",
-      offYearTag: "remove",
-      saveTag: "Save with annual",
-      deviceIncluded: "—",
       recurring: "a year",
       recurringMonth: "per month",
-      oneTime: "one-time payment",
     },
     plans: {
       annual: {
         name: "Annual",
         note: "The whole year with a single payment",
-        badge: "Save 25 %",
+        badge: "Save 50 %",
       },
       monthly: {
         name: "Monthly",
-        note: "Same program, pay as you go",
-        badge: "$400.00 a year",
+        note: "Same program, month to month",
+        badge: "$239.52 a year",
       },
       perMonth: "/month",
-    },
-    modules: {
-      sos: {
-        name: "SOS and family protection",
-        description:
-          "Help button and alerts to trusted contacts in emergencies.",
-      },
-      community: {
-        name: "Community",
-        description:
-          "Interest clubs, member challenges and posts to share progress.",
-      },
     },
     core: [
       {
         id: "agent",
         icon: "sparkles",
         name: "Intelligent agent 24/7",
-        description: "Always-on AI companionship on your own pace.",
+        description: "Always-on AI companionship.",
       },
       {
         id: "monitoring",
         icon: "pulse",
         name: "Smart monitoring",
-        description: "Tracking of habits, sleep and wellbeing signals.",
+        description:
+          "Brings your compatible medical or wellness device data into the app. COPP-ADRESD only extracts the information.",
+      },
+      {
+        id: "medication",
+        icon: "capsule",
+        name: "Medication tracking",
+        description:
+          "Scan or search your medicine, schedule doses, get reminders, track your supply and log side effects.",
       },
       {
         id: "nutrition",
         icon: "bowl",
-        name: "AI nutrition",
+        name: "AI smart nutrition",
         description:
-          "30-day plans reviewed by a nutritionist: lose and sustain weight.",
-      },
-      {
-        id: "nutraceutical",
-        icon: "capsule",
-        name: "Weight Support Plus·BR",
-        description:
-          "Your nutraceutical (berberine + resveratrol) with delivery included.",
+          "30-day plans suggested by the program, which you must validate with a qualified health professional.",
       },
       {
         id: "gamification",
         icon: "star",
         name: "Gamification",
         description:
-          "Goals, personal challenges and achievements to keep consistency.",
+          "Goals, personal challenges, points and achievements to keep consistency.",
+      },
+      {
+        id: "sos",
+        icon: "shield",
+        name: "SOS and family protection",
+        description: "Help button and alerts to trusted contacts.",
+      },
+      {
+        id: "community",
+        icon: "users",
+        name: "Community",
+        description:
+          "Interest clubs, interaction between members and posts to share progress and support.",
       },
     ],
-    devices: {
-      none: {
-        name: "App only",
-        description: "Use the full program from your phone.",
-      },
-      band: {
-        name: "Smart band",
-        description:
-          "Continuous tracking, one-time payment on top of the plan.",
-      },
-      ring: {
-        name: "Smart ring",
-        description:
-          "Sleep and recovery signals, one-time payment on top of the plan.",
-      },
-    },
     summary: {
       title: "Your summary",
       planAnnual: "Annual plan",
       planMonthly: "Monthly plan",
-      offRow: "Without",
-      includedRow: "Includes",
-      deviceRow: "Device",
-      deviceNone: "None",
+      equivalentRow: "Monthly equivalent",
+      monthlyYearRow: "Total per year paying monthly",
+      annualRow: "Paying annually would be",
       taxesRow: "Taxes",
       taxesHint: "calculated at checkout",
-      dueRow: "You pay today",
       dueAnnual: "one year of the plan",
       dueMonthly: "the current month",
-      dueWithDevice: "the yearly plan + device",
-      savingsRow: "You save with annual",
-      edit: "Edit",
+      savingsRow: "Your savings",
       continue: "Continue to secure payment",
       secure: "Secure connection. This step never asks for card details.",
       demo: "Demo mode: the payment gateway will be integrated soon; no real charges are processed today.",
@@ -396,7 +337,7 @@ export const membershipContent = {
       next: [
         "You receive the receipt with your subscription details.",
         "The wellbeing team prepares your app onboarding.",
-        "Your modules are active from the first week.",
+        "Your program is active from the first week.",
       ],
       again: "Configure again",
       home: "Back to home",
@@ -406,13 +347,11 @@ export const membershipContent = {
     },
     legalTitle: "About this program",
     legal:
-      "COPP-ADRESD is a wellbeing and support program; it does not diagnose, treat or prevent disease and it does not replace medical care. The nutraceutical is a dietary supplement: it is not intended to diagnose, treat, cure or prevent any disease, and individual results vary. Sales taxes are calculated at checkout based on your state. Emergency services (SOS) depend on coverage and third-party agreements and do not replace 911. Devices: one device per account. Prices in US dollars (USD).",
+      "COPP-ADRESD is a wellbeing and support program; it does not diagnose, treat or prevent disease and it does not replace medical care. For now the platform does not have health professionals on staff: nutrition plans are suggestions or recommendations from the program and must be validated by a qualified health professional of your choice before you follow them. Medication tracking is an informational record; it does not prescribe or change treatments and its alerts do not replace your doctor's or pharmacist's judgement. Sales taxes are calculated at checkout based on your state. Emergency services (SOS) depend on coverage and third-party agreements and do not replace 911. Prices in US dollars (USD).",
     whatsappMessage(selection: string, amount: string): string {
       return `Hi, I would like to join the COPP-ADRESD membership: ${selection}. Estimated charge today: ${amount}.`;
     },
     aria: {
-      moduleSwitch: (name: string, off: boolean) =>
-        off ? `Add ${name} back` : `Remove ${name}`,
       dueToday: "Charge today",
     },
     currency: "USD",

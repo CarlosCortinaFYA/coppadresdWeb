@@ -1,0 +1,75 @@
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Membresía COPP-ADRESD</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#142855;--blue:#023467;--bg:#f7f9fc;--teal:#2563B8;--line:#d9e2ee;--ink:#1b2a41;--mut:#5b6b80}
+*{box-sizing:border-box}.grid>*{min-width:0}body{margin:0;font-family:Manrope,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+.wrap{max-width:1120px;margin:0 auto;padding-block:32px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1{color:var(--navy);font-size:clamp(26px,4vw,38px);margin:0 0 6px}h2{color:var(--navy);font-size:20px;margin:0 0 10px}
+.sub{color:var(--mut);margin:0 0 24px;max-width:760px}
+.tog{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px;margin-bottom:22px}
+.tog button{border:0;background:none;padding:10px 20px;border-radius:999px;font:600 14px Manrope,system-ui,sans-serif;cursor:pointer;color:var(--mut)}
+.tog button.on{background:linear-gradient(135deg,#3A6DB8,#142855);color:#fff}
+.badge{background:#E3EEFB;color:var(--teal);font-size:12px;font-weight:800;padding:2px 8px;border-radius:99px;margin-left:6px}
+.pk{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:30px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
+.pk .card{display:flex;flex-direction:column;gap:6px}.pk .card.hot{border:2px solid var(--teal)}
+.pk h3{margin:0;font-size:15px;color:var(--navy)}.pk .p{font-size:28px;font-weight:800;color:var(--navy)}.pk small{color:var(--mut)}
+.pk ul{padding-left:16px;margin:4px 0;font-size:13px;color:var(--ink)}
+.btn{border:0;border-radius:10px;padding:11px 14px;font:700 14px Manrope,system-ui,sans-serif;cursor:pointer;background:var(--navy);color:#fff}
+.btn.alt{background:#fff;color:var(--navy);border:1px solid var(--navy)}.btn.go{background:linear-gradient(160deg,#FFA24D,#EE7A1C);width:100%;font-size:16px;padding:14px}
+.grid{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start}
+@media(max-width:860px){.grid{grid-template-columns:1fr}.sum{position:static!important}}
+.step{margin-bottom:16px}.step .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;font-size:13px;font-weight:800;margin-right:8px}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:12px;margin-top:8px;cursor:pointer;background:#fff}
+.opt.on{border-color:var(--teal);background:#EEF4FD}.opt input{margin-top:3px;accent-color:var(--teal)}
+.opt b{display:block;font-size:14px}.opt span{font-size:12.5px;color:var(--mut)}.opt .pr{margin-left:auto;text-align:right;font-weight:800;white-space:nowrap;font-size:14px}
+.opt.lock{opacity:.95}
+.sum{position:sticky;top:12px}.sum .row{display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px dashed var(--line)}
+.sum .tot{font-size:26px;font-weight:800;color:var(--navy);border:0}.sv{color:var(--teal);font-weight:800}
+table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border-radius:12px;overflow:hidden}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}th{background:var(--navy);color:#fff}
+.tw{overflow-x:auto;margin-top:12px}.note{font-size:12px;color:var(--mut);line-height:1.5;margin-top:18px}
+input[type=number]{width:70px;padding:6px;border:1px solid var(--line);border-radius:8px;font:inherit}
+</style><div class="wrap">
+<h1>Programa COPP-ADRESD</h1>
+<p class="sub">Un solo plan con todo incluido: acompañamiento con IA 24/7, control de medicamentos, nutrición inteligente, gamificación, SOS y comunidad. Paga mes a mes o ahorra pagando el año completo. Precios en USD.</p>
+<div class="tog" id="tog"><button data-b="annual" class="on">Anual <span class="badge">ahorra 50%</span></button><button data-b="monthly">Mensual</button></div>
+<div class="grid"><div>
+<div class="step"><h2><span class="n">1</span>Todo esto está incluido</h2><div id="s1"></div>
+<p class="note" style="margin-top:10px">El monitoreo inteligente depende de los dispositivos médicos o de bienestar compatibles de cada persona. COPP-ADRESD solo extrae y organiza esos datos; no mide por sí misma.</p></div>
+</div>
+<aside class="card sum"><h2>Tu resumen</h2><div id="sum"></div>
+<button class="btn go" id="pay">Continuar al pago seguro</button>
+<p class="note" style="margin-top:10px">El pago se procesa en una página externa segura. Esta página no recopila datos de tarjeta.</p></aside></div>
+<p class="note">COPP-ADRESD es un programa de bienestar y acompañamiento; no diagnostica, trata ni previene enfermedades ni reemplaza la atención médica. Por ahora la plataforma no cuenta con profesionales de la salud atendiendo: los planes nutricionales son sugerencias o recomendaciones del programa y deben ser validados por un profesional de la salud avalado y de tu elección antes de seguirlos. El control de medicamentos es un registro informativo; no prescribe ni modifica tratamientos y sus alertas no sustituyen el criterio de tu médico o farmacéutico. Los impuestos de venta se calculan al pagar según tu estado. Los servicios de emergencia (SOS) dependen de cobertura y de acuerdos con terceros y no sustituyen el 911.</p>
+</div>
+<script>
+const CONFIG={checkoutUrl:"",whatsapp:"https://wa.me/19546822141",taxRate:0};
+const MODS=[
+{n:'Agente inteligente 24/7',d:'Acompañamiento de IA permanente.',i:'<path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2 2-6Z"/>'},
+{n:'Monitoreo inteligente',d:'Reúne en la app los datos de tus dispositivos médicos o de bienestar compatibles. COPP-ADRESD solo extrae la información.',i:'<path d="M3 12h4l3-8 4 16 3-8h4"/>'},
+{n:'Control de medicamentos',d:'Escanea o busca tu medicina, programa horarios, recibe recordatorios, controla tu inventario y registra efectos secundarios.',i:'<path d="M10.5 20.5 3.5 13.5a4.95 4.95 0 0 1 7-7l7 7a4.95 4.95 0 0 1-7 7Z"/><path d="m8.5 8.5 7 7"/>'},
+{n:'Nutrición inteligente con IA',d:'Planes de 30 días como sugerencia del programa, que debes validar con un profesional de la salud avalado.',i:'<path d="M7 3v8a2 2 0 0 0 2 2v8M5 3v6M9 3v6M17 21V3c-2.5 1.5-3.5 4-3.5 7H17"/>'},
+{n:'Gamificación',d:'Metas, retos personales, puntos y logros para mantener la constancia.',i:'<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/>'},
+{n:'SOS y protección familiar',d:'Botón de ayuda y avisos a contactos de confianza.',i:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/>'},
+{n:'Comunidad',d:'Clubes por interés, interacción entre miembros y publicaciones para compartir avances y apoyo.',i:'<circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-7 7-7s7 3 7 7M17 4a4 4 0 0 1 0 8M22 21c0-3-2-5.5-5-6.3"/>'}];
+const PRICE={monthly:19.96,annual:119.76};
+const st={b:'annual'};
+const $=s=>document.querySelector(s),f=x=>'$'+x.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+function totals(){const plan=PRICE[st.b];return{plan,total:plan+plan*CONFIG.taxRate,yearM:PRICE.monthly*12,save:PRICE.monthly*12-PRICE.annual}}
+function render(){
+ document.querySelectorAll('#tog button').forEach(b=>b.classList.toggle('on',b.dataset.b==st.b));
+ $('#s1').innerHTML=MODS.map(m=>`<div class="opt on lock" style="cursor:default"><span style="width:38px;height:38px;border-radius:12px;background:linear-gradient(145deg,#5B9BEA,#1E4FA0);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${m.i}</svg></span><div><b>${m.n}</b><span>${m.d}</span></div><div class="pr"><span class="badge" style="margin:0">Incluido</span></div></div>`).join('');
+ const t=totals();
+ $('#sum').innerHTML=st.b=='annual'
+  ?`<div class="row"><span>Plan anual</span><b>${f(t.plan)}/año</b></div><div class="row"><span>Equivalente mensual</span><span>${f(t.plan/12)}/mes</span></div><div class="row"><span>Pagando mes a mes serían</span><span>${f(t.yearM)}/año</span></div><div class="row"><span>Tu ahorro</span><span class="sv">${f(t.save)}</span></div>`
+  :`<div class="row"><span>Plan mensual</span><b>${f(t.plan)}/mes</b></div><div class="row"><span>Total al año pagando mensual</span><span>${f(t.yearM)}</span></div><div class="row"><span>Pagando anual serían</span><span>${f(PRICE.annual)} (${f(PRICE.annual/12)}/mes)</span></div>`;
+ $('#sum').innerHTML+=`<div class="row"><span>Impuestos</span><span>${CONFIG.taxRate?f(t.plan*CONFIG.taxRate):'se calculan al pagar'}</span></div><div class="row tot"><span>Hoy pagas</span><span>${f(t.total)}</span></div>`;
+}
+document.querySelectorAll('#tog button').forEach(b=>b.onclick=()=>{st.b=b.dataset.b;render()});
+$('#pay').onclick=()=>{const t=totals();const desc=`Plan ${st.b=='annual'?'anual':'mensual'}; hoy ${f(t.total)}`;
+ const u=CONFIG.checkoutUrl?CONFIG.checkoutUrl+(CONFIG.checkoutUrl.includes('?')?'&':'?')+'client_reference_id='+encodeURIComponent(st.b):CONFIG.whatsapp+'?text='+encodeURIComponent('Hola, quiero contratar: '+desc);
+ window.open(u,'_blank','noopener')};
+render();
+</script>

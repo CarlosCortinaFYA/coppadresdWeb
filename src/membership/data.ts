@@ -1,120 +1,57 @@
 /**
  * Modelo de precios y cálculo de la membresía COPP-ADRESD.
- * Un solo plan con módulos obligatorios (incluidos) y dos opcionales que el
- * usuario puede quitar del cálculo, más un dispositivo opcional de pago único.
- * Precios en USD; los impuestos de venta se calculan al pagar.
+ * Un solo plan con todo incluido: solo se elige el periodo de pago (anual o
+ * mensual); no hay módulos quitables ni dispositivos. Precios en USD; los
+ * impuestos de venta se calculan al pagar según el estado.
  */
 
 export type PlanId = "annual" | "monthly";
-export type ModuleId = "sos" | "community";
-export type DeviceId = "none" | "band" | "ring";
 
 /** Selección del usuario dentro del configurador. */
 export interface Selection {
   plan: PlanId;
-  /** Módulos opcionales quitados del cálculo. */
-  removed: ReadonlySet<ModuleId>;
-  device: DeviceId;
 }
 
 export interface PlanInfo {
   id: PlanId;
-  /** Precio base del plan completo con todos los módulos. */
+  /** Precio de doce meses con este periodo de pago. */
   fullYear: number;
-  badgeKey?: "save" | null;
-}
-
-export interface ModuleInfo {
-  id: ModuleId;
-  icon: string;
-  /** Descuento si se quita, según el plan: anual o dentro del total mensual. */
-  offYear: number;
-  offMonthlyYear: number;
-}
-
-export interface DeviceInfo {
-  id: DeviceId;
-  icon: string;
-  price: number;
 }
 
 /** En el futuro apuntará a la pasarela real (p. ej. Stripe Checkout); vacío = demo interna. */
 export const CHECKOUT_URL: string = "";
 
-/** WhatsApp de soporte comercial (config/contact.ts ya lo expone, se reutiliza). */
 export const PLANS: Record<PlanId, PlanInfo> = {
-  annual: { id: "annual", fullYear: 300, badgeKey: "save" },
-  monthly: { id: "monthly", fullYear: 400, badgeKey: null },
+  /** $9.98/mes equivalente: 50 % menos que pagar mes a mes. */
+  annual: { id: "annual", fullYear: 119.76 },
+  /** $19.96 × 12: el mismo programa pagado mes a mes. */
+  monthly: { id: "monthly", fullYear: 239.52 },
 };
 
-export const MODULES: ModuleInfo[] = [
-  {
-    id: "sos",
-    icon: "shield",
-    offYear: 60,
-    offMonthlyYear: 80,
-  },
-  {
-    id: "community",
-    icon: "users",
-    offYear: 15,
-    offMonthlyYear: 20,
-  },
-];
-
-export const DEVICES: DeviceInfo[] = [
-  { id: "none", icon: "chip", price: 0 },
-  { id: "band", icon: "watch", price: 39 },
-  { id: "ring", icon: "ring", price: 44 },
-];
-
 export interface Totals {
-  /** Precio del plan con la remoción ya descontada (según el plan elegido). */
-  planYear: number;
-  /** Precio del plan anual quitando los módulos removidos. */
+  /** Precio del plan anual completo. */
   annualTotal: number;
-  /** Precio del mismo programa pagando mensual, sin los módulos removidos. */
+  /** Precio de doce meses pagando mes a mes. */
   monthlyTotal: number;
-  /** Precio mensual equivalente. */
+  /** Precio del plan según el periodo elegido. */
+  planYear: number;
+  /** Precio mensual equivalente del plan elegido. */
   monthly: number;
-  /** Precio del dispositivo (pago único). */
-  device: number;
-  /** Cargo de hoy antes de impuestos. */
+  /** Cargo del primer pago: el año completo o un mes. */
   dueToday: number;
-  /** Ahorro del plan anual frente al mensual, con la misma selección. */
+  /** Ahorro del plan anual frente a pagar mes a mes. */
   savings: number;
-  /** Cómo se describiría el cargo de hoy: anual, primer mes… */
-  dueLabelKey: "annual" | "monthly" | "withDevice";
 }
 
 export function totalsOf(sel: Selection): Totals {
-  const removedYear = MODULES.reduce(
-    (acc, m) => acc + (sel.removed.has(m.id) ? m.offYear : 0),
-    0,
-  );
-  const removedMonthly = MODULES.reduce(
-    (acc, m) => acc + (sel.removed.has(m.id) ? m.offMonthlyYear : 0),
-    0,
-  );
-  const device = DEVICES.find((d) => d.id === sel.device)!.price;
-  const annualTotal = PLANS.annual.fullYear - removedYear;
-  const monthlyTotal = PLANS.monthly.fullYear - removedMonthly;
-  const planYear = sel.plan === "annual" ? annualTotal : monthlyTotal;
-  const monthly = planYear / 12;
+  const plan = PLANS[sel.plan];
   return {
-    planYear,
-    annualTotal,
-    monthlyTotal,
-    monthly,
-    device,
-    dueToday: monthly + device,
-    savings: monthlyTotal - annualTotal,
-    dueLabelKey:
-      sel.plan === "annual"
-        ? device > 0
-          ? "withDevice"
-          : "annual"
-        : "monthly",
+    annualTotal: PLANS.annual.fullYear,
+    monthlyTotal: PLANS.monthly.fullYear,
+    planYear: plan.fullYear,
+    monthly: plan.fullYear / 12,
+    dueToday: sel.plan === "annual" ? plan.fullYear : plan.fullYear / 12,
+    savings: PLANS.monthly.fullYear - PLANS.annual.fullYear,
   };
 }
 
@@ -130,6 +67,5 @@ export const usd = (n: number): string =>
  * pasarela (client_reference_id) y el mensaje que llega por WhatsApp.
  */
 export function selectionReference(sel: Selection): string {
-  const parts = [sel.plan, "off" + [...sel.removed].join(""), "d" + sel.device];
-  return parts.join("-");
+  return sel.plan;
 }
