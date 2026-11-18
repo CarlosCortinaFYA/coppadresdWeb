@@ -93,21 +93,49 @@
   background: linear-gradient(115deg, #0c4c6b, #035d4d);
   color: #fff;
 }
-/* Botón de membresía en el encabezado: quieto frente al CTA de contacto,
-   con acento verde de marca y relleno suave al pasar el puntero. */
-.membership-button,
-.membership-button:hover {
-  background: var(--surface);
-  color: var(--ink);
-  border: 1px solid var(--line);
+@property --membership-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.membership-button {
   gap: 9px;
 }
 .membership-button svg {
   color: var(--accent-text);
 }
-.membership-button:hover {
-  background: var(--surface-soft);
-  border-color: color-mix(in srgb, var(--brand-green) 55%, var(--line));
+.membership-button,
+.membership-button:hover,
+.mobile-membership,
+.mobile-membership:hover {
+  --membership-fill: var(--surface);
+  border: 3px solid transparent;
+  background:
+    linear-gradient(var(--membership-fill), var(--membership-fill)) padding-box,
+    conic-gradient(from var(--membership-angle, 0deg),
+      var(--gradient-blue) 0deg 205deg, var(--brand-green) 240deg,
+      #04b997 285deg, #49f2cf 315deg, #edfffa 332deg 340deg,
+      var(--light-blue) 348deg, var(--gradient-blue) 360deg) border-box;
+  box-shadow: 0 0 0 1px #0c4c6b40, 0 2px 10px #04b99738;
+  color: var(--ink);
+}
+.membership-button:hover,
+.mobile-membership:hover {
+  --membership-fill: var(--surface-soft);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .membership-button,
+  .mobile-membership {
+    animation: membership-border-turn 2.4s linear infinite;
+  }
+}
+@keyframes membership-border-turn {
+  to { --membership-angle: 1turn; }
+}
+.membership-button:focus-visible,
+.mobile-membership:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
 }
 .header .navigation {
   gap: 25px;
