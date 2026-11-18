@@ -1,7 +1,8 @@
-// Commercial WhatsApp number confirmed by the project owner.
+// Número de WhatsApp de Vita (bot) confirmado por el owner el 18-11-2026.
+// El +1 (954) 682-2141 queda como línea comercial/ventas y no atiende el bot.
 export const contact = {
-  whatsappNumber: "19546822141",
-  displayNumber: "+1 (954) 682-2141",
+  whatsappNumber: "18654207919",
+  displayNumber: "+1 (865) 420-7919",
 };
 
 export function whatsappUrl(message?: string) {
