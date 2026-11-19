@@ -89,7 +89,7 @@ export function Header({
             }}
           >
             {t.membership}
-            <Icon name="sparkles" size={17} />
+            <Icon name="cart" size={17} />
           </button>
         </nav>
         <div className="header-controls">
@@ -116,7 +116,7 @@ export function Header({
               navigate(ROUTES.membership);
             }}
           >
-            <Icon name="sparkles" size={16} />
+            <Icon name="cart" size={16} />
             {t.membership}
           </button>
           <button
