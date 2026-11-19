@@ -19,8 +19,16 @@ export const programs: Record<ProgramId, ProgramDefinition> = {
     institutional: true,
     sections: [],
   },
-  weightSupportPlus,
+  // KAN-104: revisión de Meta. Weight Support Plus y Pep Mimetic se ocultan
+  // temporalmente (suplementos/péptidos) sin borrar su contenido. Al quitar
+  // `published: false` vuelven a aparecer en la navegación.
+  weightSupportPlus: { ...weightSupportPlus, published: false },
   longevityProgram,
-  pepMimetic,
+  pepMimetic: { ...pepMimetic, published: false },
 };
-export const programList = Object.values(programs);
+
+export const programList = Object.values(programs).filter(
+  (program) => program.published !== false,
+);
+
+export const DEFAULT_PROGRAM_ID: ProgramId = programList[0]?.id ?? "coppAdresd";

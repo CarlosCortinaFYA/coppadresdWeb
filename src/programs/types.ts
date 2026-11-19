@@ -66,5 +66,7 @@ export interface ProgramDefinition {
   };
   sections: ProgramSection[];
   institutional?: boolean;
+  /** `false` lo oculta temporalmente del sitio sin borrar su contenido. */
+  published?: boolean;
   cta?: { title: Localized; text: Localized };
 }

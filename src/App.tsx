@@ -10,13 +10,13 @@ import {
 } from "./sections/Program";
 import { usePreferences } from "./i18n/usePreferences";
 import { ProgramNavigation, ProgramPage } from "./programs/ProgramPage";
-import { programs, programList } from "./programs/data";
+import { programs, programList, DEFAULT_PROGRAM_ID } from "./programs/data";
 import type { ProgramId } from "./programs/data";
 
 export function App() {
   const { t, language } = usePreferences();
   const [activeProgram, setActiveProgram] =
-    useState<ProgramId>("weightSupportPlus");
+    useState<ProgramId>(DEFAULT_PROGRAM_ID);
   const [activeArea, setActiveArea] = useState(0);
   const [inquiry, setInquiry] = useState<{
     open: boolean;
