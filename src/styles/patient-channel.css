@@ -1,0 +1,127 @@
+/* Página pública del canal de WhatsApp para pacientes (KAN-104). */
+
+.patient-main {
+  max-width: 920px;
+  padding-top: 48px;
+  padding-bottom: 72px;
+}
+
+.patient-main h1 {
+  margin: 8px 0 20px;
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  word-spacing: 0.06em;
+}
+
+.patient-intro {
+  max-width: 68ch;
+  margin: 0 0 32px;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.patient-grid {
+  display: grid;
+  gap: 18px;
+}
+
+@media (min-width: 820px) {
+  .patient-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .patient-card:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+.patient-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
+  padding: 24px;
+}
+
+.patient-card h2 {
+  margin: 0 0 10px;
+  font-family: var(--display);
+  font-size: 1.15rem;
+  line-height: 1.3;
+}
+
+.patient-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.patient-card ul {
+  margin: 14px 0 0;
+  padding-left: 1.15rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.patient-card li + li {
+  margin-top: 8px;
+}
+
+.patient-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.patient-link:hover,
+.patient-link:focus-visible {
+  text-decoration: underline;
+}
+
+.patient-note {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-top: 24px;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--green-soft);
+  color: var(--ink);
+}
+
+.patient-note svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--primary);
+}
+
+.patient-note strong {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--display);
+}
+
+.patient-note p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.patient-legal {
+  margin: 26px 0 0;
+  color: var(--subtle);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.patient-back {
+  display: inline-flex;
+  margin-top: 26px;
+}

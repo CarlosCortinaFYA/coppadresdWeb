@@ -5,6 +5,7 @@ export const ROUTES = {
   home: "/",
   deleteAccount: "/eliminar-cuenta",
   membership: "/membresia",
+  patientChannel: "/atencion-al-paciente",
 } as const;
 
 function normalize(pathname: string): string {

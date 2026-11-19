@@ -222,6 +222,7 @@ export const translations = {
       owner: "Compañía de Inversiones Integrales S.A.S.",
       rights: "Todos los derechos reservados.",
       top: "Volver arriba",
+      patientChannel: "Canal de WhatsApp para pacientes",
     },
     inquiry: {
       title: "Empecemos por tu visión.",
@@ -459,6 +460,7 @@ export const translations = {
       owner: "Compañía de Inversiones Integrales S.A.S.",
       rights: "All rights reserved.",
       top: "Back to top",
+      patientChannel: "Patient WhatsApp channel",
     },
     inquiry: {
       title: "Let’s start with your vision.",

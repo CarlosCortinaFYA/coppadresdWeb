@@ -342,6 +342,9 @@ export function Footer({ links }: { links: NavLink[] }) {
             >
               WhatsApp · {contact.displayNumber}
             </a>
+            <a className="footer-patient-channel" href={ROUTES.patientChannel}>
+              {t.footer.patientChannel}
+            </a>
           </div>
           <div>
             <p className="footer-label">{t.footer.explore}</p>

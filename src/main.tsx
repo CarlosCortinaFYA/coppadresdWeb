@@ -20,6 +20,13 @@ const MembershipPage = lazy(() =>
     default: m.MembershipPage,
   })),
 );
+// Página pública del canal de WhatsApp para pacientes: URL declarada en el
+// perfil de WhatsApp Business y en el footer.
+const PatientChannelPage = lazy(() =>
+  import("./patient-channel/PatientChannelPage").then((m) => ({
+    default: m.PatientChannelPage,
+  })),
+);
 
 function Router() {
   const pathname = usePathname();
@@ -34,6 +41,13 @@ function Router() {
     return (
       <Suspense fallback={null}>
         <MembershipPage />
+      </Suspense>
+    );
+  }
+  if (pathname === ROUTES.patientChannel) {
+    return (
+      <Suspense fallback={null}>
+        <PatientChannelPage />
       </Suspense>
     );
   }
