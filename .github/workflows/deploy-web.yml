@@ -1,0 +1,124 @@
+name: Deploy Web
+
+# Despliegue de la web pública (www.coppadresd.com).
+# S3 `cooppadresd-web-prod` + CloudFront `E3736H4CGEE9U7`.
+# OIDC: rol AWS `cooppadresd-gha-web` (trust solo a main de este repo).
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "public/**"
+      - "index.html"
+      - "vite.config.ts"
+      - "tsconfig.json"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/deploy-web.yml"
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+# Nunca cancelar un deploy a medias: dejaría S3 con assets nuevos y HTML viejo.
+concurrency:
+  group: deploy-web-prod
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: us-east-2
+  AWS_ROLE: arn:aws:iam::933629770820:role/cooppadresd-gha-web
+  WEB_BUCKET: cooppadresd-web-prod
+  DISTRIBUTION_ID: E3736H4CGEE9U7
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run check
+
+      - name: Build
+        run: npm run build
+
+      - name: Validar artefacto
+        run: |
+          test -f dist/index.html
+          test -d dist/assets
+          test "$(ls dist/assets | wc -l)" -gt 0
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-dist
+          path: dist
+          retention-days: 7
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: web-dist
+          path: dist
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # Orden pensado para no romper clientes con el HTML en caché:
+      # 1) subir assets nuevos, 2) HTML, 3) borrar huérfanos.
+      - name: Subir assets con hash
+        run: |
+          aws s3 sync dist/assets "s3://$WEB_BUCKET/assets" \
+            --size-only \
+            --cache-control "public, max-age=31536000, immutable"
+
+      - name: Subir estáticos de raíz
+        run: |
+          aws s3 sync dist "s3://$WEB_BUCKET" \
+            --exclude "index.html" \
+            --exclude "assets/*" \
+            --cache-control "public, max-age=3600"
+
+      - name: Publicar index.html sin caché
+        run: |
+          aws s3 cp dist/index.html "s3://$WEB_BUCKET/index.html" \
+            --cache-control "no-cache, must-revalidate" \
+            --content-type "text/html; charset=utf-8"
+
+      # Solo assets (hasheados). La raíz NO se limpia nunca: mascot/, sitemap.xml
+      # y social-cover.jpg se gestionan fuera del repo y no deben borrarse.
+      - name: Limpiar assets huérfanos
+        run: |
+          aws s3 sync dist/assets "s3://$WEB_BUCKET/assets" \
+            --delete \
+            --size-only \
+            --cache-control "public, max-age=31536000, immutable"
+
+      - name: Invalidar CloudFront
+        run: |
+          id=$(aws cloudfront create-invalidation \
+            --distribution-id "$DISTRIBUTION_ID" \
+            --paths "/*" \
+            --query 'Invalidation.Id' --output text)
+          echo "Invalidación: $id"
+          aws cloudfront wait invalidation-completed \
+            --distribution-id "$DISTRIBUTION_ID" --id "$id"
+
+      - name: Verificar producción
+        run: |
+          curl -sS -o /dev/null -w "www.coppadresd.com -> %{http_code}\n" \
+            -H "Cache-Control: no-cache" https://www.coppadresd.com/
