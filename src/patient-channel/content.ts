@@ -14,6 +14,7 @@ export interface PatientChannelSection {
 
 export interface PatientChannelContent {
   metaTitle: string;
+  metaDescription: string;
   home: string;
   eyebrow: string;
   title: string;
@@ -27,6 +28,8 @@ export interface PatientChannelContent {
 
 const es: PatientChannelContent = {
   metaTitle: "Canal de WhatsApp para pacientes | COPP-ADRESD",
+  metaDescription:
+    "Canal oficial de WhatsApp del programa COPP-ADRESD para el acompañamiento de pacientes inscritos: opt-in, baja con SALIR/STOP y privacidad.",
   home: "Ir al inicio",
   eyebrow: "Canal de atención",
   title: "WhatsApp para pacientes COPP-ADRESD",
@@ -84,6 +87,8 @@ const es: PatientChannelContent = {
 
 const en: PatientChannelContent = {
   metaTitle: "Patient WhatsApp channel | COPP-ADRESD",
+  metaDescription:
+    "Official WhatsApp channel of the COPP-ADRESD program for enrolled patients: opt-in, opt-out with SALIR/STOP and privacy.",
   home: "Go to home",
   eyebrow: "Care channel",
   title: "WhatsApp for COPP-ADRESD patients",

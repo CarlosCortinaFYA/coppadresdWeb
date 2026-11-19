@@ -19,8 +19,17 @@ export function PatientChannelPage() {
   const c = patientChannelContent[language];
 
   useEffect(() => {
-    document.title = c.metaTitle;
-  }, [c.metaTitle]);
+    // El proveedor de preferencias reescribe el título global al cambiar de
+    // idioma; este efecto lo restaura después para que la pestaña conserve el
+    // título de esta página.
+    const id = window.setTimeout(() => {
+      document.title = c.metaTitle;
+      document
+        .querySelector('meta[name="description"]')
+        ?.setAttribute("content", c.metaDescription);
+    }, 0);
+    return () => window.clearTimeout(id);
+  }, [c.metaTitle, c.metaDescription]);
 
   return (
     <div className="account-page">

@@ -49,7 +49,10 @@
   margin: 0 0 10px;
   font-family: var(--display);
   font-size: 1.15rem;
+  font-weight: 650;
   line-height: 1.3;
+  letter-spacing: normal;
+  white-space: normal;
 }
 
 .patient-card p {
