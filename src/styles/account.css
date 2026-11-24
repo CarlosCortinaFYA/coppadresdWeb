@@ -69,7 +69,7 @@
   font-weight: 600;
   font-size: 0.92rem;
 }
-.account-card input:not([type="radio"]) {
+.account-card input:not([type="radio"], [type="checkbox"]) {
   width: 100%;
   min-height: 46px;
   padding: 0 14px;
@@ -78,7 +78,7 @@
   background: var(--surface-soft);
   color: var(--ink);
 }
-.account-card input:not([type="radio"])::placeholder {
+.account-card input:not([type="radio"], [type="checkbox"])::placeholder {
   color: var(--subtle);
   opacity: 1;
 }
@@ -96,6 +96,79 @@
   align-items: center;
   gap: 10px;
   font-weight: 500;
+}
+.account-activation-terms,
+.account-activation-fields {
+  display: block;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.account-activation-terms legend {
+  margin-bottom: 8px;
+  padding: 0;
+  font-weight: 700;
+}
+.account-activation-document {
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-soft);
+}
+.account-activation-document summary {
+  cursor: pointer;
+  color: var(--primary);
+  font-weight: 650;
+}
+.account-document-text {
+  margin-top: 8px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  line-height: 1.6;
+}
+.account-card .account-activation-checkbox {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  min-height: 36px;
+  margin: 8px 0 0;
+  cursor: pointer;
+}
+.account-activation-checkbox input {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--primary);
+}
+.account-activation-names {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+}
+.account-loading {
+  display: block;
+  width: 22px;
+  height: 22px;
+  margin: 0 auto;
+  border: 3px solid var(--line);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .account-loading { animation: account-loading 0.8s linear infinite; }
+}
+@keyframes account-loading {
+  to { transform: rotate(360deg); }
+}
+@media (max-width: 420px) {
+  .account-activation-names {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
 }
 .account-actions {
   display: flex;

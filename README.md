@@ -15,6 +15,8 @@ npm run preview   # http://127.0.0.1:4174
 
 Se mantienen la configuración y el lockfile de Yarn existentes. No se añadieron dependencias para esta actualización. Vite conserva los allowedHosts configurados y las restricciones de acceso a los documentos internos.
 
+Para probar la activación por correo desde `/membresia`, inicia Vite con `VITE_PAID_ACTIVATION_DEMO=true` y apunta `DEV_PROXY_TARGET` al gateway local con la simulación habilitada y un buzón SMTP de pruebas. Los enlaces abren `/activar-membresia` o `/activate-membership`. El navegador conserva la referencia del pago simulado y el plan pendiente en la sesión. Después de recargar, consulta el recibo en Auth para mostrar el plan y monto confirmados.
+
 ## Arquitectura
 
 - `src/programs/data.ts`: registro tipado de los cuatro programas; el contenido ES/EN se organiza en módulos por programa. Weight Support Plus es la selección inicial.

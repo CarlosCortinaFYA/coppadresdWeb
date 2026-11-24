@@ -8,6 +8,23 @@ import { BrandMark } from "../components/BrandMark";
 import { CHECKOUT_URL, PLANS, selectionReference, totalsOf, usd } from "./data";
 import type { PlanId } from "./data";
 import { membershipContent } from "./content";
+import {
+  activateDemoMembership,
+  currentDemoStatus,
+  readDemoMembership,
+  renewDemoMembership,
+  saveDemoMembership,
+} from "./demoMembership";
+import type { DemoMembership } from "./demoMembership";
+import {
+  getPaidDemoReceipt,
+  paidActivationDemoConfigured,
+  postPaidDemo,
+  readPaidDemoAttempt,
+  readPaidDemoReceipt,
+  savePaidDemoAttempt,
+} from "./paidActivationDemo";
+import type { PaidDemoReceipt } from "./paidActivationDemo";
 import "../styles/membership.css";
 
 /* ------------------------------------------------------------------ */
@@ -31,24 +48,6 @@ const formatExpiry = (value: string) => {
   const d = digitsOf(value, 4);
   return d.length > 2 ? `${d.slice(0, 2)}/${d.slice(2)}` : d;
 };
-
-/** Verificación de Luhn: realismo del formulario demo (mínimo 13 dígitos). */
-function luhnValid(value: string): boolean {
-  const n = digitsOf(value);
-  if (n.length < 13) return false;
-  let sum = 0;
-  let double = false;
-  for (let i = n.length - 1; i >= 0; i--) {
-    let digit = Number(n[i]);
-    if (double) {
-      digit *= 2;
-      if (digit > 9) digit -= 9;
-    }
-    sum += digit;
-    double = !double;
-  }
-  return sum % 10 === 0;
-}
 
 /** Anima el monto del resumen con interpolación suave (respeta reduce). */
 function useCountUp(target: number): number {
@@ -97,9 +96,20 @@ const EMPTY_FORM: CardForm = {
 };
 
 type Step = "plan" | "checkout" | "processing" | "done";
+type PaidDemoConfirmation = {
+  paymentId: string;
+  email: string;
+  plan: PlanId;
+  language: "es" | "en";
+};
+type PaidDemoError = "paymentError" | "resendError" | "rate";
+type PaidDemoFeedback =
+  | { kind: "idle" | "busy" | "recovering" | "resent" }
+  | { kind: "error"; message: PaidDemoError };
 
 const STEP_ORDER: Step[] = ["plan", "checkout", "processing", "done"];
 const PROCESS_STAGE_MS = 900;
+const showPaidActivationDemo = import.meta.env.DEV && paidActivationDemoConfigured;
 
 function SectionHead({
   index,
@@ -135,13 +145,26 @@ export function MembershipPage() {
   const { language, theme, toggleLanguage, toggleTheme } = usePreferences();
   const c = membershipContent[language];
 
-  const [plan, setPlan] = useState<PlanId>("annual");
-  const [step, setStep] = useState<Step>("plan");
+  const [demoMembership, setDemoMembership] = useState(() =>
+    CHECKOUT_URL || showPaidActivationDemo ? null : readDemoMembership(),
+  );
+  const [savedAttempt] = useState(() =>
+    showPaidActivationDemo ? readPaidDemoAttempt() : null,
+  );
+  const [paidReceipt, setPaidReceipt] = useState<PaidDemoReceipt | null>(null);
+  const [plan, setPlan] = useState<PlanId>(demoMembership?.plan ?? savedAttempt?.plan ?? "annual");
+  const [step, setStep] = useState<Step>(demoMembership ? "done" : savedAttempt ? "checkout" : "plan");
   const [stage, setStage] = useState(0);
-  const [orderRef, setOrderRef] = useState("");
   const [form, setForm] = useState<CardForm>(EMPTY_FORM);
-  const [showErrors, setShowErrors] = useState(false);
+  const [paidFeedback, setPaidFeedback] = useState<PaidDemoFeedback>({
+    kind: savedAttempt ? "recovering" : "idle",
+  });
+  const paidBusy = paidFeedback.kind === "busy" || paidFeedback.kind === "recovering";
+  const paidError = paidFeedback.kind === "error" ? c.paidDemo[paidFeedback.message] : null;
+  const demoStatus = demoMembership ? currentDemoStatus(demoMembership) : null;
 
+  const paidAttempt = useRef(savedAttempt);
+  const paidRequestPending = useRef(false);
   const timers = useRef<number[]>([]);
   const firstRun = useRef(true);
 
@@ -151,6 +174,30 @@ export function MembershipPage() {
   useEffect(() => {
     document.title = c.metaTitle;
   }, [c.metaTitle]);
+
+  useEffect(() => {
+    if (!savedAttempt) return;
+    let active = true;
+
+    async function recoverReceipt(paymentId: string) {
+      try {
+        const response = await getPaidDemoReceipt(paymentId);
+        if (!active) return;
+        if (response.status === 404) {
+          setPaidFeedback({ kind: "idle" });
+          return;
+        }
+        if (!response.ok) throw new Error("No se pudo recuperar el comprobante");
+        const receipt = await readPaidDemoReceipt(response, paymentId);
+        if (active) openPaidReceipt(receipt);
+      } catch {
+        if (active) setPaidFeedback({ kind: "error", message: "paymentError" });
+      }
+    }
+
+    void recoverReceipt(savedAttempt.paymentId);
+    return () => { active = false; };
+  }, [savedAttempt]);
 
   // Al cambiar de paso se vuelve al inicio y se anuncia el título del paso.
   useEffect(() => {
@@ -221,7 +268,16 @@ export function MembershipPage() {
 
   const goCheckout = () => setStep("checkout");
   const goBack = () => {
+    if (paidRequestPending.current || paidBusy) return;
+    if (showPaidActivationDemo && paidReceipt) {
+      savePaidDemoAttempt(null);
+      setPaidReceipt(null);
+      setForm(EMPTY_FORM);
+      paidAttempt.current = null;
+    }
+    setPaidFeedback({ kind: "idle" });
     timers.current.forEach(clearTimeout);
+    timers.current = [];
     setStage(0);
     setStep("plan");
   };
@@ -231,46 +287,85 @@ export function MembershipPage() {
       ? `${c.summary.planAnnual} (${usd(totals.planYear)} ${c.sections.recurring})`
       : `${c.summary.planMonthly} (${usd(totals.monthly)} ${c.sections.recurringMonth})`;
 
+  const updateDemoMembership = (next: DemoMembership) => {
+    setDemoMembership(next);
+    saveDemoMembership(next);
+  };
+
   const startProcessing = () => {
-    timers.current.forEach(clearTimeout);
+    if (timers.current.length > 0) return;
     setStage(0);
-    setOrderRef(
-      `CO-${Date.now().toString(36).toUpperCase().slice(-6).padStart(6, "0")}`,
-    );
     setStep("processing");
     for (let i = 1; i <= 3; i++) {
       timers.current.push(
         window.setTimeout(() => setStage(i), i * PROCESS_STAGE_MS),
       );
     }
-    timers.current.push(
-      window.setTimeout(() => setStep("done"), 3 * PROCESS_STAGE_MS + 400),
-    );
+    timers.current.push(window.setTimeout(() => {
+      timers.current = [];
+      updateDemoMembership(activateDemoMembership(plan));
+      setStep("done");
+    }, 3 * PROCESS_STAGE_MS + 400));
   };
 
-  /* ---------------- Validación del formulario demo ---------------- */
-  const nameOk = form.name.trim().length >= 2;
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim());
-  const cardOk = luhnValid(form.card);
-  const expOk = /^(0[1-9]|1[0-2])\/\d{2}$/.test(form.exp);
-  const cscOk = /^\d{3,4}$/.test(form.csc);
-  const formOk = nameOk && emailOk && cardOk && expOk && cscOk;
+  function openPaidReceipt(receipt: PaidDemoReceipt) {
+    const { paymentId, plan: settledPlan } = receipt;
+    paidAttempt.current = { paymentId, plan: settledPlan };
+    savePaidDemoAttempt(paidAttempt.current);
+    setPaidReceipt(receipt);
+    setPlan(settledPlan);
+    setForm(EMPTY_FORM);
+    setPaidFeedback({ kind: "idle" });
+    setStep("done");
+  }
+
+  async function sendPaidRequest(request:
+    | { action: "confirm"; body: PaidDemoConfirmation }
+    | { action: "resend"; body: { paymentId: string } },
+  ) {
+    if (paidRequestPending.current) return;
+    paidRequestPending.current = true;
+    setPaidFeedback({ kind: "busy" });
+    const { action, body } = request;
+    const failure = action === "confirm" ? "paymentError" : "resendError";
+    try {
+      const response = await postPaidDemo(action, body);
+      if (response.status !== 202) {
+        setPaidFeedback({ kind: "error", message: response.status === 429 ? "rate" : failure });
+        return;
+      }
+      if (action === "resend") {
+        setPaidFeedback({ kind: "resent" });
+        return;
+      }
+      openPaidReceipt(await readPaidDemoReceipt(response, body.paymentId));
+    } catch {
+      setPaidFeedback({ kind: "error", message: failure });
+    } finally {
+      paidRequestPending.current = false;
+    }
+  }
 
   const onPay = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (showPaidActivationDemo) {
+      if (paidRequestPending.current || paidBusy) return;
+      const email = form.email.trim();
+      try {
+        const paymentId = paidAttempt.current?.paymentId ?? crypto.randomUUID();
+        // El ID se guarda antes de enviar para conservar la misma compra si se pierde la respuesta.
+        paidAttempt.current = { paymentId, plan };
+        savePaidDemoAttempt(paidAttempt.current);
+        void sendPaidRequest({ action: "confirm", body: { paymentId, email, plan, language } });
+      } catch {
+        setPaidFeedback({ kind: "error", message: "paymentError" });
+      }
+      return;
+    }
     if (CHECKOUT_URL) {
       // Pasarela real: mismo contrato client_reference_id que el mock original.
       const url = `${CHECKOUT_URL}${CHECKOUT_URL.includes("?") ? "&" : "?"}client_reference_id=${encodeURIComponent(selectionReference({ plan }))}`;
       window.location.assign(url);
-      return;
-    }
-    if (!formOk) {
-      setShowErrors(true);
-      window.setTimeout(() => {
-        document
-          .querySelector<HTMLDivElement>(".m-checkout .m-field.has-error input")
-          ?.focus();
-      }, 30);
       return;
     }
     startProcessing();
@@ -280,8 +375,6 @@ export function MembershipPage() {
     selectionText,
     usd(totals.dueToday),
   );
-  const fieldClass = (ok: boolean) =>
-    `m-field${showErrors && !ok ? " has-error" : ""}`;
 
   /* ---------------- Cabezal de pasos ---------------- */
 
@@ -352,7 +445,7 @@ export function MembershipPage() {
       </div>
       {step === "plan" ? (
         <button className="button m-cta" type="button" onClick={goCheckout}>
-          {c.summary.continue}
+          {CHECKOUT_URL ? c.summary.continue : c.simulation.continue}
           <Icon name="arrow" size={18} />
         </button>
       ) : null}
@@ -435,8 +528,13 @@ export function MembershipPage() {
 
   const checkoutStep = (
     <div className="m-step" key="checkout">
-      <form className="m-card m-checkout" onSubmit={onPay} noValidate>
-        <button type="button" className="m-back" onClick={goBack}>
+      <form
+        className="m-card m-checkout"
+        onSubmit={onPay}
+        noValidate={!showPaidActivationDemo}
+        aria-busy={paidBusy}
+      >
+        <button type="button" className="m-back" onClick={goBack} disabled={paidBusy}>
           {c.checkout.back}
           <Icon name="chevron" size={16} />
         </button>
@@ -445,153 +543,164 @@ export function MembershipPage() {
           {c.checkout.eyebrow}
         </p>
         <h2 id="m-step-heading" tabIndex={-1}>
-          {c.checkout.title}
+          {CHECKOUT_URL ? c.checkout.title : c.simulation.checkoutTitle}
         </h2>
-        <p className="m-step-desc">{c.checkout.description}</p>
+        <p className="m-step-desc" id="m-checkout-description">
+          {CHECKOUT_URL ? c.checkout.description : showPaidActivationDemo ? c.paidDemo.description : c.simulation.checkoutDescription}
+        </p>
 
-        <fieldset className="m-fieldset">
-          <legend>{c.checkout.contactTitle}</legend>
-          <div className={fieldClass(nameOk)}>
-            <label htmlFor="m-name">{c.checkout.name}</label>
+        {showPaidActivationDemo && (
+          <div className="m-field">
+            <label htmlFor="m-paid-demo-email">{c.paidDemo.email}</label>
             <input
-              id="m-name"
-              name="name"
-              autoComplete="name"
-              enterKeyHint="next"
-              value={form.name}
-              onChange={(e) => {
-                setForm({ ...form, name: e.target.value });
-                setShowErrors(false);
-              }}
-            />
-            <span className="m-error" role="alert">
-              {showErrors && !nameOk ? c.checkout.errorForm : ""}
-            </span>
-          </div>
-          <div className={fieldClass(emailOk)}>
-            <label htmlFor="m-email">{c.checkout.email}</label>
-            <input
-              id="m-email"
+              id="m-paid-demo-email"
               name="email"
               type="email"
               autoComplete="email"
-              enterKeyHint="next"
+              placeholder={c.checkout.emailPlaceholder}
+              maxLength={254}
+              aria-describedby="m-checkout-description"
+              required
+              disabled={paidBusy}
               value={form.email}
-              onChange={(e) => {
-                setForm({ ...form, email: e.target.value });
-                setShowErrors(false);
-              }}
+              onChange={(event) => setForm({ ...form, email: event.target.value })}
             />
-            <span className="m-error" role="alert">
-              {showErrors && !emailOk ? c.checkout.errorForm : ""}
-            </span>
           </div>
-        </fieldset>
+        )}
+        {CHECKOUT_URL && (
+          <>
+            <fieldset className="m-fieldset">
+              <legend>{c.checkout.contactTitle}</legend>
+              <div className="m-field">
+                <label htmlFor="m-name">{c.checkout.name}</label>
+                <input
+                  id="m-name"
+                  name="name"
+                  autoComplete="name"
+                  enterKeyHint="next"
+                  value={form.name}
+                  onChange={(e) => {
+                    setForm({ ...form, name: e.target.value });
+                  }}
+                />
+              </div>
+              <div className="m-field">
+                <label htmlFor="m-email">{c.checkout.email}</label>
+                <input
+                  id="m-email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder={c.checkout.emailPlaceholder}
+                  enterKeyHint="next"
+                  value={form.email}
+                  onChange={(e) => {
+                    setForm({ ...form, email: e.target.value });
+                  }}
+                />
+              </div>
+            </fieldset>
 
-        <fieldset className="m-fieldset is-card">
-          <legend>
-            <Icon name="card" size={17} />
-            {c.checkout.cardTitle}
-          </legend>
-          <div className={fieldClass(cardOk)}>
-            <label htmlFor="m-card">{c.checkout.cardNumber}</label>
-            <span className="m-hint" id="m-card-hint">
-              {c.checkout.numberHint}
-            </span>
-            <input
-              id="m-card"
-              name="cc-number"
-              type="text"
-              inputMode="numeric"
-              autoComplete="cc-number"
-              maxLength={19}
-              aria-describedby="m-card-hint"
-              placeholder="1234 5678 9012 3456"
-              enterKeyHint="next"
-              value={form.card}
-              onChange={(e) => {
-                setForm({ ...form, card: formatCardNumber(e.target.value) });
-                setShowErrors(false);
-              }}
-            />
-            <span className="m-error" role="alert">
-              {showErrors && !cardOk ? c.checkout.errorCard : ""}
-            </span>
-          </div>
-          <div className="m-field">
-            <label htmlFor="m-ccname">{c.checkout.cardName}</label>
-            <input
-              id="m-ccname"
-              name="cc-name"
-              type="text"
-              autoComplete="cc-name"
-              maxLength={50}
-              enterKeyHint="next"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-            />
-          </div>
-          <div className="m-field-row">
-            <div className={fieldClass(expOk)}>
-              <label htmlFor="m-exp">{c.checkout.expiry}</label>
-              <span className="m-hint" id="m-exp-hint">
-                {c.checkout.expiryHint}
-              </span>
-              <input
-                id="m-exp"
-                name="cc-exp"
-                type="text"
-                inputMode="numeric"
-                autoComplete="cc-exp"
-                maxLength={5}
-                aria-describedby="m-exp-hint"
-                placeholder="MM/AA"
-                enterKeyHint="next"
-                value={form.exp}
-                onChange={(e) => {
-                  setForm({ ...form, exp: formatExpiry(e.target.value) });
-                  setShowErrors(false);
-                }}
-              />
-              <span className="m-error" role="alert">
-                {showErrors && !expOk ? c.checkout.errorForm : ""}
-              </span>
-            </div>
-            <div className={fieldClass(cscOk)}>
-              <label htmlFor="m-csc">{c.checkout.csc}</label>
-              <span className="m-hint" id="m-csc-hint">
-                {c.checkout.cscHint}
-              </span>
-              <input
-                id="m-csc"
-                name="cc-csc"
-                type="text"
-                inputMode="numeric"
-                autoComplete="cc-csc"
-                maxLength={4}
-                aria-describedby="m-csc-hint"
-                enterKeyHint="done"
-                value={form.csc}
-                onChange={(e) => {
-                  setForm({ ...form, csc: digitsOf(e.target.value, 4) });
-                  setShowErrors(false);
-                }}
-              />
-              <span className="m-error" role="alert">
-                {showErrors && !cscOk ? c.checkout.errorForm : ""}
-              </span>
-            </div>
-          </div>
-        </fieldset>
+            <fieldset className="m-fieldset is-card">
+              <legend>
+                <Icon name="card" size={17} />
+                {c.checkout.cardTitle}
+              </legend>
+              <div className="m-field">
+                <label htmlFor="m-card">{c.checkout.cardNumber}</label>
+                <span className="m-hint" id="m-card-hint">
+                  {c.checkout.numberHint}
+                </span>
+                <input
+                  id="m-card"
+                  name="cc-number"
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="cc-number"
+                  maxLength={19}
+                  aria-describedby="m-card-hint"
+                  placeholder="1234 5678 9012 3456"
+                  enterKeyHint="next"
+                  value={form.card}
+                  onChange={(e) => {
+                    setForm({ ...form, card: formatCardNumber(e.target.value) });
+                  }}
+                />
+              </div>
+              <div className="m-field">
+                <label htmlFor="m-ccname">{c.checkout.cardName}</label>
+                <input
+                  id="m-ccname"
+                  name="cc-name"
+                  type="text"
+                  autoComplete="cc-name"
+                  maxLength={50}
+                  enterKeyHint="next"
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                />
+              </div>
+              <div className="m-field-row">
+                <div className="m-field">
+                  <label htmlFor="m-exp">{c.checkout.expiry}</label>
+                  <span className="m-hint" id="m-exp-hint">
+                    {c.checkout.expiryHint}
+                  </span>
+                  <input
+                    id="m-exp"
+                    name="cc-exp"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="cc-exp"
+                    maxLength={5}
+                    aria-describedby="m-exp-hint"
+                    placeholder={c.checkout.expiryPlaceholder}
+                    enterKeyHint="next"
+                    value={form.exp}
+                    onChange={(e) => {
+                      setForm({ ...form, exp: formatExpiry(e.target.value) });
+                    }}
+                  />
+                </div>
+                <div className="m-field">
+                  <label htmlFor="m-csc">{c.checkout.csc}</label>
+                  <span className="m-hint" id="m-csc-hint">
+                    {c.checkout.cscHint}
+                  </span>
+                  <input
+                    id="m-csc"
+                    name="cc-csc"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="cc-csc"
+                    maxLength={4}
+                    aria-describedby="m-csc-hint"
+                    enterKeyHint="done"
+                    value={form.csc}
+                    onChange={(e) => {
+                      setForm({ ...form, csc: digitsOf(e.target.value, 4) });
+                    }}
+                  />
+                </div>
+              </div>
+            </fieldset>
+          </>
+        )}
 
-        <button className="button m-cta" type="submit">
+        {paidFeedback.kind === "recovering" && <p className="m-step-desc" role="status">{c.paidDemo.recovering}</p>}
+        {paidError && <p className="m-step-desc" role="alert">{paidError}</p>}
+        <button className="button m-cta" type="submit" disabled={paidBusy}>
           <Icon name="lock" size={16} />
-          {c.checkout.pay} {usd(totals.dueToday)}
+          {showPaidActivationDemo
+            ? c.paidDemo.confirm
+            : `${CHECKOUT_URL ? c.checkout.pay : c.simulation.pay} ${usd(totals.dueToday)}`}
         </button>
-        <p className="m-secure">
-          <Icon name="lock" size={14} />
-          {c.checkout.secureNote}
-        </p>
+        {!showPaidActivationDemo && (
+          <p className="m-secure">
+            <Icon name="lock" size={14} />
+            {CHECKOUT_URL ? c.checkout.secureNote : c.processing.note}
+          </p>
+        )}
         <a
           className="m-whatsapp-link"
           href={whatsappUrl(whatsappMessage)}
@@ -621,7 +730,7 @@ export function MembershipPage() {
           <span style={{ inlineSize: `${Math.round((stage / 3) * 100)}%` }} />
         </div>
         <ol>
-          {c.processing.steps.map((label, i) => (
+          {(CHECKOUT_URL ? c.processing.steps : c.simulation.steps).map((label, i) => (
             <li key={label} className={stage > i ? "is-on" : ""}>
               <span className="m-dot">
                 <Icon name="check" size={12} />
@@ -638,38 +747,121 @@ export function MembershipPage() {
   const doneStep = (
     <div className="m-step" key="done">
       <div className="m-card m-done">
-        <span className="m-done-check" aria-hidden="true">
-          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
-            <circle cx="32" cy="32" r="30" strokeWidth="3" />
-            <path d="M20 33.5 28.5 42 45 24" strokeWidth="4" />
-          </svg>
-        </span>
+        {demoStatus === "active" && (
+          <span className="m-done-check" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor">
+              <circle cx="32" cy="32" r="30" strokeWidth="3" />
+              <path d="M20 33.5 28.5 42 45 24" strokeWidth="4" />
+            </svg>
+          </span>
+        )}
         <p className="m-step-eyebrow">{c.done.eyebrow}</p>
         <h2 id="m-step-heading" tabIndex={-1}>
-          {c.done.title}
+          {CHECKOUT_URL ? c.done.title : paidReceipt ? c.paidDemo.receiptTitle : c.simulation.receiptTitle}
         </h2>
-        <p className="m-step-desc">{c.done.description}</p>
-        <div className="m-ref">
-          <span>{c.done.reference}</span>
-          <strong>{orderRef}</strong>
-        </div>
-        <h3>{c.done.nextTitle}</h3>
-        <ul className="m-next-list">
-          {c.done.next.map((line, i) => (
-            <li key={line}>
-              <span className="m-dot">
-                {i === 0 ? (
-                  <Icon name="check" size={12} />
-                ) : i === 1 ? (
-                  <Icon name="person" size={12} />
-                ) : (
-                  <Icon name="sparkles" size={12} />
+        {showPaidActivationDemo && paidReceipt && (
+          <>
+            <p className="m-step-desc">{c.paidDemo.receiptHint}</p>
+            <dl className="m-paid-receipt">
+              <div>
+                <dt>{c.sections.plan}</dt>
+                <dd>{paidReceipt.plan === "annual" ? c.summary.planAnnual : c.summary.planMonthly}</dd>
+              </div>
+              <div>
+                <dt>{c.paidDemo.receiptAmount}</dt>
+                <dd>{usd(paidReceipt.amountCents / 100)}</dd>
+              </div>
+            </dl>
+            <button
+              className="button"
+              type="button"
+              disabled={paidBusy}
+              onClick={() => void sendPaidRequest({ action: "resend", body: { paymentId: paidReceipt.paymentId } })}
+            >
+              {c.paidDemo.resend}
+            </button>
+            {paidFeedback.kind === "resent" && <p className="m-step-desc" role="status">{c.paidDemo.resent}</p>}
+            {paidError && <p className="m-step-desc" role="alert">{paidError}</p>}
+          </>
+        )}
+        {demoMembership && demoStatus && (
+          <>
+            <section aria-label={c.simulation.statusLabel}>
+              <div className="m-ref">
+                <span>{c.done.reference}</span>
+                <strong>{demoMembership.reference}</strong>
+              </div>
+              <div className="m-rows">
+                <div className="m-row">
+                  <span>{c.simulation.statusCaption}</span>
+                  <b role="status">{c.simulation.status[demoStatus]}</b>
+                </div>
+                <div className="m-row">
+                  <span>{c.simulation.expires}</span>
+                  <b>
+                    <time dateTime={new Date(demoMembership.expiresAt).toISOString().slice(0, 10)}>
+                      {new Intl.DateTimeFormat(language, { dateStyle: "medium", timeZone: "UTC" })
+                        .format(demoMembership.expiresAt)}
+                    </time>
+                  </b>
+                </div>
+              </div>
+            </section>
+            {demoStatus !== "canceled" && (
+              <div className="m-done-actions">
+                <button
+                  className="button"
+                  type="button"
+                  onClick={() => updateDemoMembership(renewDemoMembership(demoMembership))}
+                >
+                  {c.simulation.renew}
+                </button>
+                {demoStatus === "active" && (
+                  <button
+                    className="m-ghost"
+                    type="button"
+                    onClick={() => updateDemoMembership({
+                      ...demoMembership,
+                      expiresAt: Date.now(),
+                      status: "expired",
+                    })}
+                  >
+                    {c.simulation.expire}
+                  </button>
                 )}
-              </span>
-              {line}
-            </li>
-          ))}
-        </ul>
+                <button
+                  className="m-ghost"
+                  type="button"
+                  onClick={() => updateDemoMembership({ ...demoMembership, status: "canceled" })}
+                >
+                  {c.simulation.cancel}
+                </button>
+              </div>
+            )}
+          </>
+        )}
+        {CHECKOUT_URL && (
+          <>
+            <p className="m-step-desc">{c.done.description}</p>
+            <h3>{c.done.nextTitle}</h3>
+            <ul className="m-next-list">
+              {c.done.next.map((line, i) => (
+                <li key={line}>
+                  <span className="m-dot">
+                    {i === 0 ? (
+                      <Icon name="check" size={12} />
+                    ) : i === 1 ? (
+                      <Icon name="person" size={12} />
+                    ) : (
+                      <Icon name="sparkles" size={12} />
+                    )}
+                  </span>
+                  {line}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
         <div className="m-done-actions">
           <button
             className="button"
@@ -679,7 +871,7 @@ export function MembershipPage() {
             {c.done.home}
             <Icon name="arrow" size={17} />
           </button>
-          <button className="m-ghost" type="button" onClick={goBack}>
+          <button className="m-ghost" type="button" onClick={goBack} disabled={paidBusy}>
             {c.done.again}
           </button>
           <a
@@ -692,7 +884,11 @@ export function MembershipPage() {
             <Icon name="diagonal" size={15} />
           </a>
         </div>
-        <p className="m-demo-note">{c.done.disclaimer}</p>
+        {!paidReceipt && (
+          <p className="m-demo-note">
+            {CHECKOUT_URL ? c.done.disclaimer : c.simulation.disclaimer}
+          </p>
+        )}
       </div>
     </div>
   );
@@ -701,6 +897,7 @@ export function MembershipPage() {
     step === "processing" || step === "done"
       ? "m-layout is-centered"
       : "m-layout";
+  const compact = showPaidActivationDemo && step !== "plan";
   const body: ReactNode =
     step === "plan"
       ? planStep
@@ -765,8 +962,8 @@ export function MembershipPage() {
         </div>
       </header>
 
-      <main id="main" className="container m-main">
-        <div className="m-hero">
+      <main id="main" className={compact ? "container m-main is-compact" : "container m-main"}>
+        {!compact && <div className="m-hero">
           <p className="eyebrow">
             <span />
             {c.eyebrow}
@@ -785,11 +982,11 @@ export function MembershipPage() {
               </li>
             ))}
           </ul>
-        </div>
+        </div>}
         {stepper}
         <div className={bodyWidth}>
           {body}
-          {step !== "processing" && summaryCard}
+          {step !== "processing" && !paidReceipt && summaryCard}
         </div>
 
         <section className="m-legal">

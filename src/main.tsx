@@ -2,6 +2,7 @@ import { StrictMode, Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
 import { PreferencesProvider } from "./i18n/Preferences";
+import { paidActivationDemoConfigured } from "./membership/paidActivationDemo";
 import { ROUTES, usePathname } from "./router";
 import "./styles/index.css";
 // Orden de hojas heredado: programs.css va después de index.css.
@@ -19,6 +20,11 @@ const ResetPasswordPage = lazy(() =>
     default: m.ResetPasswordPage,
   })),
 );
+const ActivateMembershipPage = import.meta.env.DEV && paidActivationDemoConfigured
+  ? lazy(() => import("./account/ActivateMembershipPage").then((m) => ({
+      default: m.ActivateMembershipPage,
+    })))
+  : null;
 // La membresía es un micro-frontend igual: chunk y CSS independientes.
 const MembershipPage = lazy(() =>
   import("./membership/MembershipPage").then((m) => ({
@@ -35,6 +41,16 @@ const PatientChannelPage = lazy(() =>
 
 function Router() {
   const pathname = usePathname();
+  if (
+    ActivateMembershipPage &&
+    (pathname === ROUTES.activateMembership || pathname === ROUTES.activateMembershipEnglish)
+  ) {
+    return (
+      <Suspense fallback={null}>
+        <ActivateMembershipPage />
+      </Suspense>
+    );
+  }
   if (pathname === ROUTES.resetPassword || pathname === ROUTES.resetPasswordEnglish) {
     return (
       <Suspense fallback={null}>

@@ -84,6 +84,34 @@
   padding-top: 38px;
   padding-bottom: 34px;
 }
+.m-main.is-compact {
+  padding-top: 18px;
+}
+.m-main.is-compact .m-stepper {
+  margin-block: 0 18px;
+}
+.m-paid-receipt {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0 20px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-soft);
+}
+.m-paid-receipt > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+}
+.m-paid-receipt dt {
+  color: var(--muted);
+}
+.m-paid-receipt dd {
+  margin: 0;
+  font-weight: 750;
+}
 .m-hero {
   max-width: 720px;
 }
@@ -807,6 +835,7 @@
 }
 .m-field input::placeholder {
   color: var(--subtle);
+  opacity: 1;
 }
 .m-field input:focus-visible {
   outline: 3px solid var(--focus);
