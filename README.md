@@ -17,6 +17,29 @@ Se mantienen la configuración y el lockfile de Yarn existentes. No se añadiero
 
 Para probar la activación por correo desde `/membresia`, inicia Vite con `VITE_PAID_ACTIVATION_DEMO=true` y apunta `DEV_PROXY_TARGET` al gateway local con la simulación habilitada y un buzón SMTP de pruebas. Los enlaces abren `/activar-membresia` o `/activate-membership`. El navegador conserva la referencia del pago simulado y el plan pendiente en la sesión. Después de recargar, consulta el recibo en Auth para mostrar el plan y monto confirmados.
 
+Ejecuta `node e2e/paid-activation.mjs` con esta web, el Gateway, Auth, la
+API y PostgreSQL locales. Habilita `--enable-chaos` en un Mailpit desechable
+para probar el rechazo SMTP. Configura `COP_E2E_PAID_WEB_URL`,
+`COP_E2E_PAID_INBOX_URL`, `COP_E2E_PAID_DB_CONTAINER` y
+`COP_E2E_PAID_DATABASE`. Para la vinculación usa un paciente sintético
+`@example.invalid` sembrado en esa base y configura
+`COP_E2E_PAID_EXISTING_EMAIL` y `COP_E2E_PAID_EXISTING_PASSWORD`.
+El script usa Playwright de la app hermana o de `COP_PLAYWRIGHT_APP_DIR`.
+`COP_E2E_BROWSER=webkit` selecciona WebKit.
+
+Para probar los siete pasos hasta Inicio, ejecuta también
+`node e2e/paid-customer-journey.mjs`. Sembrar los documentos y los recibos
+del paciente existente con `backend/scripts/qa/seed-paid-customer-journey.sql`
+en la base desechable, con `psql --set returning_email=<correo sintético>`.
+Aplica las migraciones Auth y API antes de sembrar. Configura
+`PaidActivationDemo__AppBaseUrl` en Auth y `COP_E2E_PAID_APP_URL` en la prueba
+con el origen local de la app móvil. La web y la app usan el mismo host,
+con puertos distintos, para continuar con la sesión de Auth. Arranca
+la app en Vite con `VITE_WELLNESS_JOURNEY_DEMO=true` y su proxy al Gateway.
+Configura la API en Development con `WellnessJourneyDemo__Enabled=true`
+y `WellnessJourneyDemo__FailureOnFirstAttempt=true` para la prueba de
+reintento en Inicio.
+
 ## Arquitectura
 
 - `src/programs/data.ts`: registro tipado de los cuatro programas; el contenido ES/EN se organiza en módulos por programa. Weight Support Plus es la selección inicial.
