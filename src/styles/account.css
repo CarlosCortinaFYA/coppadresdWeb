@@ -78,6 +78,10 @@
   background: var(--surface-soft);
   color: var(--ink);
 }
+.account-card input:not([type="radio"])::placeholder {
+  color: var(--subtle);
+  opacity: 1;
+}
 .account-card input:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
