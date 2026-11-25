@@ -20,11 +20,12 @@ import {
   getPaidDemoReceipt,
   paidActivationDemoConfigured,
   postPaidDemo,
+  postMembershipEvent,
   readPaidDemoAttempt,
   readPaidDemoReceipt,
   savePaidDemoAttempt,
 } from "./paidActivationDemo";
-import type { PaidDemoReceipt } from "./paidActivationDemo";
+import type { MembershipEvent, MembershipEventKind, PaidDemoReceipt } from "./paidActivationDemo";
 import "../styles/membership.css";
 
 /* ------------------------------------------------------------------ */
@@ -101,8 +102,10 @@ type PaidDemoConfirmation = {
   email: string;
   plan: PlanId;
   language: "es" | "en";
+  checkoutKey: string;
+  trial: boolean;
 };
-type PaidDemoError = "paymentError" | "resendError" | "rate";
+type PaidDemoError = "paymentError" | "resendError" | "rate" | "eventError" | "eventConflict";
 type PaidDemoFeedback =
   | { kind: "idle" | "busy" | "recovering" | "resent" }
   | { kind: "error"; message: PaidDemoError };
@@ -165,6 +168,7 @@ export function MembershipPage() {
 
   const paidAttempt = useRef(savedAttempt);
   const paidRequestPending = useRef(false);
+  const pendingEvent = useRef<MembershipEvent | null>(null);
   const timers = useRef<number[]>([]);
   const firstRun = useRef(true);
 
@@ -310,7 +314,8 @@ export function MembershipPage() {
 
   function openPaidReceipt(receipt: PaidDemoReceipt) {
     const { paymentId, plan: settledPlan } = receipt;
-    paidAttempt.current = { paymentId, plan: settledPlan };
+    const checkoutKey = paidAttempt.current?.paymentId === paymentId ? paidAttempt.current.checkoutKey : undefined;
+    paidAttempt.current = { paymentId, plan: settledPlan, checkoutKey };
     savePaidDemoAttempt(paidAttempt.current);
     setPaidReceipt(receipt);
     setPlan(settledPlan);
@@ -346,6 +351,37 @@ export function MembershipPage() {
     }
   }
 
+  async function applyMembershipEvent(kind: MembershipEventKind) {
+    const checkoutKey = paidAttempt.current?.checkoutKey;
+    if (!paidReceipt || !checkoutKey || paidRequestPending.current) return;
+    paidRequestPending.current = true;
+    setPaidFeedback({ kind: "busy" });
+    const { paymentId, membershipRevision: expectedRevision } = paidReceipt;
+    let event = pendingEvent.current;
+    if (!event || event.kind !== kind || event.paymentId !== paymentId || event.expectedRevision !== expectedRevision) {
+      event = { paymentId, checkoutKey, kind, expectedRevision, eventId: crypto.randomUUID() };
+      pendingEvent.current = event;
+    }
+    try {
+      const response = await postMembershipEvent(event);
+      if (response.status === 409) {
+        pendingEvent.current = null;
+        const refreshed = await getPaidDemoReceipt(paymentId);
+        if (refreshed.ok) openPaidReceipt(await readPaidDemoReceipt(refreshed, paymentId));
+        setPaidFeedback({ kind: "error", message: "eventConflict" });
+      } else if (response.ok) {
+        openPaidReceipt(await readPaidDemoReceipt(response, paymentId));
+        pendingEvent.current = null;
+      } else {
+        setPaidFeedback({ kind: "error", message: response.status === 429 ? "rate" : "eventError" });
+      }
+    } catch {
+      setPaidFeedback({ kind: "error", message: "eventError" });
+    } finally {
+      paidRequestPending.current = false;
+    }
+  }
+
   const onPay = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (showPaidActivationDemo) {
@@ -353,10 +389,12 @@ export function MembershipPage() {
       const email = form.email.trim();
       try {
         const paymentId = paidAttempt.current?.paymentId ?? crypto.randomUUID();
-        // El ID se guarda antes de enviar para conservar la misma compra si se pierde la respuesta.
-        paidAttempt.current = { paymentId, plan };
+        const checkoutKey = paidAttempt.current?.checkoutKey ?? crypto.randomUUID();
+        const trial = ((event.nativeEvent as SubmitEvent).submitter as HTMLButtonElement | null)?.value === "trial";
+        // La referencia y su autorización sobreviven a una respuesta perdida.
+        paidAttempt.current = { paymentId, plan, checkoutKey };
         savePaidDemoAttempt(paidAttempt.current);
-        void sendPaidRequest({ action: "confirm", body: { paymentId, email, plan, language } });
+        void sendPaidRequest({ action: "confirm", body: { paymentId, email, plan, language, trial, checkoutKey } });
       } catch {
         setPaidFeedback({ kind: "error", message: "paymentError" });
       }
@@ -695,6 +733,11 @@ export function MembershipPage() {
             ? c.paidDemo.confirm
             : `${CHECKOUT_URL ? c.checkout.pay : c.simulation.pay} ${usd(totals.dueToday)}`}
         </button>
+        {showPaidActivationDemo && (
+          <button className="m-ghost" type="submit" value="trial" disabled={paidBusy}>
+            {c.paidDemo.startTrial}
+          </button>
+        )}
         {!showPaidActivationDemo && (
           <p className="m-secure">
             <Icon name="lock" size={14} />
@@ -757,29 +800,65 @@ export function MembershipPage() {
         )}
         <p className="m-step-eyebrow">{c.done.eyebrow}</p>
         <h2 id="m-step-heading" tabIndex={-1}>
-          {CHECKOUT_URL ? c.done.title : paidReceipt ? c.paidDemo.receiptTitle : c.simulation.receiptTitle}
+          {CHECKOUT_URL ? c.done.title
+            : paidReceipt?.membershipStatus === "active" ? c.paidDemo.receiptTitle : c.simulation.receiptTitle}
         </h2>
         {showPaidActivationDemo && paidReceipt && (
           <>
-            <p className="m-step-desc">{c.paidDemo.receiptHint}</p>
-            <dl className="m-paid-receipt">
-              <div>
-                <dt>{c.sections.plan}</dt>
-                <dd>{paidReceipt.plan === "annual" ? c.summary.planAnnual : c.summary.planMonthly}</dd>
+            <p className="m-step-desc">
+              {paidReceipt.membershipStatus === "active" ? c.paidDemo.receiptHint : c.paidDemo.inactiveHint}
+            </p>
+            <section aria-label={c.simulation.statusLabel}>
+              <dl className="m-paid-receipt">
+                <div>
+                  <dt>{c.sections.plan}</dt>
+                  <dd>{paidReceipt.plan === "annual" ? c.summary.planAnnual : c.summary.planMonthly}</dd>
+                </div>
+                {paidReceipt.membershipPaid && (
+                  <div>
+                    <dt>{c.paidDemo.receiptAmount}</dt>
+                    <dd>{usd(paidReceipt.amountCents / 100)}</dd>
+                  </div>
+                )}
+                <div>
+                  <dt>{c.simulation.statusCaption}</dt>
+                  <dd role="status">{paidReceipt.membershipStatus === "trial"
+                    ? c.paidDemo.trialStatus : c.simulation.status[paidReceipt.membershipStatus]}</dd>
+                </div>
+                <div>
+                  <dt>{c.simulation.expires}</dt>
+                  <dd>
+                    <time dateTime={paidReceipt.expiresAt.slice(0, 10)}>
+                      {new Intl.DateTimeFormat(language, { dateStyle: "medium", timeZone: "UTC" })
+                        .format(new Date(paidReceipt.expiresAt))}
+                    </time>
+                  </dd>
+                </div>
+              </dl>
+            </section>
+            {paidReceipt.membershipStatus === "active" && (
+              <button className="button" type="button" disabled={paidBusy}
+                onClick={() => void sendPaidRequest({ action: "resend", body: { paymentId: paidReceipt.paymentId } })}>
+                {c.paidDemo.resend}
+              </button>
+            )}
+            {paidAttempt.current?.checkoutKey && paidReceipt.membershipStatus !== "canceled" && (
+              <div className="m-done-actions">
+                {paidReceipt.membershipPaid ? (
+                  <button className="m-ghost" type="button" disabled={paidBusy}
+                    onClick={() => void applyMembershipEvent("renew")}>{c.simulation.renew}</button>
+                ) : (
+                  <button className="button" type="button" disabled={paidBusy}
+                    onClick={() => void applyMembershipEvent("activate")}>{c.paidDemo.confirm}</button>
+                )}
+                {(paidReceipt.membershipStatus === "active" || paidReceipt.membershipStatus === "trial") && (
+                  <button className="m-ghost" type="button" disabled={paidBusy}
+                    onClick={() => void applyMembershipEvent("expire")}>{c.simulation.expire}</button>
+                )}
+                <button className="m-ghost" type="button" disabled={paidBusy}
+                  onClick={() => void applyMembershipEvent("cancel")}>{c.simulation.cancel}</button>
               </div>
-              <div>
-                <dt>{c.paidDemo.receiptAmount}</dt>
-                <dd>{usd(paidReceipt.amountCents / 100)}</dd>
-              </div>
-            </dl>
-            <button
-              className="button"
-              type="button"
-              disabled={paidBusy}
-              onClick={() => void sendPaidRequest({ action: "resend", body: { paymentId: paidReceipt.paymentId } })}
-            >
-              {c.paidDemo.resend}
-            </button>
+            )}
             {paidFeedback.kind === "resent" && <p className="m-step-desc" role="status">{c.paidDemo.resent}</p>}
             {paidError && <p className="m-step-desc" role="alert">{paidError}</p>}
           </>

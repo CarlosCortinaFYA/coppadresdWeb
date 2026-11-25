@@ -32,7 +32,7 @@ const journey = "/api/v1/wellness/journey";
 const expectedRetry = process.env.COP_E2E_EXPECT_GENERATION_RETRY === "true";
 
 function pg(sql) {
-  return execFileSync("docker", ["--context", "default", "exec", container, "psql", "-X", "-qAt",
+  return execFileSync("docker", ["exec", container, "psql", "-X", "-qAt",
     "-v", "ON_ERROR_STOP=1", "-U", "postgres", "-d", database, "-c", sql], { encoding: "utf8" }).trim();
 }
 
@@ -140,7 +140,7 @@ async function fillQuestionnaire(page) {
 }
 
 function identity(email) {
-  assert.match(email, /^[a-z0-9.-]+@example\.invalid$/);
+  assert.match(email, /^[a-z0-9.-]+@example\.(?:invalid|test)$/);
   return pg(`SELECT u."Id", p.id FROM auth."Users" u
     JOIN app.patient_profiles p ON p.user_id = u."Id"
     WHERE u."NormalizedEmail" = upper('${email}') AND p.deleted_at IS NULL;`);
@@ -154,6 +154,7 @@ try {
   const freshPassword = "Viaje!" + randomUUID().slice(0, 8) + "A7";
   const page = await newCustomer.newPage();
   const paymentId = await confirmedCheckout(page, freshEmail, true);
+  const checkoutSession = await page.evaluate(() => sessionStorage.getItem("copp-paid-activation-demo-receipt"));
   await openWelcome(page, await mailedLink(freshEmail, paymentId), true);
   await page.route("**" + auth + "/redeem", async route => {
     const response = await route.fetch();
@@ -236,6 +237,47 @@ try {
   assert.equal(home.attempts, expectedRetry ? 2 : 1);
   assert.ok(home.exercise.result.items.length && home.nutrition.result.items.length && home.inbox.items.length);
   assert.equal(pg(`SELECT count(*) FROM app.wellness_journey_generations WHERE patient_id = '${profileId}';`), "1");
+  // La ventana de checkout conserva la compra original mientras el cliente entra a la app.
+  const checkout = await newCustomer.newPage();
+  await checkout.goto(new URL("/membresia", web).href);
+  await checkout.evaluate(value => sessionStorage.setItem("copp-paid-activation-demo-receipt", value), checkoutSession);
+  await checkout.reload();
+  await expect(checkout.getByRole("status", { name: "" }).filter({ hasText: "Activa" })).toBeVisible();
+  async function membershipAction(label) {
+    const result = waitFor(checkout, auth + "/membership-events", "POST");
+    await checkout.getByRole("button", { name: label }).click();
+    assert.equal((await result).status(), 200);
+  }
+  async function refreshApp(expectedStatus) {
+    const result = waitFor(page, journey + "/latest", "GET");
+    await page.reload({ waitUntil: "domcontentloaded" });
+    const response = await result;
+    assert.equal(response.status(), expectedStatus);
+    return response.json();
+  }
+  const message = page.getByText("Tu membresía no está activa. Revísala en la web para recuperar el acceso.");
+  await membershipAction("Simular vencimiento");
+  assert.equal((await refreshApp(403)).code, "membership_inactive");
+  await expect(message).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Bandeja", exact: true })).toHaveCount(0);
+  await membershipAction("Simular renovación");
+  assert.equal((await refreshApp(200)).generationId, home.generationId);
+  await expect(page.getByText("Tu plan y tu bandeja están listos", { exact: true })).toBeVisible();
+  await membershipAction("Simular cancelación");
+  const revalidated = waitFor(page, journey + "/latest", "GET");
+  await page.bringToFront();
+  await page.evaluate(() => window.dispatchEvent(new Event("visibilitychange")));
+  const rejected = await revalidated;
+  assert.equal(rejected.status(), 403);
+  assert.equal((await rejected.json()).code, "membership_inactive");
+  const deniedRetry = await page.request.post(new URL(journey + "/generation/" + home.generationId + "/retry", app).href, {
+    headers: { Authorization: (await rejected.request().allHeaders()).authorization },
+    data: { expectedAttempts: home.attempts },
+  });
+  assert.equal(deniedRetry.status(), 403);
+  assert.equal((await deniedRetry.json()).code, "membership_inactive");
+  await expect(message).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Bandeja", exact: true })).toHaveCount(0);
   await newCustomer.close();
 
   const existingEmail = process.env.COP_E2E_PAID_EXISTING_EMAIL;
@@ -254,7 +296,7 @@ try {
   assert.equal(identity(existingEmail), before);
   assert.equal(pg(`SELECT "LinkedUserId" FROM auth."PaidActivations" WHERE "PaymentId" = '${returningPayment}';`), before.split("|")[0]);
   await returningCustomer.close();
-  console.log("Flujo de experiencia del cliente: pago recuperable, alta y consentimientos, sesión móvil, compuerta, generación e identidad previa verificadas.");
+  console.log("Flujo de experiencia del cliente: pago recuperable, alta y consentimientos, sesión móvil, compuertas, generación, accesos de membresía e identidad previa verificados.");
 } finally {
   await browser.close();
 }
