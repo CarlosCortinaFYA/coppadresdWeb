@@ -7,8 +7,8 @@ export const longevityProgram: ProgramDefinition = {
   status: "available",
   hero: {
     eyebrow: l(
-      "LONGEVITY BIO™ · ANTARES BIOHACKING",
-      "LONGEVITY BIO™ · ANTARES BIOHACKING",
+      "LONGEVITY BIO™ · Agentic Wellness IA",
+      "LONGEVITY BIO™ · Agentic Wellness IA",
     ),
     title: l(
       "Vivir con vitalidad.\nVivir con propósito.",
@@ -60,8 +60,8 @@ export const longevityProgram: ProgramDefinition = {
         "Health, independence\nand lifelong wellbeing.",
       ),
       description: l(
-        "LONGEVITY BIO integra evaluación de factores de riesgo, promoción de hábitos saludables, seguimiento de indicadores y acompañamiento en un sistema coordinado. Forma parte del ecosistema ANTARES BIOHACKING.",
-        "LONGEVITY BIO integrates risk-factor assessment, healthy habits, indicator monitoring and personal support in a coordinated system. It is part of the ANTARES BIOHACKING ecosystem.",
+        "LONGEVITY BIO integra evaluación de factores de riesgo, promoción de hábitos saludables, seguimiento de indicadores y acompañamiento en un sistema coordinado. Forma parte del ecosistema Agentic Wellness IA.",
+        "LONGEVITY BIO integrates risk-factor assessment, healthy habits, indicator monitoring and personal support in a coordinated system. It is part of the Agentic Wellness IA ecosystem.",
       ),
       items: [
         item(

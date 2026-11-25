@@ -16,15 +16,12 @@ export function Brand({ footer = false }: { footer?: boolean }) {
     <a
       className={`brand ${footer ? "brand-footer" : ""}`}
       href="#top"
-      aria-label={`COPP–ADRESD · ${t.home}`}
+      aria-label={`Agentic Wellness IA · ${t.home}`}
     >
       <span className="brand-symbol">
         <BrandMark />
       </span>
-      <span>
-        COPP-ADRESD<span className="brand-tm">®</span>
-        <small>COMPREHENSIVE OBESITY PREVENTION PROGRAM</small>
-      </span>
+      <span>Agentic Wellness IA</span>
     </a>
   );
 }
@@ -250,7 +247,7 @@ export function Inquiry({
 
   return (
     <Modal open={open} onClose={onClose} titleId="inquiry-title">
-      <p className="eyebrow">COPP–ADRESD</p>
+      <p className="eyebrow">Agentic Wellness IA</p>
       <h2 id="inquiry-title">{t.inquiry.title}</h2>
       <p>
         {institutional
@@ -366,7 +363,7 @@ export function Footer({ links }: { links: NavLink[] }) {
         </div>
         <div className="footer-bottom">
           <span>
-            © {new Date().getFullYear()} COPP–ADRESD. {t.footer.rights}
+            © {new Date().getFullYear()} Agentic Wellness IA. {t.footer.rights}
           </span>
           <span>{t.footer.owner}</span>
         </div>

@@ -76,10 +76,6 @@
   color: var(--accent-text);
   margin-top: 5px;
 }
-.brand-tm {
-  font-size: 10px;
-  vertical-align: super;
-}
 .brand-footer .brand-symbol {
   background: none !important;
 }

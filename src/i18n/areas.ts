@@ -126,7 +126,7 @@ export const areas: Area[] = [
     },
   },
   {
-    brand: "SBC COPP ADRESD",
+    brand: "SBC Agentic Wellness IA",
     icon: "star",
     color: "#3d7b72",
     es: {
@@ -152,7 +152,7 @@ export const areas: Area[] = [
     },
   },
   {
-    brand: "COPP–ADRESD ACADEMY",
+    brand: "Agentic Wellness IA ACADEMY",
     icon: "academy",
     color: "#4b7086",
     es: {

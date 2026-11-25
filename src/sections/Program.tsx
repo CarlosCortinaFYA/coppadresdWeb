@@ -138,7 +138,7 @@ export function Community() {
           <span />
           <span />
           <span />
-          <span /> COPP–ADRESD
+          <span /> Agentic Wellness IA
         </div>
       </div>
       <div className="community-copy">

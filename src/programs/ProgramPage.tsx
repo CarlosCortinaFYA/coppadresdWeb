@@ -161,7 +161,7 @@ export function ProgramHero({
       {h.artwork && (
         <div className="formula-art">
           <div className="art-topline">
-            <span>COPP–ADRESD</span>
+            <span>Agentic Wellness IA</span>
             <span>{h.artwork.code}</span>
           </div>
           <div className="art-orbit orbit-one" />
