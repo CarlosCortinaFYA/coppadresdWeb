@@ -2,6 +2,8 @@
 
 React + TypeScript + Vite. Proyecto independiente; documentación original intacta en `docs/`. La landing no requiere API; la página `/eliminar-cuenta` usa el Auth Service del monorepo vía gateway (ver `.env.example`).
 
+La recuperación de contraseña usa `/recuperar-cuenta` (`/recover-account` en inglés) y el endpoint `POST /api/auth/account/password-reset/confirm`. El enlace HTTPS lleva el token en el fragmento. La página lo retira de la URL al abrir y lo mantiene en memoria hasta confirmar. Verificar en el entorno de despliegue que CloudFront resuelva ambas rutas públicas y reenvíe el POST al gateway.
+
 ## Ejecución
 
 ```sh
@@ -12,6 +14,33 @@ npm run preview   # http://127.0.0.1:4174
 ```
 
 Se mantienen la configuración y el lockfile de Yarn existentes. No se añadieron dependencias para esta actualización. Vite conserva los allowedHosts configurados y las restricciones de acceso a los documentos internos.
+
+Para probar la activación por correo desde `/membresia`, inicia Vite con `VITE_PAID_ACTIVATION_DEMO=true` y apunta `DEV_PROXY_TARGET` al gateway local con la simulación habilitada y un buzón SMTP de pruebas. Los enlaces abren `/activar-membresia` o `/activate-membership`. El navegador conserva la referencia del pago simulado y el plan pendiente en la sesión. Después de recargar, consulta el recibo en Auth para mostrar el plan y monto confirmados.
+
+Ejecuta `node e2e/paid-activation.mjs` con esta web, el Gateway, Auth, la
+API y PostgreSQL locales. Habilita `--enable-chaos` en un Mailpit desechable
+para probar el rechazo SMTP. Configura `COP_E2E_PAID_WEB_URL`,
+`COP_E2E_PAID_INBOX_URL`, `COP_E2E_PAID_DB_CONTAINER` y
+`COP_E2E_PAID_DATABASE`. Para la vinculación usa un paciente sintético
+`@example.invalid` sembrado en esa base y configura
+`COP_E2E_PAID_EXISTING_EMAIL` y `COP_E2E_PAID_EXISTING_PASSWORD`.
+El script usa Playwright de la app hermana o de `COP_PLAYWRIGHT_APP_DIR`.
+`COP_E2E_BROWSER=webkit` selecciona WebKit.
+
+Para probar los siete pasos hasta Inicio, ejecuta también
+`node e2e/paid-customer-journey.mjs`. Sembrar los documentos y los recibos
+del paciente existente con `backend/scripts/qa/seed-paid-customer-journey.sql`
+en la base desechable, con `psql --set returning_email=<correo sintético>`.
+Aplica las migraciones Auth y API antes de sembrar. Configura
+`PaidActivationDemo__AppBaseUrl` en Auth y `COP_E2E_PAID_APP_URL` en la prueba
+con el origen local de la app móvil. La web y la app usan el mismo host,
+con puertos distintos, para continuar con la sesión de Auth. Arranca
+la app en Vite con `VITE_WELLNESS_JOURNEY_DEMO=true` y su proxy al Gateway.
+Configura la API en Development con `WellnessJourneyDemo__Enabled=true`.
+La prueba comprueba que la generación se completa en un solo intento.
+Para probar el reintento por separado, inicia la API con
+`WellnessJourneyDemo__FailureOnFirstAttempt=true` y ejecuta la prueba con
+`COP_E2E_EXPECT_GENERATION_RETRY=true`.
 
 ## Arquitectura
 

@@ -4,6 +4,10 @@ import { useEffect, useState } from "react";
 export const ROUTES = {
   home: "/",
   deleteAccount: "/eliminar-cuenta",
+  resetPassword: "/recuperar-cuenta",
+  resetPasswordEnglish: "/recover-account",
+  activateMembership: "/activar-membresia",
+  activateMembershipEnglish: "/activate-membership",
   membership: "/membresia",
   patientChannel: "/atencion-a-la-persona",
 } as const;
