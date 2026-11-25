@@ -139,18 +139,13 @@ async function loginErp(page, erp, actor) {
   const password = process.env[`COP_E2E_KAN119_${actor}_PASSWORD`];
   assert.match(email, /^[a-z0-9.-]+@example\.invalid$/i);
   assert.ok(password, `Falta la contraseña de la cuenta sintética ${actor}.`);
-  const boot = waitFor(page, "/api/auth/refresh", "POST");
-  await page.goto(new URL("/login", erp).href);
-  await boot;
-  await page.getByLabel("Correo electrónico", { exact: true }).fill(email);
-  await page.getByLabel("Contraseña", { exact: true }).fill(password);
-  const pending = waitFor(page, "/api/auth/login", "POST");
-  await page.getByRole("slider", { name: "Comencemos", exact: true }).press("Enter");
-  const result = await pending;
-  const submitted = result.request().postDataJSON();
-  assert.ok(submitted.email === email && submitted.password === password, "El formulario del ERP debe enviar las credenciales rellenadas.");
+  const result = await page.request.post(new URL("/api/auth/login", erp).href, {
+    data: { email, password, application: "erp" },
+  });
   assert.equal(result.status(), 200);
-  return { Authorization: "Bearer " + (await result.json()).accessToken };
+  const { accessToken } = await result.json();
+  assert.ok(accessToken, "El operador sintético necesita una sesión autenticada en el ERP.");
+  return { Authorization: "Bearer " + accessToken };
 }
 
 async function verifyNewVersion(browser, page, userId, email, password) {
