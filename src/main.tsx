@@ -14,6 +14,11 @@ const DeleteAccountPage = lazy(() =>
     default: m.DeleteAccountPage,
   })),
 );
+const ResetPasswordPage = lazy(() =>
+  import("./account/ResetPasswordPage").then((m) => ({
+    default: m.ResetPasswordPage,
+  })),
+);
 // La membresía es un micro-frontend igual: chunk y CSS independientes.
 const MembershipPage = lazy(() =>
   import("./membership/MembershipPage").then((m) => ({
@@ -30,6 +35,13 @@ const PatientChannelPage = lazy(() =>
 
 function Router() {
   const pathname = usePathname();
+  if (pathname === ROUTES.resetPassword || pathname === ROUTES.resetPasswordEnglish) {
+    return (
+      <Suspense fallback={null}>
+        <ResetPasswordPage />
+      </Suspense>
+    );
+  }
   if (pathname === ROUTES.deleteAccount) {
     return (
       <Suspense fallback={null}>

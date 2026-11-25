@@ -2,6 +2,8 @@
 
 React + TypeScript + Vite. Proyecto independiente; documentación original intacta en `docs/`. La landing no requiere API; la página `/eliminar-cuenta` usa el Auth Service del monorepo vía gateway (ver `.env.example`).
 
+La recuperación de contraseña usa `/recuperar-cuenta` (`/recover-account` en inglés) y el endpoint `POST /api/auth/account/password-reset/confirm`. El enlace HTTPS lleva el token en el fragmento. La página lo retira de la URL al abrir y lo mantiene en memoria hasta confirmar. Verificar en el entorno de despliegue que CloudFront resuelva ambas rutas públicas y reenvíe el POST al gateway.
+
 ## Ejecución
 
 ```sh
