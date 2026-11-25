@@ -86,8 +86,8 @@ export const weightSupportPlus: ProgramDefinition = {
         "Berberine and resveratrol.\nConnected science.",
       ),
       description: l(
-        "El dossier estudia su complementariedad desde la biología de sistemas. El fundamento mecanístico no demuestra por sí mismo un beneficio clínico de la combinación.",
-        "The dossier explores their complementarity through systems biology. A mechanistic rationale alone does not establish a clinical benefit for the combination.",
+        "El dossier explora cómo se complementan los ingredientes. Su fundamento teórico no demuestra un beneficio de la combinación.",
+        "The dossier explores how the ingredients may complement each other. The theoretical rationale does not demonstrate a benefit from the combination.",
       ),
       items: [
         {
@@ -211,8 +211,8 @@ export const weightSupportPlus: ProgramDefinition = {
         "Understand the connections.\nRecognize the limits.",
       ),
       description: l(
-        "Estos son objetivos de investigación descritos en el dossier, no resultados garantizados del producto terminado.",
-        "These are research objectives described in the dossier, not guaranteed outcomes of the finished product.",
+        "Estos son objetivos de investigación del dossier. El dossier no aporta resultados del producto terminado.",
+        "These are research objectives from the dossier. The dossier does not report outcomes for the finished product.",
       ),
       items: [
         {
@@ -335,12 +335,12 @@ export const weightSupportPlus: ProgramDefinition = {
         },
         {
           title: l(
-            "¿Sustituye el tratamiento o los hábitos?",
-            "Does it replace treatment or lifestyle habits?",
+            "¿Cómo se incorpora a los hábitos y al plan personal?",
+            "How does it fit into daily habits and a personal plan?",
           ),
           text: l(
-            "Se plantea como complemento, no como sustituto de la alimentación, el movimiento ni los tratamientos indicados por un profesional. No se presentan promesas de pérdida de peso ni resultados individuales garantizados.",
-            "It is proposed as a complement, not a replacement for nutrition, movement or professionally prescribed treatment. No weight-loss promises or guaranteed individual outcomes are presented.",
+            "Se propone como complemento de la alimentación, el movimiento y las indicaciones de tu profesional de la salud. El dossier no demuestra pérdida de peso con la fórmula completa. Los resultados varían de una persona a otra.",
+            "It is proposed as a complement to eating habits, movement, and guidance from your health professional. The dossier does not demonstrate weight loss with the complete formula. Results vary from person to person.",
           ),
         },
         {

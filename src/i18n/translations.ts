@@ -179,7 +179,7 @@ export const translations = {
           text: "Los dossiers exploran PEP-19 NUTRACEUTICAL MIMETIC™ y WEIGHT SUPPORT PLUS-BR™ desde una perspectiva de biología de sistemas.",
         },
       ],
-      note: "La evidencia sobre ingredientes no equivale a eficacia demostrada de una formulación completa. Los suplementos no sustituyen los tratamientos indicados por profesionales de salud.",
+      note: "La evidencia de cada ingrediente por separado no demuestra la eficacia de la fórmula completa. Revisa el uso de cualquier suplemento con un profesional de la salud.",
     },
     faq: {
       eyebrow: "CONOCE MÁS",
@@ -222,7 +222,7 @@ export const translations = {
       owner: "Compañía de Inversiones Integrales S.A.S.",
       rights: "Todos los derechos reservados.",
       top: "Volver arriba",
-      patientChannel: "Canal de WhatsApp para pacientes",
+      patientChannel: "Atención a la persona por WhatsApp",
     },
     inquiry: {
       title: "Empecemos por tu visión.",
@@ -417,7 +417,7 @@ export const translations = {
           text: "The dossiers explore PEP-19 NUTRACEUTICAL MIMETIC™ and WEIGHT SUPPORT PLUS-BR™ from a systems biology perspective.",
         },
       ],
-      note: "Evidence on individual ingredients does not establish the efficacy of a complete formulation. Supplements do not replace treatments prescribed by healthcare professionals.",
+      note: "Evidence on individual ingredients does not establish the efficacy of the complete formula. Consult a health professional before using any supplement.",
     },
     faq: {
       eyebrow: "LEARN MORE",
@@ -460,7 +460,7 @@ export const translations = {
       owner: "Compañía de Inversiones Integrales S.A.S.",
       rights: "All rights reserved.",
       top: "Back to top",
-      patientChannel: "Patient WhatsApp channel",
+      patientChannel: "Personal support via WhatsApp",
     },
     inquiry: {
       title: "Let’s start with your vision.",

@@ -19,8 +19,8 @@ export const longevityProgram: ProgramDefinition = {
       "A comprehensive longevity, vitality and healthy aging program. Prevention, comprehensive assessment and personalized support to promote healthy years of life.",
     ),
     note: l(
-      "El programa no promete inmortalidad ni un rejuvenecimiento garantizado.",
-      "The program does not promise immortality or guaranteed rejuvenation.",
+      "El programa ofrece acompañamiento de bienestar general. Los resultados varían de una persona a otra.",
+      "The program offers general wellness support. Results vary from person to person.",
     ),
     artwork: {
       code: "L/B–01",
@@ -383,8 +383,8 @@ export const longevityProgram: ProgramDefinition = {
       ),
       title: l("Medir para\nacompañar mejor.", "Measure to\nsupport better."),
       description: l(
-        "Indicadores y periodicidades definidos en la referencia del programa. Son actividades de seguimiento, no resultados clínicos alcanzados.",
-        "Indicators and frequencies defined in the program reference. These are monitoring activities, not achieved clinical outcomes.",
+        "Indicadores y periodicidades definidos en la referencia del programa. Describen las actividades de seguimiento previstas. La referencia no presenta resultados obtenidos.",
+        "Indicators and frequencies defined in the program reference. They describe planned follow-up activities. The reference does not report observed outcomes.",
       ),
       items: [
         item(
@@ -455,8 +455,8 @@ export const longevityProgram: ProgramDefinition = {
         item(
           "¿Qué alcance tiene la propuesta?",
           "What is the scope of the proposal?",
-          "El enfoque es favorecer salud y calidad de vida mediante prevención y acompañamiento. La referencia no promete inmortalidad ni rejuvenecimiento garantizado y no aporta estadísticas de resultados del programa.",
-          "The focus is on supporting health and quality of life through prevention and guidance. The reference does not promise immortality or guaranteed rejuvenation and does not provide program outcome statistics.",
+          "El enfoque es favorecer la salud y la calidad de vida mediante el acompañamiento. La referencia no aporta estadísticas de resultados del programa.",
+          "The focus is on supporting health and quality of life through guidance. The reference does not provide program outcome statistics.",
         ),
       ],
     },

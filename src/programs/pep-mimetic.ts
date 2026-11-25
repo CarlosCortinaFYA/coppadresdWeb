@@ -19,8 +19,8 @@ export const pepMimetic: ProgramDefinition = {
       "A research-oriented nutraceutical proposal inspired by the PCP4/PEP-19 signaling network. Ten ingredients proposed to explore calcium regulation, mitochondrial energy and cellular adaptation.",
     ),
     note: l(
-      "Concepto basado en hipótesis. La formulación completa no ha sido validada clínicamente.",
-      "A hypothesis-driven concept. The complete formulation has not been clinically validated.",
+      "Concepto basado en hipótesis. La formulación completa aún requiere validación en estudios con personas.",
+      "A hypothesis-driven concept. The complete formulation still requires validation in studies involving people.",
     ),
     artwork: {
       code: "PCP4 / PEP-19",
@@ -32,8 +32,8 @@ export const pepMimetic: ProgramDefinition = {
         "Explore the network.\nUnderstand its connections.",
       ),
       caption: l(
-        "Modelo conceptual · no representa eficacia clínica",
-        "Conceptual model · not clinical efficacy",
+        "Modelo conceptual · resultados pendientes de validación",
+        "Conceptual model · outcomes pending validation",
       ),
       tags: [
         { title: l("Calmodulina", "Calmodulin"), label: "CaM" },
@@ -89,8 +89,8 @@ export const pepMimetic: ProgramDefinition = {
         item(
           "Investigación por validar",
           "Research requiring validation",
-          "El fundamento de ingredientes individuales no demuestra la eficacia ni la seguridad de la combinación. El dossier exige evaluación preclínica y clínica.",
-          "The rationale for individual ingredients does not establish the combination’s efficacy or safety. The dossier calls for preclinical and clinical evaluation.",
+          "El fundamento de ingredientes individuales no demuestra la eficacia ni la seguridad de la combinación. El dossier requiere estudios de laboratorio y estudios con personas.",
+          "The rationale for individual ingredients does not establish the combination’s efficacy or safety. The dossier calls for laboratory studies and studies involving people.",
           undefined,
           "shield",
         ),
@@ -106,8 +106,8 @@ export const pepMimetic: ProgramDefinition = {
         "Connected processes.\nResearch hypotheses.",
       ),
       description: l(
-        "El dossier organiza la propuesta en seis módulos. Los mecanismos descritos son el fundamento conceptual de la formulación, no beneficios clínicos demostrados.",
-        "The dossier organizes the proposal into six modules. The described mechanisms are the formulation’s conceptual rationale, not demonstrated clinical benefits.",
+        "El dossier organiza la propuesta en seis módulos. Los mecanismos descritos explican el diseño de la fórmula. Sus beneficios siguen siendo hipótesis.",
+        "The dossier organizes the proposal into six modules. The described mechanisms explain the formula’s design. Its benefits remain hypotheses.",
       ),
       items: [
         item(
@@ -366,20 +366,20 @@ export const pepMimetic: ProgramDefinition = {
         item(
           "¿Qué evidencia respalda la combinación?",
           "What evidence supports the combination?",
-          "El dossier presenta evidencia experimental y, para algunos ingredientes, clínica. Reconoce que la formulación integrada no ha sido evaluada clínicamente: sus aplicaciones siguen siendo hipótesis de investigación.",
-          "The dossier presents experimental evidence and, for some ingredients, clinical evidence. It acknowledges that the integrated formulation has not been clinically evaluated: its applications remain research hypotheses.",
+          "El dossier presenta evidencia experimental y, para algunos ingredientes, estudios con personas. Reconoce que aún faltan estudios sobre la fórmula completa. Sus aplicaciones siguen siendo hipótesis de investigación.",
+          "The dossier presents experimental evidence and, for some ingredients, studies involving people. It acknowledges that studies of the complete formula are still needed. Its applications remain research hypotheses.",
         ),
         item(
           "¿Cómo se plantea la seguridad?",
           "How is safety addressed?",
-          "El documento pide evaluar compatibilidad, estabilidad, farmacocinética, toxicología y la combinación en ensayos clínicos. Las conclusiones sobre seguridad y eficacia permanecen provisionales hasta completar esas evaluaciones.",
-          "The document calls for compatibility, stability, pharmacokinetic and toxicological assessment, and clinical trials of the combination. Safety and efficacy conclusions remain provisional until those assessments are completed.",
+          "El documento pide estudiar la compatibilidad, la estabilidad, el recorrido de la fórmula en el organismo y su seguridad, incluidos estudios de la combinación con personas. Las conclusiones sobre seguridad y eficacia siguen siendo provisionales.",
+          "The document calls for studies of compatibility, stability, how the formula behaves in the body, and safety, including studies of the combination involving people. Safety and efficacy conclusions remain provisional.",
         ),
         item(
           "¿Hay una pauta de consumo definida aquí?",
           "Is a dosing schedule defined here?",
-          "No. La tabla refleja una composición propuesta por cápsula. Esta página no prescribe frecuencia, duración ni uso clínico y no presenta el concepto como sustituto terapéutico.",
-          "No. The table reflects a proposed composition per capsule. This page does not prescribe frequency, duration or clinical use and does not present the concept as a therapeutic substitute.",
+          "La tabla presenta una composición propuesta por cápsula para fines de investigación. La información es general. Consulta a un profesional de la salud para orientación personal.",
+          "The table presents a proposed composition per capsule for research purposes. This is general information. Consult a health professional for individual guidance.",
         ),
       ],
     },
