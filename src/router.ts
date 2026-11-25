@@ -5,7 +5,7 @@ export const ROUTES = {
   home: "/",
   deleteAccount: "/eliminar-cuenta",
   membership: "/membresia",
-  patientChannel: "/atencion-al-paciente",
+  patientChannel: "/atencion-a-la-persona",
 } as const;
 
 function normalize(pathname: string): string {
@@ -13,12 +13,25 @@ function normalize(pathname: string): string {
   return clean === "" ? "/" : clean;
 }
 
-export function usePathname(): string {
-  const [pathname, setPathname] = useState(() =>
-    normalize(window.location.pathname),
+const LEGACY_PATIENT_CHANNEL = "/atencion-al-paciente";
+
+function readPathname(): string {
+  const { pathname, search, hash } = window.location;
+  const route = normalize(pathname);
+  if (route !== LEGACY_PATIENT_CHANNEL) return route;
+
+  window.history.replaceState(
+    window.history.state,
+    "",
+    ROUTES.patientChannel + search + hash,
   );
+  return ROUTES.patientChannel;
+}
+
+export function usePathname(): string {
+  const [pathname, setPathname] = useState(readPathname);
   useEffect(() => {
-    const sync = () => setPathname(normalize(window.location.pathname));
+    const sync = () => setPathname(readPathname());
     window.addEventListener("popstate", sync);
     return () => window.removeEventListener("popstate", sync);
   }, []);

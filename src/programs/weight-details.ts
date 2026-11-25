@@ -14,8 +14,8 @@ export const weightAdditionalSections: ProgramSection[] = [
       "How the components\nrelate to one another.",
     ),
     description: l(
-      "El dossier propone interacciones mecanísticas entre ingredientes. Estas relaciones explican el diseño de la fórmula; no prueban una sinergia clínica del producto terminado.",
-      "The dossier proposes mechanistic interactions between ingredients. These relationships explain the formula’s design; they do not establish a clinical synergy for the finished product.",
+      "El dossier plantea interacciones entre ingredientes que orientan el diseño. La combinación requiere estudios del producto terminado para determinar su efecto conjunto.",
+      "The dossier proposes interactions between ingredients to guide the design. The finished product needs to be studied to determine their combined effect.",
     ),
     items: [
       item(
@@ -57,8 +57,8 @@ export const weightAdditionalSections: ProgramSection[] = [
       "A perspective connecting\norgans and processes.",
     ),
     description: l(
-      "El atlas organiza el fundamento del programa a escala celular y multiorgánica. Estas áreas describen el modelo de investigación, no indicaciones terapéuticas demostradas de Plus.",
-      "The atlas organizes the program rationale at cellular and multi-organ levels. These areas describe the research model, not established therapeutic indications for Plus.",
+      "El atlas organiza el fundamento del programa a escala celular y multiorgánica. Estas áreas describen el modelo de investigación. El dossier no aporta pruebas de beneficios del producto terminado.",
+      "The atlas organizes the program rationale at cellular and multi-organ levels. These areas describe the research model. The dossier does not provide evidence of benefits from the finished product.",
     ),
     items: [
       item(
