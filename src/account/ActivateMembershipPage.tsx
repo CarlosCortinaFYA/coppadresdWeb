@@ -24,7 +24,9 @@ const copy = {
     lastName: "Apellido",
     emergencyName: "Nombre del contacto de emergencia",
     emergencyPhone: "Teléfono del contacto de emergencia",
-    emergencyPhonePlaceholder: "+57 300 123 4567",
+    emergencyPhonePrefix: "Prefijo internacional",
+    emergencyPhoneCountries: { colombia: "+57 Colombia", northAmerica: "+1 EE. UU. y Canadá", other: "Otro país" },
+    emergencyPhoneInternationalPlaceholder: "+ código y número",
     terms: "Términos y privacidad",
     accept: "Acepto",
     newPassword: "Nueva contraseña",
@@ -48,6 +50,7 @@ const copy = {
       password: "La contraseña no cumple los requisitos.",
       mismatch: "Las contraseñas no coinciden.",
       contact: "Completa los nombres y verifica el teléfono de emergencia.",
+      phone: "Ingresa 10 dígitos para Colombia o EE. UU. y Canadá. Para Otro país, incluye el prefijo con +.",
       documents: "Los documentos cambiaron. Lee y acepta las versiones vigentes.",
       unavailable: "Los documentos de esta activación no están disponibles. Intenta de nuevo.",
     },
@@ -68,7 +71,9 @@ const copy = {
     lastName: "Last name",
     emergencyName: "Emergency contact name",
     emergencyPhone: "Emergency contact phone",
-    emergencyPhonePlaceholder: "+1 202 555 0142",
+    emergencyPhonePrefix: "International dialing code",
+    emergencyPhoneCountries: { colombia: "+57 Colombia", northAmerica: "+1 United States and Canada", other: "Other country" },
+    emergencyPhoneInternationalPlaceholder: "+ code and number",
     terms: "Terms and privacy",
     accept: "I accept",
     newPassword: "New password",
@@ -92,6 +97,7 @@ const copy = {
       password: "Your password doesn’t meet the requirements.",
       mismatch: "The passwords don’t match.",
       contact: "Complete the names and check the emergency contact phone number.",
+      phone: "Enter 10 digits for Colombia or the United States and Canada. For Other country, include the dialing code with +.",
       documents: "The documents have changed. Read and accept the current versions.",
       unavailable: "The activation documents are unavailable. Try again.",
     },
@@ -108,6 +114,13 @@ type SetupSession = {
   appUrl?: string;
 };
 type ErrorKind = keyof (typeof copy)["es"]["errors"];
+
+const emergencyPhonePrefixes = ["+57", "+1"];
+const internationalPhone = /^\+[1-9][0-9]{7,14}$/;
+
+function removePhoneSeparators(value: string): string {
+  return value.replace(/[\s().-]/g, "");
+}
 
 class ActivationError extends Error {
   constructor(readonly key: ErrorKind) { super(key); }
@@ -184,11 +197,14 @@ export function ActivateMembershipPage() {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<ErrorKind | null>(null);
+  const [phonePrefix, setPhonePrefix] = useState<string>();
+  const [phoneNumber, setPhoneNumber] = useState("");
   const initialized = useRef(false);
   const sending = useRef(false);
   const heading = useRef<HTMLHeadingElement>(null);
   const passwordInput = useRef<HTMLInputElement>(null);
   const status = session?.status;
+  const selectedPhonePrefix = phonePrefix ?? (language === "es" ? "+57" : "+1");
   const needsPassword = status === "sign_in_required" || (status === "linked" && !appLink);
   const title = status === "linked" ? c.linked : status === "setup_required" ? c.setup
     : session === undefined && !startupError ? c.loading : c.title;
@@ -299,6 +315,18 @@ export function ActivateMembershipPage() {
     }
   }
 
+  function updateEmergencyPhone(value: string) {
+    const entered = removePhoneSeparators(value);
+    if (internationalPhone.test(entered)) {
+      const prefix = emergencyPhonePrefixes.find((code) => entered.startsWith(code)) ?? "";
+      setPhonePrefix(prefix);
+      setPhoneNumber(entered.slice(prefix.length));
+    } else {
+      setPhoneNumber(value);
+    }
+    if (error === "phone") setError(null);
+  }
+
   async function complete(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!session || sending.current) return;
@@ -314,11 +342,20 @@ export function ActivateMembershipPage() {
       setError("unavailable");
       return;
     }
+    const phone = removePhoneSeparators(String(data.get("emergencyPhone") ?? ""));
+    const emergencyPhone = phone.startsWith("+") ? phone : selectedPhonePrefix + phone;
+    const matchesPrefix = !selectedPhonePrefix || (emergencyPhone.startsWith(selectedPhonePrefix)
+      && emergencyPhone.length === selectedPhonePrefix.length + 10);
+    if (!internationalPhone.test(emergencyPhone) || !matchesPrefix) {
+      setError("phone");
+      form.querySelector<HTMLInputElement>('[name="emergencyPhone"]')?.focus();
+      return;
+    }
     const body = {
       firstName: String(data.get("firstName") ?? "").trim(),
       lastName: String(data.get("lastName") ?? "").trim(),
       emergencyName: String(data.get("emergencyName") ?? "").trim(),
-      emergencyPhone: String(data.get("emergencyPhone") ?? "").trim(),
+      emergencyPhone,
       password: newPassword,
       versionIds,
     };
@@ -445,10 +482,43 @@ export function ActivateMembershipPage() {
                     {c.emergencyName}
                     <input name="emergencyName" required maxLength={100} />
                   </label>
-                  <label>
-                    {c.emergencyPhone}
-                    <input name="emergencyPhone" type="tel" inputMode="tel" placeholder={c.emergencyPhonePlaceholder} required maxLength={24} />
-                  </label>
+                  <div className="account-activation-phone">
+                    <label htmlFor="activation-emergency-phone">{c.emergencyPhone}</label>
+                    <div className="account-activation-phone-fields">
+                      <select
+                        className="account-activation-prefix"
+                        aria-label={c.emergencyPhonePrefix}
+                        value={selectedPhonePrefix}
+                        onChange={(event) => {
+                          setPhonePrefix(event.target.value);
+                          if (error === "phone") setError(null);
+                        }}
+                      >
+                        <option value="+57">{c.emergencyPhoneCountries.colombia}</option>
+                        <option value="+1">{c.emergencyPhoneCountries.northAmerica}</option>
+                        <option value="">{c.emergencyPhoneCountries.other}</option>
+                      </select>
+                      <input
+                        id="activation-emergency-phone"
+                        name="emergencyPhone"
+                        type="tel"
+                        inputMode={selectedPhonePrefix ? "numeric" : "tel"}
+                        autoComplete="off"
+                        value={phoneNumber}
+                        onChange={(event) => updateEmergencyPhone(event.target.value)}
+                        placeholder={
+                          selectedPhonePrefix === "+57" ? "300 123 4567"
+                            : selectedPhonePrefix === "+1" ? "202 555 0142"
+                              : c.emergencyPhoneInternationalPlaceholder
+                        }
+                        aria-invalid={error === "phone" ? true : undefined}
+                        aria-describedby={error === "phone" ? "activation-emergency-phone-error" : undefined}
+                        required
+                        maxLength={24}
+                      />
+                    </div>
+                    {error === "phone" && <p className="account-error" id="activation-emergency-phone-error" role="alert">{c.errors.phone}</p>}
+                  </div>
                   {session.email && (
                     <label>
                       {c.email}
@@ -465,7 +535,7 @@ export function ActivateMembershipPage() {
                     <input name="passwordConfirmation" type="password" autoComplete="new-password" placeholder={c.confirmPasswordPlaceholder} minLength={8} maxLength={128} required />
                   </label>
                 </fieldset>
-                {error && <p className="account-error" role="alert">{c.errors[error]}</p>}
+                {error && error !== "phone" && <p className="account-error" role="alert">{c.errors[error]}</p>}
                 <div className="account-actions">
                   <button className="button" type="submit" disabled={busy}>{busy ? c.creating : c.create}</button>
                 </div>

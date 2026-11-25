@@ -69,7 +69,8 @@
   font-weight: 600;
   font-size: 0.92rem;
 }
-.account-card input:not([type="radio"], [type="checkbox"]) {
+.account-card input:not([type="radio"], [type="checkbox"]),
+.account-card .account-activation-prefix {
   width: 100%;
   min-height: 46px;
   padding: 0 14px;
@@ -82,7 +83,8 @@
   color: var(--subtle);
   opacity: 1;
 }
-.account-card input:focus-visible {
+.account-card input:focus-visible,
+.account-card .account-activation-prefix:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
@@ -148,6 +150,20 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 12px;
+}
+.account-activation-phone {
+  margin: 14px 0;
+}
+.account-card .account-activation-phone > label {
+  margin: 0 0 6px;
+}
+.account-activation-phone-fields {
+  display: grid;
+  grid-template-columns: minmax(0, min(10rem, 45%)) minmax(0, 1fr);
+  gap: 8px;
+}
+.account-activation-phone-fields > * {
+  min-width: 0;
 }
 .account-loading {
   display: block;

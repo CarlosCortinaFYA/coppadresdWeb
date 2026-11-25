@@ -240,6 +240,8 @@ async function verifyEnglishDocuments(browser) {
       ["First name", "QA"], ["Last name", "English"], ["Emergency contact name", "Synthetic contact"],
       ["Emergency contact phone", "+573005550123"], ["New password", password], ["Confirm password", password],
     ]) await page.getByLabel(label, { exact: true }).fill(value);
+    await expect(page.getByRole("combobox", { name: "International dialing code" })).toHaveValue("+57");
+    await expect(page.getByLabel("Emergency contact phone", { exact: true })).toHaveValue("3005550123");
     await page.getByRole("checkbox", { name: /Test terms/ }).check();
     await page.getByRole("checkbox", { name: /Test privacy policy/ }).check();
     const completed = waitFor(page, auth + "/complete", "POST");
@@ -315,9 +317,13 @@ try {
   await page.getByRole("button", { name: "Continuar activación" }).click();
   await expect(page.getByRole("button", { name: "Crear cuenta" })).toBeVisible();
   await page.reload();
+  const prefix = page.getByRole("combobox", { name: "Prefijo internacional" });
+  await expect(prefix).toHaveValue("+57");
+  await prefix.selectOption("+1");
+  await prefix.selectOption("+57");
   for (const [label, value] of [
     ["Nombre", "Ana"], ["Apellido", "Viaje"], ["Nombre del contacto de emergencia", "Contacto de prueba"],
-    ["Teléfono del contacto de emergencia", "+573005550123"], ["Nueva contraseña", freshPassword],
+    ["Teléfono del contacto de emergencia", "3005550123"], ["Nueva contraseña", freshPassword],
     ["Confirmar contraseña", freshPassword]
   ]) {
     await page.getByLabel(label, { exact: true }).fill(value);
@@ -330,6 +336,7 @@ try {
   if (verifyAccountLegal) {
     await page.route("**" + auth + "/complete", async route => {
       const request = route.request().postDataJSON();
+      assert.equal(request.emergencyPhone, "+573005550123");
       for (const versionIds of [[request.versionIds[0]], [request.versionIds[0], request.versionIds[0]],
         [request.versionIds[0], randomUUID()]]) {
         const rejected = await route.fetch({ postData: { ...request, versionIds } });
