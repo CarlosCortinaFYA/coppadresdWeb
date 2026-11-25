@@ -1,0 +1,34 @@
+name: Validación web
+
+on:
+  pull_request:
+    branches: [dev]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Web · tipos y build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Verificar tipos y sintaxis del arnés
+        run: |
+          npm run check
+          node --check e2e/paid-customer-journey.mjs
+
+      - name: Compilar web
+        run: npm run build
