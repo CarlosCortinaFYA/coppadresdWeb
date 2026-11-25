@@ -14,7 +14,7 @@ export { programUI } from "./ui";
 export const programs: Record<ProgramId, ProgramDefinition> = {
   coppAdresd: {
     id: "coppAdresd",
-    name: "Copp Adresd",
+    name: "Agentic Wellness IA",
     status: "available",
     institutional: true,
     sections: [],

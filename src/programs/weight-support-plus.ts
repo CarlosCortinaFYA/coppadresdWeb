@@ -47,8 +47,8 @@ export const weightSupportPlus: ProgramDefinition = {
         "Balance begins\nwith a broader approach.",
       ),
       description: l(
-        "Weight Support Plus–BR amplía la propuesta de Weight Support con dos componentes complementarios. Su dossier reúne investigación sobre ingredientes y vías metabólicas, en el contexto del modelo multidisciplinario COPP–ADRESD.",
-        "Weight Support Plus–BR expands the Weight Support proposal with two complementary components. Its dossier brings together research on ingredients and metabolic pathways within the multidisciplinary COPP–ADRESD model.",
+        "Weight Support Plus–BR amplía la propuesta de Weight Support con dos componentes complementarios. Su dossier reúne investigación sobre ingredientes y vías metabólicas, en el contexto del modelo multidisciplinario Agentic Wellness IA.",
+        "Weight Support Plus–BR expands the Weight Support proposal with two complementary components. Its dossier brings together research on ingredients and metabolic pathways within the multidisciplinary Agentic Wellness IA model.",
       ),
       items: [
         {
@@ -362,8 +362,8 @@ export const weightSupportPlus: ProgramDefinition = {
       "The next step\nbegins with a conversation.",
     ),
     text: l(
-      "Conoce más sobre Weight Support Plus y su lugar dentro del modelo de acompañamiento COPP–ADRESD.",
-      "Learn more about Weight Support Plus and its place within the COPP–ADRESD support model.",
+      "Conoce más sobre Weight Support Plus y su lugar dentro del modelo de acompañamiento Agentic Wellness IA.",
+      "Learn more about Weight Support Plus and its place within the Agentic Wellness IA support model.",
     ),
   },
 };

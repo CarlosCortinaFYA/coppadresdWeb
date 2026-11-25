@@ -1,7 +1,7 @@
 export type Language = "es" | "en";
 export const translations = {
   es: {
-    metaTitle: "COPP–ADRESD | Donde la ciencia genera bienestar",
+    metaTitle: "Agentic Wellness IA | Donde la ciencia genera bienestar",
     metaDescription:
       "Ciencia, tecnología y comunidades conectadas en un ecosistema de prevención y bienestar para personas y organizaciones.",
     skip: "Saltar al contenido",
@@ -81,8 +81,61 @@ export const translations = {
       area: "ÁREA DEL ECOSISTEMA",
       scope: "ENFOQUE",
       action: "Me interesa esta área",
-      reference: "Ver mapa institucional original",
-      original: "Mapa institucional · fuente original en español",
+      reference: "Ver mapa institucional",
+      mapTitle: "Mapa institucional de Agentic Wellness IA",
+      mapSummary:
+        "12 módulos para organizaciones e instituciones. Un ecosistema infinito que conecta, potencia y transforma la salud y el bienestar de las organizaciones y la sociedad.",
+      mapTopics: [
+        {
+          title: "Nuestro propósito",
+          items: [
+            "Unimos ciencia, neurociencia, tecnología y consciencia para transformar la salud, el bienestar y el potencial humano.",
+          ],
+        },
+        {
+          title: "Nuestro enfoque",
+          items: [
+            "Bio, el cuerpo. Ciencia aplicada, medicina funcional, nutrición y movimiento.",
+            "Psico, la mente. Neurociencia aplicada, bienestar emocional y manejo del estrés.",
+            "Social, la comunidad. Programas corporativos, impacto social y comunidades saludables.",
+            "Prevención y gestión del riesgo. Soluciones integrales de salud y bienestar para instituciones, aseguradoras y gobiernos.",
+          ],
+        },
+        {
+          title: "Nuestro modelo B2B",
+          items: [
+            "Soluciones basadas en evidencia científica, tecnología, prevención y desarrollo humano para organizaciones e instituciones.",
+          ],
+        },
+        {
+          title: "Beneficios para instituciones",
+          items: [
+            "Reducción de costos en salud",
+            "Empleados más saludables y productivos",
+            "Prevención de enfermedades crónicas",
+            "Mejora de indicadores y reputación corporativa",
+          ],
+        },
+        {
+          title: "Nuestros pilares",
+          items: [
+            "Ciencia y evidencia",
+            "Neurociencia aplicada",
+            "Tecnología e innovación",
+            "Comunidad y alianzas",
+            "Ética, calidad y transparencia",
+          ],
+        },
+        {
+          title: "Impacto en las organizaciones",
+          items: [
+            "Programas de prevención y bienestar basados en ciencia",
+            "Reducción de riesgos y enfermedades crónicas",
+            "Mayor productividad, energía y compromiso",
+            "Organizaciones más saludables y sostenibles",
+          ],
+        },
+      ],
       referenceNote:
         "Arquitectura de áreas y marcas descrita en la documentación institucional.",
     },
@@ -90,7 +143,7 @@ export const translations = {
       eyebrow: "PREVENIR. ACOMPAÑAR. EVOLUCIONAR.",
       title: "Un modelo que acompaña\ncada paso.",
       description:
-        "COPP–ADRESD integra ciencia, tecnología y factor humano en un proceso continuo de prevención y seguimiento.",
+        "Agentic Wellness IA integra ciencia, tecnología y factor humano en un proceso continuo de prevención y seguimiento.",
       steps: [
         {
           title: "Comprender el punto de partida",
@@ -171,7 +224,7 @@ export const translations = {
         {
           title: "WEIGHT SUPPORT™",
           label: "APOYO NUTRICIONAL",
-          text: "Propuesto como componente complementario del programa COPP–ADRESD, dentro de un enfoque de hábitos saludables y supervisión profesional.",
+          text: "Propuesto como componente complementario del programa Agentic Wellness IA, dentro de un enfoque de hábitos saludables y supervisión profesional.",
         },
         {
           title: "Investigación nutracéutica",
@@ -186,7 +239,7 @@ export const translations = {
       title: "Preguntas con propósito.",
       items: [
         {
-          q: "¿Qué es COPP–ADRESD?",
+          q: "¿Qué es Agentic Wellness IA?",
           a: "Es un ecosistema que conecta ciencia, tecnología, prevención y comunidad. Su frente institucional propone un modelo integral de acompañamiento y gestión del riesgo; su frente de personas abarca bienestar, formación y experiencias.",
         },
         {
@@ -206,7 +259,7 @@ export const translations = {
     cta: {
       eyebrow: "EL SIGUIENTE PASO, JUNTOS",
       title: "Hagamos del bienestar\nuna visión compartida.",
-      text: "Explora cómo el ecosistema COPP–ADRESD puede conectar con las personas y los objetivos de tu organización.",
+      text: "Explora cómo el ecosistema Agentic Wellness IA puede conectar con las personas y los objetivos de tu organización.",
       action: "Preparemos una conversación",
       note: "Ciencia que previene. Tecnología que transforma. Comunidad que conecta.",
     },
@@ -238,11 +291,11 @@ export const translations = {
       whatsappNote:
         "Abriremos WhatsApp con tu resumen. Podrás revisarlo antes de enviarlo. Este sitio no almacena tus datos.",
       whatsapp: "Continuar en WhatsApp",
-      documentTitle: "Solicitud de conversación · COPP–ADRESD",
+      documentTitle: "Solicitud de conversación · Agentic Wellness IA",
     },
   },
   en: {
-    metaTitle: "COPP–ADRESD | Where science creates wellbeing",
+    metaTitle: "Agentic Wellness IA | Where science creates wellbeing",
     metaDescription:
       "Science, technology and connected communities in a prevention and wellbeing ecosystem for people and organizations.",
     skip: "Skip to content",
@@ -319,8 +372,61 @@ export const translations = {
       area: "ECOSYSTEM AREA",
       scope: "FOCUS",
       action: "I’m interested in this area",
-      reference: "View original institutional map",
-      original: "Institutional map · original Spanish source",
+      reference: "View institutional map",
+      mapTitle: "Agentic Wellness IA institutional map",
+      mapSummary:
+        "12 modules for organizations and institutions. An open ecosystem that connects, strengthens and transforms health and wellbeing across organizations and society.",
+      mapTopics: [
+        {
+          title: "Our purpose",
+          items: [
+            "We bring together science, neuroscience, technology and awareness to transform health, wellbeing and human potential.",
+          ],
+        },
+        {
+          title: "Our approach",
+          items: [
+            "Body. Applied science, functional medicine, nutrition and movement.",
+            "Mind. Applied neuroscience, emotional wellbeing and stress management.",
+            "Community. Corporate programs, social impact and healthy communities.",
+            "Prevention and risk management. Integrated health and wellbeing solutions for institutions, insurers and governments.",
+          ],
+        },
+        {
+          title: "Our B2B model",
+          items: [
+            "Solutions based on science, technology, prevention and human development for organizations and institutions.",
+          ],
+        },
+        {
+          title: "Benefits for institutions",
+          items: [
+            "Reduced healthcare costs",
+            "Healthier and more productive employees",
+            "Chronic disease prevention",
+            "Improved indicators and corporate reputation",
+          ],
+        },
+        {
+          title: "Our pillars",
+          items: [
+            "Science and evidence",
+            "Applied neuroscience",
+            "Technology and innovation",
+            "Community and partnerships",
+            "Ethics, quality and transparency",
+          ],
+        },
+        {
+          title: "Impact on organizations",
+          items: [
+            "Science-based prevention and wellbeing programs",
+            "Reduced risk and chronic disease",
+            "More productivity, energy and engagement",
+            "Healthier and more sustainable organizations",
+          ],
+        },
+      ],
       referenceNote:
         "Areas and brands as described in the institutional documentation.",
     },
@@ -328,7 +434,7 @@ export const translations = {
       eyebrow: "PREVENT. SUPPORT. EVOLVE.",
       title: "A model that supports\nevery step.",
       description:
-        "COPP–ADRESD brings science, technology and the human factor together in a continuous process of prevention and monitoring.",
+        "Agentic Wellness IA brings science, technology and the human factor together in a continuous process of prevention and monitoring.",
       steps: [
         {
           title: "Understand the starting point",
@@ -409,7 +515,7 @@ export const translations = {
         {
           title: "WEIGHT SUPPORT™",
           label: "NUTRITIONAL SUPPORT",
-          text: "Proposed as a complementary component of the COPP–ADRESD program, within an approach centered on healthy habits and professional supervision.",
+          text: "Proposed as a complementary component of the Agentic Wellness IA program, within an approach centered on healthy habits and professional supervision.",
         },
         {
           title: "Nutraceutical research",
@@ -424,7 +530,7 @@ export const translations = {
       title: "Questions with purpose.",
       items: [
         {
-          q: "What is COPP–ADRESD?",
+          q: "What is Agentic Wellness IA?",
           a: "It is an ecosystem connecting science, technology, prevention and community. Its institutional focus proposes an integrated support and risk management model; its individual focus encompasses wellbeing, learning and experiences.",
         },
         {
@@ -444,7 +550,7 @@ export const translations = {
     cta: {
       eyebrow: "THE NEXT STEP, TOGETHER",
       title: "Let’s make wellbeing\na shared vision.",
-      text: "Explore how the COPP–ADRESD ecosystem can connect with your people and your organization’s goals.",
+      text: "Explore how the Agentic Wellness IA ecosystem can connect with your people and your organization’s goals.",
       action: "Let’s prepare a conversation",
       note: "Science that prevents. Technology that transforms. Community that connects.",
     },
@@ -476,7 +582,7 @@ export const translations = {
       whatsappNote:
         "We will open WhatsApp with your brief. You can review it before sending. This website does not store your data.",
       whatsapp: "Continue in WhatsApp",
-      documentTitle: "Conversation request · COPP–ADRESD",
+      documentTitle: "Conversation request · Agentic Wellness IA",
     },
   },
 };

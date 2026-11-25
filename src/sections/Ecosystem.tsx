@@ -4,7 +4,6 @@ import { usePreferences } from "../i18n/usePreferences";
 import { Icon } from "../components/Icon";
 import { accentStyle, Modal, SectionHeading } from "../components/Layout";
 import { BrandMark } from "../components/BrandMark";
-import ecosystemMap from "../assets/ecosystem.webp";
 
 export function Hero({
   active,
@@ -300,29 +299,40 @@ export function Ecosystem({
         </div>
         <div className="ecosystem-source">
           <span>{t.ecosystem.referenceNote}</span>
-          {language === "es" && (
-            <button className="text-link" onClick={() => setReference(true)}>
-              {t.ecosystem.reference}
-              <Icon name="diagonal" size={16} />
-            </button>
-          )}
+          <button className="text-link" onClick={() => setReference(true)}>
+            {t.ecosystem.reference}
+            <Icon name="diagonal" size={16} />
+          </button>
         </div>
       </div>
       <Modal
-        open={reference && language === "es"}
+        open={reference}
         onClose={() => setReference(false)}
         titleId="reference-title"
         wide
       >
-        <h2 id="reference-title">{t.ecosystem.original}</h2>
-        <img
-          className="reference-image"
-          src={ecosystemMap}
-          width="1525"
-          height="1004"
-          alt="Mapa institucional COPP–ADRESD: propósito, enfoque bio-psico-social y 12 áreas del ecosistema, de salud a academia."
-          loading="lazy"
-        />
+        <h2 id="reference-title">{t.ecosystem.mapTitle}</h2>
+        <p>{t.ecosystem.mapSummary}</p>
+        <ol className="reference-areas">
+          {areas.map((entry) => (
+            <li key={entry.brand}>
+              <strong>{entry[language].name}</strong>
+              <span>{entry.brand}</span>
+            </li>
+          ))}
+        </ol>
+        <div className="reference-topics">
+          {t.ecosystem.mapTopics.map((topic) => (
+            <section key={topic.title}>
+              <h3>{topic.title}</h3>
+              <ul>
+                {topic.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
       </Modal>
     </section>
   );
