@@ -36,7 +36,7 @@ export const membershipContent = {
       plan: "Cómo quieres pagar",
       included: "Todo esto está incluido",
       includedHint:
-        "El monitoreo inteligente depende de los dispositivos médicos o de bienestar compatibles de cada persona. Agentic Wellness IA solo extrae y organiza esos datos; no mide por sí misma.",
+        "El monitoreo inteligente depende de los dispositivos compatibles de cada persona. Agentic Wellness IA extrae y organiza sus datos. La app no realiza mediciones.",
       includedTag: "Incluido",
       recurring: "al año",
       recurringMonth: "por mes",
@@ -66,7 +66,7 @@ export const membershipContent = {
         icon: "pulse",
         name: "Monitoreo inteligente",
         description:
-          "Reúne en la app los datos de tus dispositivos médicos o de bienestar compatibles. Agentic Wellness IA solo extrae la información.",
+          "Reúne en la app los datos de tus dispositivos compatibles. Agentic Wellness IA extrae la información de esos dispositivos.",
       },
       {
         id: "medication",
@@ -174,7 +174,7 @@ export const membershipContent = {
     },
     legalTitle: "Sobre este programa",
     legal:
-      "Agentic Wellness IA es un programa de bienestar y acompañamiento; no diagnostica, trata ni previene enfermedades ni reemplaza la atención médica. Por ahora la plataforma no cuenta con profesionales de la salud atendiendo: los planes nutricionales son sugerencias o recomendaciones del programa y deben ser validados por un profesional de la salud avalado y de tu elección antes de seguirlos. El control de medicamentos es un registro informativo; no prescribe ni modifica tratamientos y sus alertas no sustituyen el criterio de tu médico o farmacéutico. Los impuestos de venta se calculan al pagar según tu estado. Los servicios de emergencia (SOS) dependen de cobertura y de acuerdos con terceros y no sustituyen el 911. Precios en dólares (USD).",
+      "Agentic Wellness IA ofrece información general de bienestar y acompañamiento. Actualmente la plataforma no cuenta con profesionales de la salud que atiendan directamente. Antes de seguir las sugerencias de alimentación, revísalas con un profesional de la salud habilitado de tu elección. El registro y sus alertas son informativos. Consulta a tu profesional de la salud o farmacéutico antes de cambiar tu plan. Los impuestos de venta se calculan al pagar según tu estado. La disponibilidad del servicio SOS depende de la cobertura y de acuerdos con terceros. En una emergencia llama al 911. Precios en dólares (USD).",
     whatsappMessage(selection: string, amount: string): string {
       return `Hola, quiero contratar la membresía Agentic Wellness IA: ${selection}. Cargo estimado hoy: ${amount}.`;
     },
@@ -210,7 +210,7 @@ export const membershipContent = {
       plan: "How would you like to pay",
       included: "Everything included",
       includedHint:
-        "Smart monitoring depends on each person's compatible medical or wellness devices. Agentic Wellness IA only extracts and organizes that data; it does not measure on its own.",
+        "Smart monitoring depends on each person's compatible devices. Agentic Wellness IA extracts and organizes their data. The app does not take measurements.",
       includedTag: "Included",
       recurring: "a year",
       recurringMonth: "per month",
@@ -240,7 +240,7 @@ export const membershipContent = {
         icon: "pulse",
         name: "Smart monitoring",
         description:
-          "Brings your compatible medical or wellness device data into the app. Agentic Wellness IA only extracts the information.",
+          "Brings data from your compatible devices into the app. Agentic Wellness IA extracts that data from your devices.",
       },
       {
         id: "medication",
@@ -347,7 +347,7 @@ export const membershipContent = {
     },
     legalTitle: "About this program",
     legal:
-      "Agentic Wellness IA is a wellbeing and support program; it does not diagnose, treat or prevent disease and it does not replace medical care. For now the platform does not have health professionals on staff: nutrition plans are suggestions or recommendations from the program and must be validated by a qualified health professional of your choice before you follow them. Medication tracking is an informational record; it does not prescribe or change treatments and its alerts do not replace your doctor's or pharmacist's judgement. Sales taxes are calculated at checkout based on your state. Emergency services (SOS) depend on coverage and third-party agreements and do not replace 911. Prices in US dollars (USD).",
+      "Agentic Wellness IA offers general wellness information and support. The platform currently has no health professionals providing direct care. Before following the eating suggestions, review them with a qualified health professional of your choice. The record and its alerts are informational. Check with your health professional or pharmacist before changing your plan. Sales taxes are calculated at checkout based on your state. SOS availability depends on coverage and third-party agreements. In an emergency, call 911. Prices in US dollars (USD).",
     whatsappMessage(selection: string, amount: string): string {
       return `Hi, I would like to join the Agentic Wellness IA membership: ${selection}. Estimated charge today: ${amount}.`;
     },
