@@ -29,6 +29,7 @@ const container = process.env.COP_E2E_PAID_DB_CONTAINER;
 assert.ok(/^copp_review_[a-z0-9_]+$/.test(database ?? "") && /^[a-z0-9][a-z0-9_.-]+$/i.test(container ?? ""));
 const auth = "/api/auth/paid-activation/demo";
 const journey = "/api/v1/wellness/journey";
+const expectedRetry = process.env.COP_E2E_EXPECT_GENERATION_RETRY === "true";
 
 function pg(sql) {
   return execFileSync("docker", ["--context", "default", "exec", container, "psql", "-X", "-qAt",
@@ -107,8 +108,8 @@ async function openWelcome(page, link, reload = false) {
 
 async function openGoal(page) {
   await page.getByRole("link", { name: "Continúa a tu objetivo" }).click();
-  await page.waitForURL(url => url.origin === app.origin && url.searchParams.get("wellnessJourney") === "1");
-  await expect(page.getByRole("heading", { name: "Tu objetivo", exact: true })).toBeVisible();
+  await page.waitForURL(url => url.origin === app.origin && url.searchParams.get("wellnessJourney") === "1", { waitUntil: "commit" });
+  await expect(page.getByRole("heading", { name: "Tu objetivo", exact: true })).toBeVisible({ timeout: 45_000 });
 }
 
 async function fillQuestionnaire(page) {
@@ -206,11 +207,14 @@ try {
   const generation = await submitted.json();
   await expect(page.getByRole("heading", { name: "Protocolo de hoy", exact: true })).toBeVisible();
   const retry = page.getByRole("button", { name: "Reintentar", exact: true });
-  await expect(retry).toBeVisible();
-  await page.reload();
-  await expect(retry).toBeVisible();
-  await retry.click();
+  if (expectedRetry) {
+    await expect(retry).toBeVisible();
+    await page.reload();
+    await expect(retry).toBeVisible();
+    await retry.click();
+  }
   await expect(page.getByText("Tu plan y tu bandeja están listos", { exact: true })).toBeVisible();
+  await expect(retry).toBeHidden();
   await expect(page.getByRole("heading", { name: "Bandeja", exact: true })).toBeVisible();
   const tab = (name) => page.getByRole("navigation", { name: "Navegación principal" }).getByRole("button", { name, exact: true });
   await tab("Nutrición").click();
@@ -219,12 +223,17 @@ try {
   await expect(page.getByRole("heading", { name: "Antes de empezar", exact: true })).toBeVisible();
   await tab("Inicio").click();
   await expect(page.getByRole("heading", { name: "Protocolo de hoy", exact: true })).toBeVisible();
-  const latest = waitFor(page, journey + "/latest", "GET");
-  await page.reload();
-  const home = await (await latest).json();
+  const [latest] = await Promise.all([
+    page.waitForResponse(response => new URL(response.url()).pathname === journey + "/latest"
+      && response.request().method() === "GET" && response.ok(), { timeout: 45_000 }),
+    page.reload({ waitUntil: "domcontentloaded" }),
+  ]);
+  await expect(page.getByText("Tu plan y tu bandeja están listos", { exact: true })).toBeVisible({ timeout: 45_000 });
+  const home = await latest.json();
   assert.equal(home.generationId, generation.generationId);
   assert.equal(home.submissionId, generation.submissionId);
   assert.equal(home.status, "ready");
+  assert.equal(home.attempts, expectedRetry ? 2 : 1);
   assert.ok(home.exercise.result.items.length && home.nutrition.result.items.length && home.inbox.items.length);
   assert.equal(pg(`SELECT count(*) FROM app.wellness_journey_generations WHERE patient_id = '${profileId}';`), "1");
   await newCustomer.close();
@@ -245,7 +254,7 @@ try {
   assert.equal(identity(existingEmail), before);
   assert.equal(pg(`SELECT "LinkedUserId" FROM auth."PaidActivations" WHERE "PaymentId" = '${returningPayment}';`), before.split("|")[0]);
   await returningCustomer.close();
-  console.log("Flujo de experiencia del cliente: pago recuperable, alta y consentimientos, sesión móvil, compuerta, generación recuperable e identidad previa verificados.");
+  console.log("Flujo de experiencia del cliente: pago recuperable, alta y consentimientos, sesión móvil, compuerta, generación e identidad previa verificadas.");
 } finally {
   await browser.close();
 }

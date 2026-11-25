@@ -36,9 +36,11 @@ Aplica las migraciones Auth y API antes de sembrar. Configura
 con el origen local de la app móvil. La web y la app usan el mismo host,
 con puertos distintos, para continuar con la sesión de Auth. Arranca
 la app en Vite con `VITE_WELLNESS_JOURNEY_DEMO=true` y su proxy al Gateway.
-Configura la API en Development con `WellnessJourneyDemo__Enabled=true`
-y `WellnessJourneyDemo__FailureOnFirstAttempt=true` para la prueba de
-reintento en Inicio.
+Configura la API en Development con `WellnessJourneyDemo__Enabled=true`.
+La prueba comprueba que la generación se completa en un solo intento.
+Para probar el reintento por separado, inicia la API con
+`WellnessJourneyDemo__FailureOnFirstAttempt=true` y ejecuta la prueba con
+`COP_E2E_EXPECT_GENERATION_RETRY=true`.
 
 ## Arquitectura
 
