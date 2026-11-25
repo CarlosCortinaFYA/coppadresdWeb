@@ -12,8 +12,8 @@ const playwrightApp = process.env.COP_PLAYWRIGHT_APP_DIR ??
     .find(candidate => existsSync(path.join(candidate, "node_modules/playwright")));
 assert.ok(playwrightApp, "Indica el directorio de la app con Playwright.");
 const requireFromApp = createRequire(path.join(playwrightApp, "package.json"));
-const { chromium, webkit, expect } = requireFromApp("playwright/test");
-expect.configure({ timeout: 15_000 });
+const { chromium, webkit, expect: browserExpect } = requireFromApp("playwright/test");
+const expect = browserExpect.configure({ timeout: 15_000 });
 
 function loopback(name) {
   const url = new URL(process.env[name]);
@@ -204,16 +204,21 @@ try {
   const submitted = await validSubmission;
   assert.equal(submitted.status(), 202);
   const generation = await submitted.json();
-  await expect(page.getByRole("heading", { name: "Inicio", exact: true })).toBeVisible();
-  const retry = page.getByRole("button", { name: "Reintentar generación", exact: true });
+  await expect(page.getByRole("heading", { name: "Protocolo de hoy", exact: true })).toBeVisible();
+  const retry = page.getByRole("button", { name: "Reintentar", exact: true });
   await expect(retry).toBeVisible();
   await page.reload();
   await expect(retry).toBeVisible();
   await retry.click();
   await expect(page.getByText("Tu plan y tu bandeja están listos", { exact: true })).toBeVisible();
-  for (const name of ["Plan de ejercicio", "Plan de nutrición", "Bandeja de entrada"]) {
-    await expect(page.getByRole("heading", { name, exact: true })).toBeVisible();
-  }
+  await expect(page.getByRole("heading", { name: "Bandeja", exact: true })).toBeVisible();
+  const tab = (name) => page.getByRole("navigation", { name: "Navegación principal" }).getByRole("button", { name, exact: true });
+  await tab("Nutrición").click();
+  await expect(page.getByRole("heading", { name: "Dieta de hoy", exact: true })).toBeVisible();
+  await tab("Ejercicio").click();
+  await expect(page.getByRole("heading", { name: "Antes de empezar", exact: true })).toBeVisible();
+  await tab("Inicio").click();
+  await expect(page.getByRole("heading", { name: "Protocolo de hoy", exact: true })).toBeVisible();
   const latest = waitFor(page, journey + "/latest", "GET");
   await page.reload();
   const home = await (await latest).json();
