@@ -27,14 +27,14 @@ export interface PatientChannelContent {
 }
 
 const es: PatientChannelContent = {
-  metaTitle: "Canal de WhatsApp para pacientes | Agentic Wellness IA",
+  metaTitle: "Atención a la persona por WhatsApp | Agentic Wellness IA",
   metaDescription:
-    "Canal oficial de WhatsApp del programa Agentic Wellness IA para el acompañamiento de pacientes inscritos: opt-in, baja con SALIR/STOP y privacidad.",
+    "Información sobre el canal oficial de WhatsApp de Agentic Wellness IA para personas inscritas, cómo vincular el número, cómo darte de baja con SALIR o STOP y cómo se protege tu privacidad.",
   home: "Ir al inicio",
   eyebrow: "Canal de atención",
-  title: "WhatsApp para pacientes Agentic Wellness IA",
+  title: "Atención a la persona por WhatsApp",
   intro:
-    "Este es el canal oficial de WhatsApp del programa Agentic Wellness IA para acompañar a pacientes inscritos. Es un canal de seguimiento asistencial y educativo, no un canal de ventas ni de promociones.",
+    "Este es el canal oficial de WhatsApp de Agentic Wellness IA para acompañar a las personas inscritas. Es un canal de seguimiento y educación, no un canal de ventas ni de promociones.",
   sections: [
     {
       title: "Para qué usamos este canal",
@@ -48,7 +48,7 @@ const es: PatientChannelContent = {
     },
     {
       title: "Quién recibe mensajes",
-      body: "Únicamente pacientes con una inscripción activa y consentimiento explícito para recibir mensajes por WhatsApp. El número se vincula una sola vez mediante un código de verificación (OTP) y solo el titular puede usarlo. Nunca escribimos a contactos que no se hayan vinculado.",
+      body: "Solo pueden usarlo las personas con una inscripción activa y consentimiento explícito para recibir mensajes por WhatsApp. El número se vincula una sola vez mediante un código de verificación (OTP) y solo el titular puede usarlo. Nunca escribimos a contactos que no se hayan vinculado.",
     },
     {
       title: "Cómo darte de baja o volver",
@@ -66,7 +66,7 @@ const es: PatientChannelContent = {
         "No enviamos promociones no solicitadas ni campañas masivas.",
         "No vendemos suplementos, productos ni membresías por WhatsApp.",
         "No compartimos tus datos con terceros ajenos a tu atención.",
-        "No sustituimos una consulta, un diagnóstico ni una urgencia médica.",
+        "Este canal ofrece información general. Consulta a un profesional de la salud para recibir orientación personal.",
       ],
     },
     {
@@ -86,14 +86,14 @@ const es: PatientChannelContent = {
 };
 
 const en: PatientChannelContent = {
-  metaTitle: "Patient WhatsApp channel | Agentic Wellness IA",
+  metaTitle: "Personal support via WhatsApp | Agentic Wellness IA",
   metaDescription:
-    "Official WhatsApp channel of the Agentic Wellness IA program for enrolled patients: opt-in, opt-out with SALIR/STOP and privacy.",
+    "Information about the official Agentic Wellness IA WhatsApp channel for enrolled people, how to link your number, how to opt out with SALIR or STOP, and how your privacy is protected.",
   home: "Go to home",
   eyebrow: "Care channel",
-  title: "WhatsApp for Agentic Wellness IA patients",
+  title: "Personal support via WhatsApp",
   intro:
-    "This is the official WhatsApp channel of the Agentic Wellness IA program for enrolled patients. It is a care and education channel, not a sales or promotions channel.",
+    "This is the official Agentic Wellness IA WhatsApp channel for enrolled people. It provides support and education, with no sales or promotions.",
   sections: [
     {
       title: "What we use this channel for",
@@ -107,7 +107,7 @@ const en: PatientChannelContent = {
     },
     {
       title: "Who receives messages",
-      body: "Only patients with an active enrollment and explicit consent to receive WhatsApp messages. The number is linked once through a verification code (OTP) and only its owner can use it. We never message contacts who have not opted in.",
+      body: "The channel is available only to people with an active enrollment who explicitly consent to WhatsApp messages. The number is linked once through a verification code (OTP) and only its owner can use it. We never message contacts who have not opted in.",
     },
     {
       title: "How to opt out or come back",
@@ -125,7 +125,7 @@ const en: PatientChannelContent = {
         "We do not send unsolicited promotions or mass campaigns.",
         "We do not sell supplements, products or memberships over WhatsApp.",
         "We do not share your data with third parties outside your care.",
-        "We do not replace a consultation, a diagnosis or a medical emergency.",
+        "This channel provides general information. Consult a health professional for individual guidance.",
       ],
     },
     {
