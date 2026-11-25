@@ -7,13 +7,13 @@ import path from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 
 const playwrightApp = process.env.COP_PLAYWRIGHT_APP_DIR ??
-  ["../../mobile", "../../antares-paciente"]
+  ["../../patient-app", "../../mobile", "../../antares-paciente"]
     .map(candidate => path.resolve(import.meta.dirname, candidate))
     .find(candidate => existsSync(path.join(candidate, "node_modules/playwright")));
 assert.ok(playwrightApp, "Indica el directorio de la app con Playwright.");
 const requireFromApp = createRequire(path.join(playwrightApp, "package.json"));
-const { chromium, webkit, expect } = requireFromApp("playwright/test");
-expect.configure({ timeout: 15_000 });
+const { chromium, webkit, expect: browserExpect } = requireFromApp("playwright/test");
+const expect = browserExpect.configure({ timeout: 15_000 });
 
 function loopback(name) {
   const url = new URL(process.env[name]);
@@ -204,7 +204,7 @@ try {
   const submitted = await validSubmission;
   assert.equal(submitted.status(), 202);
   const generation = await submitted.json();
-  await expect(page.getByRole("heading", { name: "Inicio", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Abrir protocolo diario", exact: true })).toBeVisible();
   const retry = page.getByRole("button", { name: "Reintentar generación", exact: true });
   await expect(retry).toBeVisible();
   await page.reload();
@@ -214,6 +214,12 @@ try {
   for (const name of ["Plan de ejercicio", "Plan de nutrición", "Bandeja de entrada"]) {
     await expect(page.getByRole("heading", { name, exact: true })).toBeVisible();
   }
+  await page.getByRole("button", { name: "Hacer ejercicio del día", exact: true }).click();
+  await expect(page.locator(".lesson-ejercicio")).toBeVisible();
+  await page.getByRole("button", { name: "Volver al protocolo" }).click();
+  await page.getByRole("button", { name: "Inicio", exact: true }).click();
+  await page.getByRole("button", { name: /^Nutrición Tu plan/ }).click();
+  await expect(page.getByRole("heading", { name: "Nutrición", exact: true })).toBeVisible();
   const latest = waitFor(page, journey + "/latest", "GET");
   await page.reload();
   const home = await (await latest).json();
