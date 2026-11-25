@@ -46,15 +46,16 @@ function waitFor(page, route, method) {
     response.request().method() === method, { timeout: 15000 });
 }
 
-async function confirmedCheckout(page, email, loseResponse = false) {
+async function confirmedCheckout(page, email, loseResponse = false, locale = "es") {
+  const english = locale === "en";
   await page.goto(new URL("/membresia", web).href);
   await page.locator('label.m-plan:has(input[value="monthly"])').click();
-  await page.getByRole("button", { name: "Continuar a la demostración" }).click();
-  const submit = page.getByRole("button", { name: "Confirmar pago simulado" });
+  await page.getByRole("button", { name: english ? "Continue to the demo" : "Continuar a la demostración" }).click();
+  const submit = page.getByRole("button", { name: english ? "Confirm simulated payment" : "Confirmar pago simulado" });
   await submit.scrollIntoViewIfNeeded();
-  const heading = page.getByRole("heading", { name: "Pago de demostración" });
+  const heading = page.getByRole("heading", { name: english ? "Demo payment" : "Pago de demostración" });
   await expect(heading).toBeVisible();
-  const field = page.getByRole("textbox", { name: "Correo electrónico", exact: true });
+  const field = page.getByRole("textbox", { name: english ? "Email" : "Correo electrónico", exact: true });
   await field.fill(email);
   let paymentId;
   if (loseResponse) {
@@ -76,7 +77,7 @@ async function confirmedCheckout(page, email, loseResponse = false) {
   }
   assert.match(paymentId, /^[0-9a-f-]{36}$/i);
   await page.reload();
-  await expect(page.getByRole("heading", { name: "Revisa tu correo" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: english ? "Check your email" : "Revisa tu correo" })).toBeVisible();
   assert.match(await page.locator("body").innerText(), /\$19\.96/);
   assert.equal(pg(`SELECT count(*) FROM auth."PaidActivations" WHERE "PaymentId" = '${paymentId}' AND "Plan" = 'monthly' AND "AmountCents" = 1996;`), "1");
   return paymentId;
@@ -90,7 +91,8 @@ async function mailedLink(email, paymentId) {
     for (const message of messages.filter(entry => entry.To.some(address => address.Address === email))) {
       const mail = await fetch(new URL("/api/v1/message/" + message.ID, inbox));
       const { Text } = await mail.json();
-      const link = Text.split(/\s+/).find(part => part.startsWith(web.origin + "/activar-membresia#"));
+      const link = Text.split(/\s+/).find(part => ["/activar-membresia#", "/activate-membership#"]
+        .some(prefix => part.startsWith(web.origin + prefix)));
       if (link && new URLSearchParams(new URL(link).hash.slice(1)).get("paymentId") === paymentId)
         return link;
     }
@@ -99,15 +101,16 @@ async function mailedLink(email, paymentId) {
   throw new Error("No llegó el correo de bienvenida al buzón de prueba.");
 }
 
-async function openWelcome(page, link, reload = false) {
+async function openWelcome(page, link, reload = false, locale = "es") {
   const prepared = waitFor(page, auth + "/prepare", "POST");
   await page.goto(link);
   assert.equal((await prepared).status(), 204);
-  await expect(page.getByRole("button", { name: "Continuar activación" })).toBeVisible();
+  const continueLabel = locale === "en" ? "Continue activation" : "Continuar activación";
+  await expect(page.getByRole("button", { name: continueLabel })).toBeVisible();
   assert.equal(new URL(page.url()).hash, "");
   if (reload) {
     await page.reload();
-    await expect(page.getByRole("button", { name: "Continuar activación" })).toBeVisible();
+    await expect(page.getByRole("button", { name: continueLabel })).toBeVisible();
   }
 }
 
@@ -119,14 +122,15 @@ async function openGoal(page) {
 }
 
 async function confirmPendingDocuments(page, max = 2) {
-  const prompt = page.getByRole("heading", { name: "Documentos de la cuenta", exact: true });
-  await expect(prompt.or(page.getByRole("heading", { name: "Tu objetivo", exact: true }))).toBeVisible({ timeout: 45_000 });
-  for (let index = 0; index < max && await prompt.isVisible(); index++) {
-    await page.getByText("He leído y acepto el documento mostrado.", { exact: true }).click();
+  const checkbox = page.getByRole("checkbox", { name: "He leído y acepto el documento mostrado.", exact: true, checked: false });
+  const goal = page.getByRole("heading", { name: "Tu objetivo", exact: true });
+  await expect(checkbox.or(goal)).toBeVisible({ timeout: 45_000 });
+  for (let index = 0; index < max && await checkbox.isVisible(); index++) {
+    await checkbox.click();
     const pending = waitFor(page, accountLegal + "/acceptances", "POST");
     await page.getByRole("button", { name: "Aceptar y continuar", exact: true }).click();
     assert.equal((await pending).status(), 200);
-    await expect(page.getByRole("checkbox")).not.toBeChecked();
+    await expect(checkbox.or(goal)).toBeVisible({ timeout: 45_000 });
   }
 }
 
@@ -139,7 +143,7 @@ async function loginErp(page, erp, actor) {
   await page.getByLabel("Correo electrónico", { exact: true }).fill(email);
   await page.getByLabel("Contraseña", { exact: true }).fill(password);
   const pending = waitFor(page, "/api/auth/login", "POST");
-  await page.getByRole("button", { name: "Comencemos", exact: true }).press("Enter");
+  await page.getByRole("slider", { name: "Comencemos", exact: true }).press("Enter");
   const result = await pending;
   assert.equal(result.status(), 200);
   return { Authorization: "Bearer " + (await result.json()).accessToken };
@@ -148,6 +152,9 @@ async function loginErp(page, erp, actor) {
 async function verifyNewVersion(browser, page, userId, email, password) {
   const erp = loopback("COP_E2E_KAN119_ERP_URL");
   const terms = "paid-demo-terms-es";
+  await page.getByRole("navigation", { name: "Navegación principal" }).getByRole("button", { name: "Perfil", exact: true }).click();
+  const logout = page.getByRole("button", { name: "Cerrar sesión", exact: true });
+  await expect(logout).toBeVisible();
   const editor = await browser.newContext({ locale: "es-CO", acceptDownloads: true });
   const staff = await editor.newPage();
   const headers = await loginErp(staff, erp, "ADMIN");
@@ -160,13 +167,12 @@ async function verifyNewVersion(browser, page, userId, email, password) {
   await staff.getByRole("button", { name: /Términos de prueba/ }).first().click();
   await staff.getByRole("button", { name: "Publicar", exact: true }).click();
   const published = waitFor(staff, `/api/v1/legal-documents/${terms}/publish`, "POST");
-  await staff.getByRole("button", { name: "Publicar", exact: true }).last().click();
+  await staff.getByRole("dialog").getByRole("button", { name: "Publicar", exact: true }).click();
   const publication = await published;
   assert.equal(publication.status(), 200);
   assert.equal((await publication.json()).currentVersion, "2.0");
 
-  await page.context().clearCookies();
-  await page.reload({ waitUntil: "domcontentloaded" });
+  await logout.click();
   await page.locator("#login-email input").fill(email);
   await page.locator("#login-password input").fill(password);
   const statusAfterPublication = waitFor(page, accountLegal, "GET");
@@ -177,7 +183,7 @@ async function verifyNewVersion(browser, page, userId, email, password) {
   await expect(page.getByRole("heading", { name: "Documentos de la cuenta", exact: true })).toBeVisible();
   await expect(page.getByText("Términos sintéticos KAN-119 v2.", { exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Protocolo de hoy", exact: true })).toBeHidden();
-  await page.getByText("He leído y acepto el documento mostrado.", { exact: true }).click();
+  await page.getByRole("checkbox", { name: "He leído y acepto el documento mostrado.", exact: true }).click();
   const acceptance = waitFor(page, accountLegal + "/acceptances", "POST");
   await page.getByRole("button", { name: "Aceptar y continuar", exact: true }).click();
   assert.equal((await acceptance).status(), 200);
@@ -217,6 +223,44 @@ async function verifyNewVersion(browser, page, userId, email, password) {
     assert.equal(response.status(), 403);
   }
   await restricted.close();
+}
+
+async function verifyEnglishDocuments(browser) {
+  const context = await browser.newContext({ ...contextOptions, locale: "en-US" });
+  try {
+    const page = await context.newPage();
+    await page.addInitScript((origin) => {
+      if (location.origin === origin) localStorage.setItem("copp-language", "en");
+    }, web.origin);
+    const email = "journey-en-" + randomUUID().slice(0, 8) + "@example.invalid";
+    const password = "Viaje!" + randomUUID().slice(0, 8) + "A7";
+    const paymentId = await confirmedCheckout(page, email, false, "en");
+    await openWelcome(page, await mailedLink(email, paymentId), false, "en");
+    await page.getByRole("button", { name: "Continue activation", exact: true }).click();
+    for (const [label, value] of [
+      ["First name", "QA"], ["Last name", "English"], ["Emergency contact name", "Synthetic contact"],
+      ["Emergency contact phone", "+573005550123"], ["New password", password], ["Confirm password", password],
+    ]) await page.getByLabel(label, { exact: true }).fill(value);
+    await page.getByRole("checkbox", { name: /Test terms/ }).check();
+    await page.getByRole("checkbox", { name: /Test privacy policy/ }).check();
+    const completed = waitFor(page, auth + "/complete", "POST");
+    await page.getByRole("button", { name: "Create account", exact: true }).click();
+    assert.equal((await completed).status(), 200);
+    const [userId] = identity(email).split("|");
+    assert.match(userId, /^[0-9a-f-]{36}$/i);
+    assert.equal(pg(`SELECT count(*) FROM app.legal_document_acceptances a
+      JOIN erp.legal_documents d ON d.current_version_id = a.legal_document_version_id
+      WHERE a.user_id = '${userId}' AND a.locale = 'en' AND d.code IN ('paid-demo-terms-en','paid-demo-privacy-en');`), "2");
+    const checked = waitFor(page, accountLegal, "GET");
+    await page.getByRole("link", { name: "Continue to your goal", exact: true }).click();
+    const status = await (await checked).json();
+    assert.equal(status.locale, "en");
+    assert.equal(status.acceptanceRequired, false);
+    assert.equal(status.documents.length, 2);
+    assert.ok(status.documents.every(document => document.receiptId));
+  } finally {
+    await context.close();
+  }
 }
 
 async function fillQuestionnaire(page) {
@@ -309,6 +353,7 @@ try {
     WHERE a.user_id = '${userId}' AND d.code LIKE 'paid-demo-%';`), "2");
   assert.equal(pg(`SELECT count(*) FROM auth."PaidActivations" WHERE "PaymentId" = '${paymentId}' AND "LinkedUserId" = '${userId}';`), "1");
   await openGoal(page);
+  if (verifyAccountLegal) console.log("KAN-119: alta con ambos recibos y acceso a Antares verificados.");
   await fillQuestionnaire(page);
 
   const validSubmission = waitFor(page, journey + "/submissions", "POST");
@@ -342,6 +387,11 @@ try {
   await tab("Nutrición").click();
   await expect(page.getByRole("heading", { name: "Dieta de hoy", exact: true })).toBeVisible();
   await tab("Ejercicio").click();
+  if (verifyAccountLegal) {
+    await expect(page.getByRole("heading", { name: "Datos sensibles", exact: true })).toBeVisible();
+    await page.getByRole("checkbox", { name: "Acepto el uso de mis datos sensibles para mi plan de bienestar." }).click();
+    await page.getByRole("button", { name: "Continuar", exact: true }).click();
+  }
   await expect(page.getByRole("heading", { name: "Antes de empezar", exact: true })).toBeVisible();
   await tab("Inicio").click();
   await expect(page.getByRole("heading", { name: "Protocolo de hoy", exact: true })).toBeVisible();
@@ -358,7 +408,10 @@ try {
   assert.equal(home.attempts, expectedRetry ? 2 : 1);
   assert.ok(home.exercise.result.items.length && home.nutrition.result.items.length && home.inbox.items.length);
   assert.equal(pg(`SELECT count(*) FROM app.wellness_journey_generations WHERE patient_id = '${profileId}';`), "1");
-  if (verifyAccountLegal) await verifyNewVersion(browser, page, userId, freshEmail, freshPassword);
+  if (verifyAccountLegal) {
+    await verifyNewVersion(browser, page, userId, freshEmail, freshPassword);
+    console.log("KAN-119: publicación, reingreso, privacidad, historial, CSV y denegación del operador verificados.");
+  }
   await newCustomer.close();
 
   const existingEmail = process.env.COP_E2E_PAID_EXISTING_EMAIL;
@@ -377,6 +430,10 @@ try {
   assert.equal(identity(existingEmail), before);
   assert.equal(pg(`SELECT "LinkedUserId" FROM auth."PaidActivations" WHERE "PaymentId" = '${returningPayment}';`), before.split("|")[0]);
   await returningCustomer.close();
+  if (verifyAccountLegal) {
+    await verifyEnglishDocuments(browser);
+    console.log("KAN-119: recibos de la variante inglesa y continuidad a Antares verificados.");
+  }
   console.log("Flujo de experiencia del cliente: pago recuperable, alta y consentimientos, sesión móvil, compuerta, generación e identidad previa verificadas.");
 } finally {
   await browser.close();
