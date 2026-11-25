@@ -124,6 +124,30 @@ async function localMail(inbox, address) {
   );
 }
 
+async function expectBrandedWelcome(html, url, english) {
+  const preview = await browser.newPage(browserOptions);
+  try {
+    // No cargar logos remotos al comprobar el HTML recibido en el buzón de prueba.
+    await preview.route("**/*", (route) => route.abort());
+    await preview.setContent(html);
+    await expect(preview.locator("html")).toHaveAttribute("lang", english ? "en" : "es");
+    await expect(preview.getByRole("heading", {
+      name: english ? "Welcome to Copp Adresd" : "Bienvenido a Copp Adresd", exact: true,
+    })).toBeVisible();
+    const activate = preview.getByRole("link", {
+      name: english ? "Activate your membership" : "Activa tu membresía", exact: true,
+    });
+    await expect(activate).toBeVisible();
+    // Comprobar paridad sin imprimir el enlace de un solo uso si la aserción falla.
+    assert.ok(await activate.getAttribute("href") === url.href, "El botón y el texto plano deben apuntar al mismo enlace.");
+    await expect(activate).toHaveCSS("display", "inline-block");
+    await expect(activate).toHaveCSS("color", "rgb(255, 255, 255)");
+    assert.ok(await preview.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+  } finally {
+    await preview.close();
+  }
+}
+
 async function welcomeLink(inbox, address, paymentId, exclude = new Set(), english = false) {
   const expectedPath = english ? "/activate-membership" : "/activar-membresia";
   for (let attempt = 0; attempt < 60; attempt++) {
@@ -131,7 +155,7 @@ async function welcomeLink(inbox, address, paymentId, exclude = new Set(), engli
       if (exclude.has(message.ID)) continue;
       const response = await fetch(new URL(`/api/v1/message/${message.ID}`, inbox));
       assert.ok(response.ok);
-      const { Text } = await response.json();
+      const { Text, HTML } = await response.json();
       const part = Text.split(/\s+/).find((item) => item.startsWith(`${web.origin}${expectedPath}#`));
       if (!part) continue;
       const url = new URL(part);
@@ -139,6 +163,7 @@ async function welcomeLink(inbox, address, paymentId, exclude = new Set(), engli
       if (fragment.get("paymentId") !== paymentId) continue;
       assert.equal(url.search, "");
       assert.ok(fragment.get("token"), "El correo de bienvenida debe incluir el token en el fragmento.");
+      await expectBrandedWelcome(HTML, url, english);
       return { id: message.ID, url };
     }
     await delay(250);
