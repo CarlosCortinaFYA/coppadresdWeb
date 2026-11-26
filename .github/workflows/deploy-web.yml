@@ -1,7 +1,7 @@
 name: Deploy Web
 
-# Despliegue de la web pública (www.coppadresd.com).
-# S3 `cooppadresd-web-prod` + CloudFront `E3736H4CGEE9U7`.
+# Despliegue de la web pública (www.agenticwellness.ai).
+# S3 `agenticwellness-web-prod` + CloudFront `E1ZP9OC19HM5K4`.
 # OIDC: rol AWS `cooppadresd-gha-web` (trust solo a main de este repo).
 on:
   push:
@@ -29,8 +29,8 @@ concurrency:
 env:
   AWS_REGION: us-east-2
   AWS_ROLE: arn:aws:iam::933629770820:role/cooppadresd-gha-web
-  WEB_BUCKET: cooppadresd-web-prod
-  DISTRIBUTION_ID: E3736H4CGEE9U7
+  WEB_BUCKET: agenticwellness-web-prod
+  DISTRIBUTION_ID: E1ZP9OC19HM5K4
 
 jobs:
   build:
@@ -120,5 +120,5 @@ jobs:
 
       - name: Verificar producción
         run: |
-          curl -sS -o /dev/null -w "www.coppadresd.com -> %{http_code}\n" \
-            -H "Cache-Control: no-cache" https://www.coppadresd.com/
+          curl -sS -o /dev/null -w "www.agenticwellness.ai -> %{http_code}\n" \
+            -H "Cache-Control: no-cache" https://www.agenticwellness.ai/
