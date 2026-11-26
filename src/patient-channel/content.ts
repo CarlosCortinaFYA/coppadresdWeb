@@ -27,14 +27,14 @@ export interface PatientChannelContent {
 }
 
 const es: PatientChannelContent = {
-  metaTitle: "Canal de WhatsApp para pacientes | COPP-ADRESD",
+  metaTitle: "Canal de WhatsApp para pacientes | Agentic Wellness AI",
   metaDescription:
-    "Canal oficial de WhatsApp del programa COPP-ADRESD para el acompañamiento de pacientes inscritos: opt-in, baja con SALIR/STOP y privacidad.",
+    "Canal oficial de WhatsApp del programa Agentic Wellness AI para el acompañamiento de pacientes inscritos: opt-in, baja con SALIR/STOP y privacidad.",
   home: "Ir al inicio",
   eyebrow: "Canal de atención",
-  title: "WhatsApp para pacientes COPP-ADRESD",
+  title: "WhatsApp para pacientes de Agentic Wellness AI",
   intro:
-    "Este es el canal oficial de WhatsApp del programa COPP-ADRESD para acompañar a pacientes inscritos. Es un canal de seguimiento asistencial y educativo, no un canal de ventas ni de promociones.",
+    "Este es el canal oficial de WhatsApp del programa Agentic Wellness AI para acompañar a pacientes inscritos. Es un canal de seguimiento asistencial y educativo, no un canal de ventas ni de promociones.",
   sections: [
     {
       title: "Para qué usamos este canal",
@@ -81,19 +81,19 @@ const es: PatientChannelContent = {
   noteTitle: "Una urgencia no se atiende por WhatsApp",
   note: "Si tienes dolor en el pecho, dificultad para respirar, desmayo o cualquier signo de emergencia, contacta de inmediato a los servicios de emergencia de tu país. Este canal no es un servicio de urgencias ni de monitoreo en tiempo real.",
   legal:
-    "Canal oficial del programa COPP-ADRESD®. Titular de la cuenta de WhatsApp Business: Fya Tech SAS. Este sitio y el canal se rigen por las políticas de WhatsApp Business y por nuestras políticas de privacidad.",
+    "Canal oficial del programa Agentic Wellness AI. Titular de la cuenta de WhatsApp Business: Fya Tech SAS. Este sitio y el canal se rigen por las políticas de WhatsApp Business y por nuestras políticas de privacidad.",
   back: "Volver al inicio",
 };
 
 const en: PatientChannelContent = {
-  metaTitle: "Patient WhatsApp channel | COPP-ADRESD",
+  metaTitle: "Patient WhatsApp channel | Agentic Wellness AI",
   metaDescription:
-    "Official WhatsApp channel of the COPP-ADRESD program for enrolled patients: opt-in, opt-out with SALIR/STOP and privacy.",
+    "Official WhatsApp channel of the Agentic Wellness AI program for enrolled patients: opt-in, opt-out with SALIR/STOP and privacy.",
   home: "Go to home",
   eyebrow: "Care channel",
-  title: "WhatsApp for COPP-ADRESD patients",
+  title: "WhatsApp for Agentic Wellness AI patients",
   intro:
-    "This is the official WhatsApp channel of the COPP-ADRESD program for enrolled patients. It is a care and education channel, not a sales or promotions channel.",
+    "This is the official WhatsApp channel of the Agentic Wellness AI program for enrolled patients. It is a care and education channel, not a sales or promotions channel.",
   sections: [
     {
       title: "What we use this channel for",
@@ -140,7 +140,7 @@ const en: PatientChannelContent = {
   noteTitle: "An emergency is not handled over WhatsApp",
   note: "If you have chest pain, difficulty breathing, fainting or any emergency sign, contact your local emergency services immediately. This channel is not an emergency service or real-time monitoring.",
   legal:
-    "Official channel of the COPP-ADRESD® program. WhatsApp Business account holder: Fya Tech SAS. This site and the channel follow the WhatsApp Business policies and our privacy policies.",
+    "Official channel of the Agentic Wellness AI program. WhatsApp Business account holder: Fya Tech SAS. This site and the channel follow the WhatsApp Business policies and our privacy policies.",
   back: "Back to home",
 };
 

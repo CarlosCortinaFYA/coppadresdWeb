@@ -730,7 +730,7 @@ export function MembershipPage() {
               <BrandMark />
             </span>
             <span>
-              COPP-ADRESD<span className="brand-tm">®</span>
+              Agentic Wellness <b className="brand-ai">AI</b>
             </span>
           </a>
           <div className="m-top-controls">
@@ -801,7 +801,7 @@ export function MembershipPage() {
       <footer className="m-foot">
         <div className="container m-foot-inner">
           <span>
-            © {new Date().getFullYear()} COPP–ADRESD.{" "}
+            © {new Date().getFullYear()} Agentic Wellness AI.{" "}
             {language === "en"
               ? "All rights reserved."
               : "Todos los derechos reservados."}

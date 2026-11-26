@@ -1,6 +1,6 @@
 import { StrictMode, Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
-import { App } from "./App";
+import { LandingPage } from "./landing/LandingPage";
 import { PreferencesProvider } from "./i18n/Preferences";
 import { ROUTES, usePathname } from "./router";
 import "./styles/index.css";
@@ -51,7 +51,7 @@ function Router() {
       </Suspense>
     );
   }
-  return <App />;
+  return <LandingPage />;
 }
 
 createRoot(document.getElementById("root")!).render(

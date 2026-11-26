@@ -1,6 +1,6 @@
 /**
  * Contenido de la página de membresía en ES/EN. La legalidad ES se conserva
- * del documento de referencia "Membresía COPP-ADRESD"; EN es su traducción.
+ * del documento de referencia "Membresía Agentic Wellness AI"; EN es su traducción.
  */
 
 export interface ModuleContent {
@@ -10,14 +10,14 @@ export interface ModuleContent {
 
 export const membershipContent = {
   es: {
-    metaTitle: "Membresía COPP–ADRESD | Programa de bienestar",
+    metaTitle: "Membresía Agentic Wellness AI | Programa de bienestar",
     home: "Ir al inicio",
     backSite: "Volver a la web",
     close: "Cerrar",
     language: "Cambiar a inglés",
     light: "Activar modo claro",
     dark: "Activar modo oscuro",
-    eyebrow: "PROGRAMA COPP-ADRESD",
+    eyebrow: "PROGRAMA AGENTIC WELLNESS AI",
     hero: {
       title: ["Una membresía.", "Todo el acompañamiento."],
       description:
@@ -36,7 +36,7 @@ export const membershipContent = {
       plan: "Cómo quieres pagar",
       included: "Todo esto está incluido",
       includedHint:
-        "El monitoreo inteligente depende de los dispositivos médicos o de bienestar compatibles de cada persona. COPP-ADRESD solo extrae y organiza esos datos; no mide por sí misma.",
+        "El monitoreo inteligente depende de los dispositivos médicos o de bienestar compatibles de cada persona. Agentic Wellness AI solo extrae y organiza esos datos; no mide por sí misma.",
       includedTag: "Incluido",
       recurring: "al año",
       recurringMonth: "por mes",
@@ -66,7 +66,7 @@ export const membershipContent = {
         icon: "pulse",
         name: "Monitoreo inteligente",
         description:
-          "Reúne en la app los datos de tus dispositivos médicos o de bienestar compatibles. COPP-ADRESD solo extrae la información.",
+          "Reúne en la app los datos de tus dispositivos médicos o de bienestar compatibles. Agentic Wellness AI solo extrae la información.",
       },
       {
         id: "medication",
@@ -174,9 +174,9 @@ export const membershipContent = {
     },
     legalTitle: "Sobre este programa",
     legal:
-      "COPP-ADRESD es un programa de bienestar y acompañamiento; no diagnostica, trata ni previene enfermedades ni reemplaza la atención médica. Por ahora la plataforma no cuenta con profesionales de la salud atendiendo: los planes nutricionales son sugerencias o recomendaciones del programa y deben ser validados por un profesional de la salud avalado y de tu elección antes de seguirlos. El control de medicamentos es un registro informativo; no prescribe ni modifica tratamientos y sus alertas no sustituyen el criterio de tu médico o farmacéutico. Los impuestos de venta se calculan al pagar según tu estado. Los servicios de emergencia (SOS) dependen de cobertura y de acuerdos con terceros y no sustituyen el 911. Precios en dólares (USD).",
+      "Agentic Wellness AI es un programa de bienestar y acompañamiento; no diagnostica, trata ni previene enfermedades ni reemplaza la atención médica. Por ahora la plataforma no cuenta con profesionales de la salud atendiendo: los planes nutricionales son sugerencias o recomendaciones del programa y deben ser validados por un profesional de la salud avalado y de tu elección antes de seguirlos. El control de medicamentos es un registro informativo; no prescribe ni modifica tratamientos y sus alertas no sustituyen el criterio de tu médico o farmacéutico. Los impuestos de venta se calculan al pagar según tu estado. Los servicios de emergencia (SOS) dependen de cobertura y de acuerdos con terceros y no sustituyen el 911. Precios en dólares (USD).",
     whatsappMessage(selection: string, amount: string): string {
-      return `Hola, quiero contratar la membresía COPP-ADRESD: ${selection}. Cargo estimado hoy: ${amount}.`;
+      return `Hola, quiero contratar la membresía Agentic Wellness AI: ${selection}. Cargo estimado hoy: ${amount}.`;
     },
     aria: {
       dueToday: "Cargo de hoy",
@@ -184,14 +184,14 @@ export const membershipContent = {
     currency: "USD",
   },
   en: {
-    metaTitle: "COPP–ADRESD Membership | Wellbeing program",
+    metaTitle: "Agentic Wellness AI Membership | Wellbeing program",
     home: "Go to home",
     backSite: "Back to site",
     close: "Close",
     language: "Switch to Spanish",
     light: "Switch to light mode",
     dark: "Switch to dark mode",
-    eyebrow: "COPP-ADRESD PROGRAM",
+    eyebrow: "AGENTIC WELLNESS AI PROGRAM",
     hero: {
       title: ["One membership.", "Complete guidance."],
       description:
@@ -210,7 +210,7 @@ export const membershipContent = {
       plan: "How would you like to pay",
       included: "Everything included",
       includedHint:
-        "Smart monitoring depends on each person's compatible medical or wellness devices. COPP-ADRESD only extracts and organizes that data; it does not measure on its own.",
+        "Smart monitoring depends on each person's compatible medical or wellness devices. Agentic Wellness AI only extracts and organizes that data; it does not measure on its own.",
       includedTag: "Included",
       recurring: "a year",
       recurringMonth: "per month",
@@ -240,7 +240,7 @@ export const membershipContent = {
         icon: "pulse",
         name: "Smart monitoring",
         description:
-          "Brings your compatible medical or wellness device data into the app. COPP-ADRESD only extracts the information.",
+          "Brings your compatible medical or wellness device data into the app. Agentic Wellness AI only extracts the information.",
       },
       {
         id: "medication",
@@ -347,9 +347,9 @@ export const membershipContent = {
     },
     legalTitle: "About this program",
     legal:
-      "COPP-ADRESD is a wellbeing and support program; it does not diagnose, treat or prevent disease and it does not replace medical care. For now the platform does not have health professionals on staff: nutrition plans are suggestions or recommendations from the program and must be validated by a qualified health professional of your choice before you follow them. Medication tracking is an informational record; it does not prescribe or change treatments and its alerts do not replace your doctor's or pharmacist's judgement. Sales taxes are calculated at checkout based on your state. Emergency services (SOS) depend on coverage and third-party agreements and do not replace 911. Prices in US dollars (USD).",
+      "Agentic Wellness AI is a wellbeing and support program; it does not diagnose, treat or prevent disease and it does not replace medical care. For now the platform does not have health professionals on staff: nutrition plans are suggestions or recommendations from the program and must be validated by a qualified health professional of your choice before you follow them. Medication tracking is an informational record; it does not prescribe or change treatments and its alerts do not replace your doctor's or pharmacist's judgement. Sales taxes are calculated at checkout based on your state. Emergency services (SOS) depend on coverage and third-party agreements and do not replace 911. Prices in US dollars (USD).",
     whatsappMessage(selection: string, amount: string): string {
-      return `Hi, I would like to join the COPP-ADRESD membership: ${selection}. Estimated charge today: ${amount}.`;
+      return `Hi, I would like to join the Agentic Wellness AI membership: ${selection}. Estimated charge today: ${amount}.`;
     },
     aria: {
       dueToday: "Charge today",

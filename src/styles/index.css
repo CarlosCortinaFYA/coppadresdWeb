@@ -269,6 +269,14 @@ p {
   height: 33px;
   transform: rotate(-12deg);
 }
+/* Sufijo "AI" de la marca Agentic Wellness AI. */
+.brand-ai {
+  font-weight: 800;
+  color: #3a46d1;
+}
+[data-theme="dark"] .brand-ai {
+  color: #9aa4ff;
+}
 .brand-tm {
   font-size: 9px;
   vertical-align: super;

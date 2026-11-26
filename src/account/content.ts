@@ -1,12 +1,12 @@
 import type { Language } from "../i18n/translations";
 
 const es = {
-  metaTitle: "Eliminar cuenta | COPP–ADRESD",
+  metaTitle: "Eliminar cuenta | Agentic Wellness AI",
   home: "Volver al inicio",
   eyebrow: "CUENTA Y PRIVACIDAD",
   title: "Eliminar tu cuenta",
   intro:
-    "Desde aquí puedes solicitar la eliminación de tu cuenta de la app COPP-ADRESD. Antes de continuar, esto es lo que ocurre:",
+    "Desde aquí puedes solicitar la eliminación de tu cuenta de la app Agentic Wellness AI. Antes de continuar, esto es lo que ocurre:",
   effects: [
     "Tu acceso se bloquea de inmediato y se cierran tus sesiones.",
     "Tus datos se conservan 90 días, sin acceso para ti, por seguridad y trazabilidad.",
@@ -15,7 +15,7 @@ const es = {
   start: "Continuar",
   loading: "Cargando tu cuenta…",
   accountLabel: "Cuenta que se eliminará",
-  accountApp: "App COPP-ADRESD · Paciente",
+  accountApp: "App Agentic Wellness AI · Paciente",
   reviewTitle: "Esto es lo que implica eliminar tu cuenta",
   happenTitle: "Qué ocurre",
   happen: [
@@ -29,7 +29,7 @@ const es = {
   know: [
     "Los registros clínicos que subsistan quedan anonimizados, sin ningún vínculo contigo.",
     "Cuando se complete la eliminación definitiva no se puede deshacer ni recuperar la cuenta.",
-    "Si tu cuenta también tiene acceso a otra aplicación de COPP-ADRESD, ese acceso no se elimina.",
+    "Si tu cuenta también tiene acceso a otra aplicación de Agentic Wellness AI, ese acceso no se elimina.",
   ],
   review: "Entiendo y quiero continuar",
   loginTitle: "Verifica tu identidad",
@@ -70,12 +70,12 @@ const es = {
 };
 
 const en: typeof es = {
-  metaTitle: "Delete account | COPP–ADRESD",
+  metaTitle: "Delete account | Agentic Wellness AI",
   home: "Back to home",
   eyebrow: "ACCOUNT & PRIVACY",
   title: "Delete your account",
   intro:
-    "From here you can request the deletion of your COPP-ADRESD app account. Before you continue, this is what happens:",
+    "From here you can request the deletion of your Agentic Wellness AI app account. Before you continue, this is what happens:",
   effects: [
     "Your access is blocked immediately and your sessions are closed.",
     "Your data is kept for 90 days with no access for you, for security and traceability.",
@@ -84,7 +84,7 @@ const en: typeof es = {
   start: "Continue",
   loading: "Loading your account…",
   accountLabel: "Account to be deleted",
-  accountApp: "COPP-ADRESD app · Patient",
+  accountApp: "Agentic Wellness AI app · Patient",
   reviewTitle: "What deleting your account involves",
   happenTitle: "What happens",
   happen: [
@@ -98,7 +98,7 @@ const en: typeof es = {
   know: [
     "Any clinical records that remain are anonymized, with no link to you.",
     "Once the final deletion is complete it cannot be undone and the account cannot be recovered.",
-    "If your account also has access to another COPP-ADRESD application, that access is not deleted.",
+    "If your account also has access to another Agentic Wellness AI application, that access is not deleted.",
   ],
   review: "I understand and want to continue",
   loginTitle: "Verify your identity",

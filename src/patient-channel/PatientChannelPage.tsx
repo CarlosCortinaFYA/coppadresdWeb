@@ -40,7 +40,7 @@ export function PatientChannelPage() {
               <BrandMark />
             </span>
             <span>
-              COPP-ADRESD<span className="brand-tm">®</span>
+              Agentic Wellness <b className="brand-ai">AI</b>
             </span>
           </a>
           <div className="account-controls">

@@ -1,5 +1,5 @@
 /**
- * Modelo de precios y cálculo de la membresía COPP-ADRESD.
+ * Modelo de precios y cálculo de la membresía Agentic Wellness AI.
  * Un solo plan con todo incluido: solo se elige el periodo de pago (anual o
  * mensual); no hay módulos quitables ni dispositivos. Precios en USD; los
  * impuestos de venta se calculan al pagar según el estado.
